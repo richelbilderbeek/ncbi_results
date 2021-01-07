@@ -1,7 +1,7 @@
 #' Create a plot that shows the number of SNPs per gene name
 #' @inheritParams default_params_doc
 #' @export
-plot_snps_per_gene_name <- function(folder_name = folder_name) {
+plot_snps_per_gene_name_ncbi <- function(folder_name = folder_name) {
 
   snps_filenames <- list.files(
     path = folder_name,
@@ -37,13 +37,14 @@ plot_snps_per_gene_name <- function(folder_name = folder_name) {
   ggplot2::geom_histogram(bins = 50) +
   ggplot2::scale_x_log10(name = "Number of SNPs") +
   ggplot2::labs(
-    title = "Number of SNPs per gene name",
+    title = "Number of SNPs per gene name at NCBI",
     caption = paste0(
       "Number of gene names: ", nrow(t), "\n",
       "Lowest number of SNPs per gene: ", min(t$n_snps), "\n",
       "Mean number of SNPs per gene: ", mean(t$n_snps), "\n",
       "Highest number of SNPs per gene: ", max(t$n_snps), "\n",
-      "Total number of SNPs: ", sum(t$n_snps), "\n"
+      "Total number of SNPs: ", sum(t$n_snps), "\n",
+      "Accession date: 2020-12-14"
     )
   ) + ggthemes::theme_clean(base_size = 22)
 

@@ -1,0 +1,16 @@
+test_that("use", {
+  # Local only
+  folder_name <- "~/GitHubs/ncbi_peregrine/scripts"
+  if (!dir.exists(folder_name)) return()
+  skip("Needs profiling")
+  # 17 secs with load_fasta_file_as_tibble
+  # 2 secs with load_fasta_file_as_tibble_cpp
+  profvis::profvis({
+    plot_f_snps_found_and_expected_per_n_tmhs(folder_name = folder_name) +
+      ggplot2::ggsave(
+        file.path(folder_name, "fig_f_snps_found_and_expected_per_n_tmhs.png"),
+        width = 7,
+        height = 14
+      )
+  })
+})
