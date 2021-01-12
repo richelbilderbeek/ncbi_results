@@ -7,14 +7,13 @@ plot_n_tmhs_per_protein <- function(folder_name = folder_name) {
     path = folder_name,
     pattern = ".*\\.topo$",
     full.names = TRUE
-  )[1:10]
+  )
   testthat::expect_true(length(topo_filenames) > 0)
 
   tibbles <- list()
   for (i in seq_along(topo_filenames)) {
-    topo_filename <- topo_filenames[i]
     t <- dplyr::distinct(
-      pureseqtmr::load_fasta_file_as_tibble(topo_filename)
+      pureseqtmr::load_fasta_file_as_tibble_cpp(topo_filenames[i])
     )
     tibbles[[i]] <- pureseqtmr::count_n_tmhs(t$sequence)
   }
@@ -35,7 +34,7 @@ plot_n_tmhs_per_protein <- function(folder_name = folder_name) {
       "Number of proteins without TMHs: ", length(n_tmhs), "\n",
       "Number of proteins with TMHs: ", length(n_nonzero_tmhs), "\n",
       "Highest number of TMHs: ", max(n_nonzero_tmhs), "\n",
-      "Total number of TMHss: ", sum(n_nonzero_tmhs)
+      "Total number of TMHs: ", sum(n_nonzero_tmhs)
     )
   ) + ggthemes::theme_clean(base_size = 22) +
       ggplot2::ggsave(
