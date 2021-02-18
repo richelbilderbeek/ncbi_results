@@ -86,14 +86,12 @@ plot_f_snps_found_and_expected_per_n_tmhs <- function(
       "% SNPs in TMH", limits = c(0.0, 1.0), labels = scales::percent
     ) +
     ggplot2::labs(
-      title = "SNPs expected and found per number of membrane spans",
+      title = "SNPs expected and found per spanner",
       caption = paste0(
         "Number of above each scatter plotter is the number of membrane spans\n",
         "(e.g '1' denotes a single-spanner)\n",
         "Number of SNPs: ", nrow(sub_t), "\n",
-        "Number of SNPs in proteins with at least 1 TMH: ",
-          nrow(dplyr::filter(sub_t, f_chance > 0.0)), "\n",
-        "Solid red line = linear fit\n",
+        "Solid red line is a linear fit\n",
         "Dashed diagonal line = as expected by chance"
       )
     ) +

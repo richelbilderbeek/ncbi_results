@@ -46,32 +46,36 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   testthat::expect_true(all(t$f_measured >= 0.0 & t$f_measured <= 1.0))
   t <- dplyr::inner_join(t, t_topo %>% dplyr::select(name, n_tmh), by = "name")
 
-  sub_t <- dplyr::filter(t, n_tmh >= 0)
-  sub_t$n_tmh <- as.factor(sub_t$n_tmh)
+  sub_t <- dplyr::filter(t, n_tmh > 0)
+  sub_t$spanner <- ""
+  sub_t$spanner[ sub_t$n_tmh == 1 ] <- "single"
+  sub_t$spanner[ sub_t$n_tmh > 1 ] <- "multi"
+  testthat::expect_true(all(nchar(sub_t$spanner) > 3))
+  sub_t$spanner <- factor(sub_t$spanner, levels = c("single", "multi"))
 
   # Facet labels
-  n_tmh_levels <- as.numeric(levels(sub_t$n_tmh))
+  n_spanner_levels <- levels(sub_t$spanner)
+  testthat::expect_equal(2, length(n_spanner_levels))
 
   n_proteins_per_level <- dplyr::summarise(
-    dplyr::group_by(sub_t, n_tmh),
+    dplyr::group_by(sub_t, spanner),
     n_proteins = dplyr::n_distinct(name),
     .groups = "keep"
   )$n_proteins
-  testthat::expect_equal(length(n_tmh_levels), length(n_proteins_per_level))
+  testthat::expect_equal(length(n_spanner_levels), length(n_proteins_per_level))
   n_snps_per_level <- dplyr::summarise(
-    dplyr::group_by(sub_t, n_tmh),
+    dplyr::group_by(sub_t, spanner),
     n_snps = dplyr::n(),
     .groups = "keep"
   )$n_snps
-  testthat::expect_equal(length(n_tmh_levels), length(n_snps_per_level))
+  testthat::expect_equal(length(n_spanner_levels), length(n_snps_per_level))
 
   facet_labels <- paste0(
-    n_tmh_levels, "-spanner\n",
+    n_spanner_levels, "-spanner\n",
     n_proteins_per_level, " proteins\n",
     n_snps_per_level, " SNPs\n"
   )
-  names(facet_labels) <- levels(sub_t$n_tmh)
-
+  names(facet_labels) <- levels(sub_t$spanner)
 
   ggplot2::ggplot(
     sub_t,
@@ -88,17 +92,13 @@ plot_f_snps_found_and_expected_per_spanner <- function(
     ggplot2::labs(
       title = "SNPs expected and found per number of membrane spans",
       caption = paste0(
-        "Number of above each scatter plotter is the number of membrane spans\n",
-        "(e.g '1' denotes a single-spanner)\n",
         "Number of SNPs: ", nrow(sub_t), "\n",
-        "Number of SNPs in proteins with at least 1 TMH: ",
-          nrow(dplyr::filter(sub_t, f_chance > 0.0)), "\n",
         "Solid red line = linear fit\n",
         "Dashed diagonal line = as expected by chance"
       )
     ) +
     ggplot2::facet_wrap(
-      ggplot2::vars(n_tmh),
+      ggplot2::vars(spanner),
       labeller = ggplot2::as_labeller(facet_labels)
     )
 }
