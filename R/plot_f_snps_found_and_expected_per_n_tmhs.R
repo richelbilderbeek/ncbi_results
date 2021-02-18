@@ -44,7 +44,7 @@ plot_f_snps_found_and_expected_per_n_tmhs <- function(
   )
   testthat::expect_true(all(t$f_chance >= 0.0 & t$f_chance <= 1.0))
   testthat::expect_true(all(t$f_measured >= 0.0 & t$f_measured <= 1.0))
-  t <- dplyr::inner_join(t, t_topo %>% select(name, n_tmh), by = "name")
+  t <- dplyr::inner_join(t, t_topo %>% dplyr::select(name, n_tmh), by = "name")
 
   sub_t <- dplyr::filter(t, n_tmh >= 0)
   sub_t$n_tmh <- as.factor(sub_t$n_tmh)
