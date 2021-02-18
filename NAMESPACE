@@ -2,7 +2,9 @@
 
 export(plot_f_snps_found_and_expected)
 export(plot_f_snps_found_and_expected_per_n_tmhs)
+export(plot_f_snps_found_and_expected_per_spanner)
 export(plot_n_proteins_per_gene_name)
 export(plot_n_tmhs_per_protein)
+export(plot_snp_rel_pos)
 export(plot_snps_per_gene_name_ncbi)
 export(plot_snps_per_gene_name_processed)
