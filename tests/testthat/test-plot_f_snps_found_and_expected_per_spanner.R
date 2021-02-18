@@ -8,7 +8,7 @@ test_that("use", {
   p
   p + ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_per_spanner.png"),
-    width = 7,
-    height = 14
+    width = 14,
+    height = 7
   )
 })
