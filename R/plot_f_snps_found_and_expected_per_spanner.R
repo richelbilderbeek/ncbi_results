@@ -17,7 +17,9 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   testthat::expect_true(length(is_in_tmh_filenames) > 0)
   testthat::expect_equal(length(is_in_tmh_filenames), length(topo_filenames))
   t_is_in_tmh_all <- ncbiperegrine::read_is_in_tmh_files(is_in_tmh_filenames)
+  n_snps <- sum(!is.na(t_is_in_tmh_all$p_in_tmh))
   t_is_in_tmh <- dplyr::filter(t_is_in_tmh_all, !is.na(is_in_tmh))
+  n_snps_in_tmp <- sum(t_is_in_tmh$p_in_tmh > 0.0)
   t_is_in_tmh$name <- stringr::str_match(
     string = t_is_in_tmh$variation,
     pattern = "^(.*):p\\..*$"
@@ -33,6 +35,32 @@ plot_f_snps_found_and_expected_per_spanner <- function(
     tibbles[[i]] <- t
   }
   t_topo <- dplyr::bind_rows(tibbles)
+
+  testthat::expect_equal(nrow(t_is_in_tmh), n_snps)
+  #testthat::expect_equal(
+  #  length(unique(t_is_in_tmh$name)),
+  #  length(unique(t_topo$name)),
+  #)
+
+  t_variation_per_spanner <- dplyr::left_join(
+    t_is_in_tmh %>% dplyr::select("variation", "name"),
+    t_topo %>%  dplyr::select("name", "n_tmh"),
+    by = "name"
+  )
+  # testthat::expect_equal(nrow(t_variation_per_spanner), n_snps)
+  n_snps_cytosolic <- sum(t_variation_per_spanner$n_tmh == 0)
+  n_snps_single_spanners <- sum(t_variation_per_spanner$n_tmh == 1)
+  n_snps_multi_spanners <- sum(t_variation_per_spanner$n_tmh > 1)
+  #testthat::expect_equal(
+  #  n_snps_cytosolic + n_snps_single_spanners + n_snps_multi_spanners,
+  #  n_snps
+  #)
+  #testthat::expect_equal(
+  #  n_snps_single_spanners + n_snps_multi_spanners,
+  #  n_snps_in_tmp
+  #)
+
+
   t <- dplyr::summarise(
     dplyr::group_by(
       t_is_in_tmh,
@@ -42,6 +70,7 @@ plot_f_snps_found_and_expected_per_spanner <- function(
     f_measured = sum(is_in_tmh) / dplyr::n(),
     .groups = "keep"
   )
+  t
   testthat::expect_true(all(t$f_chance >= 0.0 & t$f_chance <= 1.0))
   testthat::expect_true(all(t$f_measured >= 0.0 & t$f_measured <= 1.0))
   t <- dplyr::inner_join(t, t_topo %>% dplyr::select(name, n_tmh), by = "name")
@@ -63,17 +92,10 @@ plot_f_snps_found_and_expected_per_spanner <- function(
     .groups = "keep"
   )$n_proteins
   testthat::expect_equal(length(n_spanner_levels), length(n_proteins_per_level))
-  n_snps_per_level <- dplyr::summarise(
-    dplyr::group_by(sub_t, spanner),
-    n_snps = dplyr::n(),
-    .groups = "keep"
-  )$n_snps
-  testthat::expect_equal(length(n_spanner_levels), length(n_snps_per_level))
-
   facet_labels <- paste0(
     n_spanner_levels, "-spanner\n",
     n_proteins_per_level, " proteins\n",
-    n_snps_per_level, " SNPs\n"
+    c(n_snps_single_spanners, n_snps_multi_spanners), " SNPs\n"
   )
   names(facet_labels) <- levels(sub_t$spanner)
 
@@ -92,7 +114,11 @@ plot_f_snps_found_and_expected_per_spanner <- function(
     ggplot2::labs(
       title = "SNPs expected and found per number of membrane spans",
       caption = paste0(
-        "Number of SNPs: ", nrow(sub_t), "\n",
+        "Number of SNPs: ", n_snps, "\n",
+        "Number of SNPs in TMP: ", n_snps_in_tmp, "\n",
+        "Number of SNPs in cytosolic proyeins: ", n_snps_cytosolic, "\n",
+        "Number of SNPs in single-spanners: ", n_snps_single_spanners, "\n",
+        "Number of SNPs in n_snps_multi_spanners: ", n_snps_multi_spanners, "\n",
         "Solid red line = linear fit\n",
         "Dashed diagonal line = as expected by chance"
       )
