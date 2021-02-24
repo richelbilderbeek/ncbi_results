@@ -13,12 +13,18 @@ plot_f_snps_found_and_expected <- function(
   t_is_in_tmh_all <- ncbiperegrine::read_is_in_tmh_files(is_in_tmh_filenames)
   n_snps <- sum(!is.na(t_is_in_tmh_all$p_in_tmh))
   t_is_in_tmh <- dplyr::filter(t_is_in_tmh_all, !is.na(is_in_tmh))
+  testthat::expect_equal(
+    0,
+    sum(t_is_in_tmh$is_in_tmh == TRUE & t_is_in_tmh$p_in_tmh == 0.0)
+  )
   n_snps_in_tmp <- sum(t_is_in_tmh$p_in_tmh > 0.0)
   t_is_in_tmh$name <- stringr::str_match(
     string = t_is_in_tmh$variation,
     pattern = "^(.*):p\\..*$"
   )[,2]
-
+  n_snps_in_tmh <- sum(t_is_in_tmh$is_in_tmh == TRUE)
+  n_snps_in_soluble <- sum(t_is_in_tmh$is_in_tmh == FALSE)
+  testthat::expect_equal(n_snps, n_snps_in_tmh + n_snps_in_soluble)
   t <- dplyr::summarise(
     dplyr::group_by(
       t_is_in_tmh,
@@ -28,6 +34,11 @@ plot_f_snps_found_and_expected <- function(
     f_measured = sum(is_in_tmh) / dplyr::n(),
     .groups = "keep"
   )
+  n_proteins <- nrow(t)
+  n_tmp <- nrow(dplyr::filter(t, f_chance > 0.0))
+
+  testthat::expect_equal(4811, n_proteins)
+  testthat::expect_equal(2568, n_tmp)
   testthat::expect_true(all(t$f_chance >= 0.0 & t$f_chance <= 1.0))
   testthat::expect_true(all(t$f_measured >= 0.0 & t$f_measured <= 1.0))
   # Do not use n_tmp as a factor
@@ -45,10 +56,10 @@ plot_f_snps_found_and_expected <- function(
     ) +
     ggplot2::labs(
       caption = paste0(
-        n_snps, " SNPs in ", nrow(t), " proteins,\n",
-        "of which ", n_snps_in_tmp, " in ",
-        nrow(dplyr::filter(t, f_chance > 0.0)),
-        " transmembrane proteins.\n",
+        n_snps, " SNPs in ", n_proteins, " proteins,\n",
+        "of which ", n_snps_in_tmp, " SNPs are in ", n_tmp, " TMPs,\n",
+        "of which ", n_snps_in_tmh, " SNPs are in TMHs\n",
+        "(thus ", n_snps_in_soluble, " SNPs are found in soluble domains).\n",
         "Solid red line = linear fit on all proteins\n",
         "Solid blue line = linear fit on transmembrane proteins.\n",
         "Dashed diagonal line = as expected by chance"
