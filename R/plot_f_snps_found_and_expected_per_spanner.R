@@ -47,7 +47,11 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   t_is_in_tmh$name <- stringr::str_match(
     string = t_is_in_tmh$variation,
     pattern = "^(.*):p\\..*$"
-  )[,2]
+  )[, 2]
+  n_snps_in_tmh <- sum(t_is_in_tmh$is_in_tmh == TRUE)
+  n_snps_in_soluble <- sum(t_is_in_tmh$is_in_tmh == FALSE)
+  testthat::expect_equal(3903, n_snps_in_tmh)
+  testthat::expect_equal(34979, n_snps_in_soluble)
 
   tibbles <- list()
   for (i in seq_along(topo_filenames)) {
@@ -66,7 +70,7 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   testthat::expect_true(all(t_is_in_tmh$name %in% t_topo$name)) #
 
   t_variation_per_spanner <- dplyr::left_join(
-    t_is_in_tmh %>% dplyr::select("variation", "name"),
+    t_is_in_tmh %>% dplyr::select("variation", "name", "is_in_tmh"),
     t_topo %>%  dplyr::select("name", "n_tmh") %>% dplyr::distinct(),
     by = "name"
   )
@@ -115,6 +119,18 @@ plot_f_snps_found_and_expected_per_spanner <- function(
     n_snps_single_spanners + n_snps_multi_spanners,
     n_snps_in_tmp
   )
+  n_snps_in_soluble <- sum(t_variation_per_spanner$is_in_tmh == FALSE)
+  n_snps_in_tmhs <- sum(t_variation_per_spanner$is_in_tmh == TRUE)
+  n_snps_in_tmhs_single <- sum(t_variation_per_spanner$is_in_tmh == TRUE & t_variation_per_spanner$n_tmh == 1)
+  n_snps_in_tmhs_multi <- sum(t_variation_per_spanner$is_in_tmh == TRUE & t_variation_per_spanner$n_tmh > 1)
+  testthat::expect_equal(34979, n_snps_in_soluble)
+  testthat::expect_equal(3903, n_snps_in_tmhs)
+  testthat::expect_equal(467, n_snps_in_tmhs_single)
+  testthat::expect_equal(3436, n_snps_in_tmhs_multi)
+  testthat::expect_equal(
+    n_snps_in_tmhs,
+    n_snps_in_tmhs_single + n_snps_in_tmhs_multi
+  )
 
 
   t <- dplyr::summarise(
@@ -145,7 +161,8 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   facet_labels <- paste0(
     n_spanner_levels, "-spanner\n",
     c(n_single_spanner_proteins, n_multi_spanner_proteins), " proteins\n",
-    c(n_snps_single_spanners, n_snps_multi_spanners), " SNPs\n"
+    c(n_snps_single_spanners, n_snps_multi_spanners), " SNPs\n",
+    c(n_snps_in_tmhs_single, n_snps_in_tmhs_multi), " SNPs in TMHs"
   )
   names(facet_labels) <- levels(sub_t$spanner)
 
@@ -166,7 +183,9 @@ plot_f_snps_found_and_expected_per_spanner <- function(
       caption = paste0(
         n_snps, " SNPs in ", n_proteins, " proteins\n",
         n_snps_in_tmp, " SNPs in ", n_tmp, " TMPs\n",
-        n_snps_cytosolic, " SNPs in ", n_cytosolic_proteins, " soluble proteins\n",
+        n_snps_cytosolic, " SNPs in ", n_cytosolic_proteins, " soluble proteins.\n",
+        n_snps_in_tmhs, "/", n_snps, " SNPs in TMHs\n",
+        n_snps_in_soluble, "/", n_snps, " SNPs in soluble domains\n",
         "Solid red line = linear fit\n",
         "Dashed diagonal line = as expected by chance"
       )

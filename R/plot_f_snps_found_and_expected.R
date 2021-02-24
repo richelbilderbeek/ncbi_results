@@ -24,6 +24,8 @@ plot_f_snps_found_and_expected <- function(
   )[,2]
   n_snps_in_tmh <- sum(t_is_in_tmh$is_in_tmh == TRUE)
   n_snps_in_soluble <- sum(t_is_in_tmh$is_in_tmh == FALSE)
+  testthat::expect_equal(3903, n_snps_in_tmh)
+  testthat::expect_equal(34979, n_snps_in_soluble)
   testthat::expect_equal(n_snps, n_snps_in_tmh + n_snps_in_soluble)
   t <- dplyr::summarise(
     dplyr::group_by(
