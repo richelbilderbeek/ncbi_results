@@ -9,10 +9,17 @@ plot_f_snps_found_and_expected <- function(
     pattern = ".*_is_in_tmh\\.csv$",
     full.names = TRUE
   )
-  testthat::expect_true(length(is_in_tmh_filenames) > 0)
+  testthat::expect_equal(1129, length(is_in_tmh_filenames))
   t_is_in_tmh_all <- ncbiperegrine::read_is_in_tmh_files(is_in_tmh_filenames)
-  n_snps <- sum(!is.na(t_is_in_tmh_all$p_in_tmh))
+  n_protein_variations <- nrow(t_is_in_tmh_all)
+  testthat::expect_equal(n_protein_variations, 60683)
   t_is_in_tmh <- dplyr::filter(t_is_in_tmh_all, !is.na(is_in_tmh))
+  readr::write_csv(dplyr::select(t_is_in_tmh, variation), "~/t_is_in_tmh.csv")
+  n_snps <- nrow(t_is_in_tmh)
+  testthat::expect_equal(n_snps, 38882)
+  HIERO
+  testthat::expect_equal(n_snps, 38967)
+
   testthat::expect_equal(
     0,
     sum(t_is_in_tmh$is_in_tmh == TRUE & t_is_in_tmh$p_in_tmh == 0.0)

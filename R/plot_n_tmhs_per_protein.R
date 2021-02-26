@@ -36,13 +36,5 @@ plot_n_tmhs_per_protein <- function(folder_name = folder_name) {
       "Highest number of TMHs: ", max(n_nonzero_tmhs), "\n",
       "Total number of TMHs: ", sum(n_nonzero_tmhs)
     )
-  ) + ggthemes::theme_clean(base_size = 22) +
-      ggplot2::ggsave(
-      file.path(folder_name, "fig_n_tmhs_per_protein.png"),
-      width = 7,
-      height = 7
-    )
-
-  # ggthemes::theme_excel_new(base_size = 24) # Never forget Excel
-
+  )
 }

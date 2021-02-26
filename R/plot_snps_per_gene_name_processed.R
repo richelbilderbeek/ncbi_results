@@ -8,10 +8,11 @@ plot_snps_per_gene_name_processed <- function(folder_name = folder_name) {
     pattern = ".*_variations\\.csv$",
     full.names = TRUE
   )
+
   testthat::expect_equal(1129, length(variations_csv_filenames))
   gene_names <- stringr::str_replace(
-    string = basename(variations_rds_filenames),
-    pattern = "_variations.rds",
+    string = basename(variations_csv_filenames),
+    pattern = "_variations.csv",
     replacement = ""
   )
   testthat::expect_equal(1129, length(gene_names))
@@ -19,6 +20,7 @@ plot_snps_per_gene_name_processed <- function(folder_name = folder_name) {
   testthat::expect_equal(1129, n_gene_names)
 
   t_variations <- ncbiperegrine::read_variations_csv_files(variations_csv_filenames)
+  testthat::expect_equal(60683, nrow(t_variations))
   unique_gene_ids <- unique(t_variations$gene_id)
   testthat::expect_equal(951, length(unique_gene_ids))
   n_gene_names_with_protein_variations <- length(unique_gene_ids)
@@ -34,7 +36,10 @@ plot_snps_per_gene_name_processed <- function(folder_name = folder_name) {
   testthat::expect_equal(60683, n_protein_variations)
   tally_protein_variations$type <- "protein variation"
 
-  tally_snps <- dplyr::filter(t_variations, ncbi::are_snps(variation)) %>%
+  t_snps <- dplyr::filter(t_variations, ncbi::are_snps(variation))
+  readr::write_csv(dplyr::select(t_snps, variation), "~/t_snps.csv")
+  testthat::expect_equal(nrow(t_snps), 38967)
+  tally_snps <- t_snps %>%
     dplyr::group_by(gene_id) %>%
     dplyr::summarize(n = dplyr::n())
   n_snps <- sum(tally_snps$n)
