@@ -9,17 +9,6 @@ plot_snps_per_gene_name_processed <- function(folder_name = folder_name) {
     full.names = TRUE
   )
   testthat::expect_equal(1129, length(variations_csv_filenames))
-  # variations_rds_filenames <- list.files(
-  #   path = folder_name,
-  #   pattern = ".*_variations\\.rds$",
-  #   full.names = TRUE
-  # )
-  # testthat::expect_equal(1129, length(variations_rds_filenames))
-  # testthat::expect_equal(
-  #   length(variations_csv_filenames),
-  #   length(variations_rds_filenames)
-  # )
-
   gene_names <- stringr::str_replace(
     string = basename(variations_rds_filenames),
     pattern = "_variations.rds",
@@ -75,8 +64,4 @@ plot_snps_per_gene_name_processed <- function(folder_name = folder_name) {
       "Accession date: 2020-12-14"
     )
   )
-
-  # ggthemes::theme_clean(base_size = 22)
-  # ggthemes::theme_excel_new(base_size = 24) # Never forget Excel
-
 }
