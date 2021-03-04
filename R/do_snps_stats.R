@@ -1,94 +1,83 @@
 #' Do the SNPs stats
+#' @param ppoisbinom_plot_filename file to save the poisbinom
+#'   plot to
 #' @export
 do_snps_stats <- function(
-  folder_name
+  folder_name,
+  ppoisbinom_plot_filename = "~/ppoisbinom.png"
 ) {
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)
+  n_variations <- nrow(t_results)
+  testthat::expect_equal(61705, n_variations)
+
+  # Get rid of the non-SNPs
   t_results_snps <- dplyr::filter(t_results, !is.na(p_in_tmh))
-  t_results_tmps <- dplyr::filter(t_results, p_in_tmh > 0.0)
-  HIERO
-  sum(is.na(t_results_tmps$is_in_tmh))
-  nrow(t_results_tmps) > 8369 + 13369
+  testthat::expect_equal(39431, nrow(t_results_snps))
+  t_results_snps <- dplyr::filter(t_results_snps, ncbi::are_snps(variation))
+  n_snps <- nrow(t_results_snps)
+  testthat::expect_equal(38233, n_snps)
+  # A SNP can work on multiple isoforms
+  n_unique_snps <- length(unique(t_results_snps$snp_id))
+  testthat::expect_equal(9621, n_unique_snps)
 
-  testthat::expect_true(length(topo_filenames) > 0)
-  is_in_tmh_filenames <- stringr::str_replace(
-    string = topo_filenames,
-    pattern = "\\.topo$",
-    replacement = "_is_in_tmh.csv"
-  )
-  testthat::expect_true(length(is_in_tmh_filenames) > 0)
-  testthat::expect_equal(length(is_in_tmh_filenames), length(topo_filenames))
-  t_is_in_tmh_all <- ncbiperegrine::read_is_in_tmh_files(is_in_tmh_filenames)
-  n_snps <- sum(!is.na(t_is_in_tmh_all$p_in_tmh))
-  testthat::expect_equal(38882, n_snps)
-  n_proteins <- length(
-    unique(
-      stringr::str_match(
-        (t_is_in_tmh_all %>%
-            dplyr::filter(!is.na(is_in_tmh)) %>%
-            dplyr::select(variation))$variation,
-        "^(.*):p.*"
-      )[, 2]
-    )
-  )
-  testthat::expect_equal(4811, n_proteins)
-  t_is_in_tmh <- dplyr::filter(t_is_in_tmh_all, !is.na(is_in_tmh))
-  n_tmp <- length(
-    unique(
-      stringr::str_match(
-        (t_is_in_tmh %>%
-            dplyr::filter(p_in_tmh > 0.0) %>%
-            dplyr::select(variation))$variation,
-        "^(.*):p.*"
-      )[, 2]
-    )
-  )
-  testthat::expect_equal(2568, n_tmp)
-  n_snps_in_tmp <- sum(t_is_in_tmh$p_in_tmh > 0.0)
-  testthat::expect_equal(21738, n_snps_in_tmp)
-  t_is_in_tmh$name <- stringr::str_match(
-    string = t_is_in_tmh$variation,
-    pattern = "^(.*):p\\..*$"
-  )[,2]
+  t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
+  n_snps_in_tmp <- nrow(t_results_tmps)
+  testthat::expect_equal(21576, n_snps_in_tmp)
+  # A SNP can work on multiple isoforms
+  n_unique_snps_in_tmp <- length(unique(t_results_tmps$snp_id))
+  testthat::expect_equal(6026, n_unique_snps_in_tmp)
 
-  # Check that p_in_tmh is the same for each protein name
-  random_protein_name <- sample(t_is_in_tmh$name, size = 1)
+  # Statistics
+  n <- n_snps_in_tmp
+  n_success <- sum(t_results_tmps$is_in_tmh)
+  n_success_expected <- sum(t_results_tmps$p_in_tmh)
   testthat::expect_equal(
-    1,
-    length(unique((t_is_in_tmh %>% dplyr::filter(name == random_protein_name))$p_in_tmh))
+    0.5,
+    poisbinom::ppoisbinom(
+      q = n_success_expected,
+      pp = t_results_tmps$p_in_tmh
+    ),
+    tolerance = 0.003
+  )
+  p <- poisbinom::ppoisbinom(
+    q = n_success,
+    pp = t_results_tmps$p_in_tmh
   )
 
-  t_p_in_tmh <- t_is_in_tmh %>% dplyr::select(name, p_in_tmh) %>% dplyr::distinct()
-  testthat::expect_equal(nrow(t_p_in_tmh), 4811)
-
-  mean_f_tmh <- mean(t_p_in_tmh$p_in_tmh)
-  mean_f_tmh_tmp <- mean(
-    (
-      t_p_in_tmh %>%
-      dplyr::filter(p_in_tmh > 0.0) %>%
-      dplyr::select(p_in_tmh)
-    )$p_in_tmh
+  xs <- seq(n_success - 100, ceiling(n_success_expected) + 100)
+  ys <- poisbinom::ppoisbinom(
+    q = xs,
+    pp = t_results_tmps$p_in_tmh
   )
-
-  n_cytosolic_proteins <- n_proteins - n_tmp
-
-  ggplot2::ggplot(
-    t_p_in_tmh %>% dplyr::filter(p_in_tmh > 0.0),
-    ggplot2::aes(x = p_in_tmh)
-  ) + ggplot2::geom_histogram(binwidth = 0.01) +
-    ggplot2::geom_vline(xintercept = mean_f_tmh, lty = "dashed") +
-    ggplot2::geom_vline(xintercept = mean_f_tmh_tmp, lty = "dotted") +
-    ggplot2::scale_x_continuous(
-      "% TMH", labels = scales::percent
+  points <- tibble::tibble(x = xs, y = ys)
+  ggplot2::ggplot(points, ggplot2::aes(x, y)) +
+    ggplot2::geom_point() +
+    ggplot2::geom_hline(yintercept = 1.0, lty = "dotted") +
+    ggplot2::geom_vline(xintercept = n_success, lty = "dashed", col = "blue") +
+    ggplot2::geom_vline(xintercept = n_success_expected, lty = "dashed", col = "red") +
+    ggplot2::scale_y_log10("Chance the have this or fewer sucesses",
+      limits = c(10^-13, 1.0),
+      n.breaks = 13
     ) +
-    ggplot2::labs(
-      title = "Percentage TMH in TMPs",
+    ggplot2::scale_x_continuous(
+      "Number of successes"
+    ) + ggplot2::labs(
       caption = paste0(
-        "Dashed vertical line: mean % TMH in all ", n_proteins, " proteins: ", format(100.0 * mean_f_tmh, digits = 2, nsmall = 2), "\n",
-        "Dotted vertical line: mean % TMH in ", n_tmp, " TMPs: ", format(100.0 * mean_f_tmh_tmp, digits = 2, nsmall = 2), "\n",
-        n_cytosolic_proteins, " cytosolic proteins (i.e. % TMH equals zero) not shown"
+        "p(n_success or less): ", format(p, nsmall = 2), "\n",
+        "n: ", n, "\n",
+        "n_success: ", n_success, "\n",
+        "E(n_success): ", format(n_success_expected, nsmall = 2), "\n"
       )
-    )
+    ) + ggplot2::ggsave(ppoisbinom_plot_filename, width = 7, height = 7)
+
+  t_stats <- tibble::tribble(
+    ~parameter, ~value,
+    "p", format(p),
+    "n", format(round(n)),
+    "n_success", format(round(n_success)),
+    "E(n_success)", format(n_success_expected)
+  )
+  t_stats
 }

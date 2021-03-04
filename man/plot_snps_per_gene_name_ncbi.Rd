@@ -2,7 +2,8 @@
 % Please edit documentation in R/plot_snps_per_gene_name_ncbi.R
 \name{plot_snps_per_gene_name_ncbi}
 \alias{plot_snps_per_gene_name_ncbi}
-\title{Create a plot that shows the number of SNPs per gene name}
+\title{Create a plot that shows the number of SNPs per gene name
+found in the NCBI database}
 \usage{
 plot_snps_per_gene_name_ncbi(folder_name = folder_name)
 }
@@ -11,4 +12,5 @@ plot_snps_per_gene_name_ncbi(folder_name = folder_name)
 }
 \description{
 Create a plot that shows the number of SNPs per gene name
+found in the NCBI database
 }

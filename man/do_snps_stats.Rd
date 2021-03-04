@@ -4,7 +4,11 @@
 \alias{do_snps_stats}
 \title{Do the SNPs stats}
 \usage{
-do_snps_stats(folder_name)
+do_snps_stats(folder_name, ppoisbinom_plot_filename = "~/ppoisbinom.png")
+}
+\arguments{
+\item{ppoisbinom_plot_filename}{file to save the poisbinom
+plot to}
 }
 \description{
 Do the SNPs stats

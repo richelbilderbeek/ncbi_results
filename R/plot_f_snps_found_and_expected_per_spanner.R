@@ -58,7 +58,7 @@ plot_f_snps_found_and_expected_per_spanner <- function(
     topo_filename <- topo_filenames[i]
     t <- pureseqtmr::load_fasta_file_as_tibble(topo_filename)
     t$n_tmh <- pureseqtmr::count_n_tmhs(t$sequence)
-    tibbles[[i]] <- t %>% dplyr::select(name, n_tmh)
+    tibbles[[i]] <- dplyr::select(t, name, n_tmh)
   }
   t_topo <- dplyr::bind_rows(tibbles)
 
