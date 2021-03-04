@@ -42,6 +42,7 @@ plot_f_snps_found_and_expected <- function(
     .groups = "keep"
   )
 
+  n_tmp <- nrow(t)
   testthat::expect_equal(2553, n_tmp)
   testthat::expect_true(all(t$f_chance >= 0.0 & t$f_chance <= 1.0))
   testthat::expect_true(all(t$f_measured >= 0.0 & t$f_measured <= 1.0))
