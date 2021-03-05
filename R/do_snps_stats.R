@@ -10,27 +10,32 @@ do_snps_stats <- function(
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)
   n_variations <- nrow(t_results)
-  testthat::expect_equal(61705, n_variations)
 
   # Get rid of the non-SNPs
-  t_results_snps <- dplyr::filter(t_results, !is.na(p_in_tmh))
-  testthat::expect_equal(39431, nrow(t_results_snps))
-  t_results_snps <- dplyr::filter(t_results_snps, ncbi::are_snps(variation))
+  t_results_snps <- dplyr::filter(
+    dplyr::filter(t_results, !is.na(p_in_tmh)),
+    ncbi::are_snps(variation)
+  )
+  testthat::expect_equal(
+    nrow(t_results_snps),
+    nrow(dplyr::distinct(t_results_snps))
+  )
   n_snps <- nrow(t_results_snps)
-  testthat::expect_equal(38233, n_snps)
   # A SNP can work on multiple isoforms
   n_unique_snps <- length(unique(t_results_snps$snp_id))
-  testthat::expect_equal(9621, n_unique_snps)
 
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
+  testthat::expect_equal(
+    nrow(t_results_tmps),
+    nrow(dplyr::distinct(t_results_tmps))
+  )
   n_snps_in_tmp <- nrow(t_results_tmps)
-  testthat::expect_equal(21576, n_snps_in_tmp)
   # A SNP can work on multiple isoforms
   n_unique_snps_in_tmp <- length(unique(t_results_tmps$snp_id))
-  testthat::expect_equal(6026, n_unique_snps_in_tmp)
 
   # Statistics
   n <- n_snps_in_tmp
+  testthat::expect_equal(n, get_n_variations_tmp())
   n_success <- sum(t_results_tmps$is_in_tmh)
   n_success_expected <- sum(t_results_tmps$p_in_tmh)
   testthat::expect_equal(
