@@ -144,11 +144,25 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   )
   names(facet_labels) <- levels(sub_t$spanner)
 
+  testthat::expect_equal(0, sum(is.na(sub_t$f_chance)))
+  testthat::expect_equal(0, sum(is.na(sub_t$f_measured)))
+  testthat::expect_equal(0, sum(is.infinite(sub_t$f_chance)))
+  testthat::expect_equal(0, sum(is.infinite(sub_t$f_measured)))
+  testthat::expect_equal(0, sum(sub_t$f_chance < 0.0))
+  testthat::expect_equal(0, sum(sub_t$f_measured < 0.0))
+  testthat::expect_equal(0, sum(sub_t$f_chance > 1.0))
+  testthat::expect_equal(0, sum(sub_t$f_measured > 1.0))
   ggplot2::ggplot(
     sub_t,
     ggplot2::aes(x = f_chance, y = f_measured)
   ) + ggplot2::geom_point(alpha = 0.25) +
-    ggplot2::geom_smooth(method = "lm", fullrange = TRUE, color = "red") +
+    ggplot2::geom_smooth(
+      method = "lm",
+      formula = y ~ x,
+      fullrange = TRUE,
+      color = "red",
+      na.rm = TRUE # 1 value is missing
+    ) +
     ggplot2::geom_abline(slope = 1.0, lty = "dashed") +
     ggplot2::scale_x_continuous(
       "% TMH", limits = c(0.0, 1.0), labels = scales::percent

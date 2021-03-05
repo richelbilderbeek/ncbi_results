@@ -3,59 +3,71 @@
 #' @export
 plot_n_proteins_per_gene_name <- function(folder_name = folder_name) {
 
-  variations_csv_filenames <- list.files(
-    path = folder_name,
-    pattern = ".*_variations\\.csv$",
-    full.names = TRUE
-  )
-  testthat::expect_true(length(variations_csv_filenames) > 0)
-  t_variations <- ncbiperegrine::read_variations_csv_files(
-    variations_csv_filenames
-  )
-  n_protein_variations <- nrow(t_variations)
-  testthat::expect_equal(60683, n_protein_variations)
-  t_variations$name <- stringr::str_match(
-    string = t_variations$variation,
+  results_filename <- file.path(folder_name, "results.csv")
+  testthat::expect_true(file.exists(results_filename))
+  t_results <- ncbiperegrine::read_results_file(results_filename)
+  n_variations <- nrow(t_results)
+  testthat::expect_equal(61705, n_variations)
+
+  # Get rid of the non-SNPs
+  t_results_snps <- dplyr::filter(t_results, !is.na(p_in_tmh))
+  testthat::expect_equal(39431, nrow(t_results_snps))
+  t_results_snps <- dplyr::filter(t_results_snps, ncbi::are_snps(variation))
+  n_snps <- nrow(t_results_snps)
+  testthat::expect_equal(38233, n_snps)
+  t_results_snps$name <- stringr::str_match(
+    string = t_results_snps$variation,
     pattern = "^(.*):p\\..*$"
   )[,2]
-  t_distict_variations <- dplyr::distinct(dplyr::select(t_variations, gene_id, name))
-  tally_variations <- dplyr::summarise(
-    dplyr::group_by(t_distict_variations, gene_id),
+  n_gene_names <- length(unique(t_results_snps$gene_name))
+  testthat::expect_equal(911, n_gene_names)
+  n_proteins <- length(unique(t_results_snps$name))
+  testthat::expect_equal(4780, n_proteins)
+
+  t_proteins_per_gene <- dplyr::summarise(
+    dplyr::group_by(
+      dplyr::distinct(dplyr::select(t_results_snps, gene_name, name)),
+      gene_name
+    ),
     n = dplyr::n(), .groups = "keep"
   )
-  n_gene_names <- nrow(tally_variations)
-  testthat::expect_equal(n_gene_names, 951)
-  n_proteins <- sum(tally_variations$n)
-  testthat::expect_equal(n_proteins, 5203)
-  tally_variations$type <- "protein variation"
+  testthat::expect_equal(911, nrow(t_proteins_per_gene))
+  proteins_in_multiple_genes <- 47
+  testthat::expect_equal(
+    4780 + proteins_in_multiple_genes,
+    sum(t_proteins_per_gene$n)
+  )
 
-  t_distict_snps <- dplyr::filter(t_variations, ncbi::are_snps(variation)) %>%
-    dplyr::select(gene_id, name) %>%
-    dplyr::distinct()
-  tally_snps <- dplyr::summarise(
-    dplyr::group_by(t_distict_snps, gene_id),
+  t_snps_per_gene <- dplyr::summarise(
+    dplyr::group_by(
+      dplyr::distinct(dplyr::select(t_results_snps, gene_name, variation)),
+      gene_name
+    ),
     n = dplyr::n(), .groups = "keep"
   )
-  n_snps_gene_names <- nrow(tally_snps)
-  testthat::expect_equal(n_snps_gene_names, 912)
-  n_snps_proteins <- sum(tally_snps$n)
-  testthat::expect_equal(n_snps_proteins, 4861)
-  tally_snps$type <- "SNP"
+  testthat::expect_equal(911, nrow(t_snps_per_gene))
+  testthat::expect_equal(
+    37825,
+    sum(t_snps_per_gene$n)
+  )
 
-  tally <- dplyr::bind_rows(tally_variations, tally_snps)
+  t_proteins_per_gene$type <- "Isoforms"
+  t_snps_per_gene$type <- "SNPs"
+
+  tally <- dplyr::bind_rows(t_proteins_per_gene, t_snps_per_gene)
   tally$type <- as.factor(tally$type)
 
   ggplot2::ggplot(tally, ggplot2::aes(n)) +
-  ggplot2::geom_histogram(binwidth = 1) +
-  ggplot2::scale_x_continuous("Number of proteins with variations/SNPs per gene name") +
-  ggplot2::facet_grid(. ~ type) +
+  ggplot2::geom_histogram(col = "black", fill = "white", binwidth = 1) +
+  ggplot2::scale_x_continuous(
+    "Number of proteins with variations/SNPs per gene name"
+  ) +
+  ggplot2::facet_grid(. ~ type, scales = "free") +
   ggplot2::labs(
-    title = "Number of proteins with variations/SNPs per gene name",
+    title = "Number of isoforms/SNPs per gene name",
     caption = paste0(
-      "Number of genes with protein variations: ", n_gene_names, "\n",
-      "Number of proteins with protein variations: ", n_proteins, "\n",
-      "Number of genes with SNPs: ", n_snps_gene_names, "\n",
-      "Number of proteins with SNPs: ", n_snps_proteins, "\n"
+      "Number of genes with SNPs: ", n_gene_names, "\n",
+      "Number of proteins with SNPs: ", n_proteins
     )
   )
 }
