@@ -12,30 +12,32 @@ do_snps_stats_per_spanner <- function(
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)
-  n_variations <- nrow(get_n_variations_raw())
-  testthat::expect_equal(get_n_variations_raw(), n_variations)
+  n_variations <- nrow(t_results)
+  testthat::expect_equal(ncbiresults::get_n_variations_raw(), n_variations)
 
   # Get rid of the non-SNPs
-  t_results_snps <- dplyr::filter(t_results, !is.na(p_in_tmh))
-  testthat::expect_equal(39431, nrow(t_results_snps))
-  t_results_snps <- dplyr::filter(t_results_snps, ncbi::are_snps(variation))
+  t_results_snps <- dplyr::filter(
+    dplyr::filter(t_results, !is.na(p_in_tmh)),
+    ncbi::are_snps(variation)
+  )
   n_snps <- nrow(t_results_snps)
-  testthat::expect_equal(38233, n_snps)
+  testthat::expect_equal(ncbiresults::get_n_variations(), n_snps)
   # A SNP can work on multiple isoforms
   n_unique_snps <- length(unique(t_results_snps$snp_id))
-  testthat::expect_equal(9621, n_unique_snps)
+  testthat::expect_equal(ncbiresults::get_n_unique_snp_ids(), n_unique_snps)
 
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
   n_snps_in_tmp <- nrow(t_results_tmps)
-  testthat::expect_equal(21576, n_snps_in_tmp)
+  testthat::expect_equal(ncbiresults::get_n_variations_tmp(), n_snps_in_tmp)
   n_snps_in_tmh <- sum(t_results_tmps$is_in_tmh)
   n_snps_in_soluble_of_tmp <- sum(!t_results_tmps$is_in_tmh)
-  testthat::expect_equal(3831, n_snps_in_tmh)
-  testthat::expect_equal(17745, n_snps_in_soluble_of_tmp)
+  testthat::expect_equal(ncbiresults::get_n_variations_tmp_in_tmh(), n_snps_in_tmh)
+  testthat::expect_equal(ncbiresults::get_n_variations_tmp_in_sol(), n_snps_in_soluble_of_tmp)
 
   # A SNP can work on multiple isoforms
   n_unique_snps_in_tmp <- length(unique(t_results_tmps$snp_id))
-  testthat::expect_equal(6026, n_unique_snps_in_tmp)
+  testthat::expect_equal(ncbiresults::get_n_unique_snp_ids_tmp(), n_unique_snps_in_tmp)
+
 
   # Get the number of TMHs
   topo_filenames <- list.files(
@@ -52,9 +54,9 @@ do_snps_stats_per_spanner <- function(
     tibbles[[i]] <- dplyr::select(t, name, n_tmh)
   }
   t_topo_all <- dplyr::bind_rows(tibbles)
-  testthat::expect_equal(5163, length(unique(t_topo_all$name)))
+  testthat::expect_equal(get_n_unique_protein_names_raw(), length(unique(t_topo_all$name)))
   t_topo <- dplyr::distinct(t_topo_all)
-  testthat::expect_equal(5163, nrow(t_topo))
+  testthat::expect_equal(get_n_unique_protein_names_raw(), nrow(t_topo))
 
   # Add name to results
   t_results_tmps$name <- stringr::str_match(
@@ -67,19 +69,23 @@ do_snps_stats_per_spanner <- function(
   t <- dplyr::left_join(t_results_tmps, t_topo, by = "name")
   testthat::expect_equal(0, sum(is.na(t$n_tmh)))
   testthat::expect_equal(0, sum(t$n_tmh == 0))
-  testthat::expect_equal(8190, sum(t$n_tmh == 1))
-  testthat::expect_equal(13386, sum(t$n_tmh >= 2))
+  testthat::expect_equal(get_n_variations_tmp_single(), sum(t$n_tmh == 1))
+  testthat::expect_equal(get_n_variations_tmp_multi(), sum(t$n_tmh >= 2))
 
   t_single <- dplyr::filter(t, n_tmh == 1)
   t_multi <- dplyr::filter(t, n_tmh >= 2)
   n_snps_in_single_spanners <- nrow(t_single)
   n_snps_in_multi_spanners <- nrow(t_multi)
-  testthat::expect_equal(8190, n_snps_in_single_spanners)
-  testthat::expect_equal(13386, n_snps_in_multi_spanners)
+  testthat::expect_equal(ncbiresults::get_n_variations_tmp_single(), n_snps_in_single_spanners)
+  testthat::expect_equal(ncbiresults::get_n_variations_tmp_multi(), n_snps_in_multi_spanners)
+  n_unique_variations_in_single_spanners <- length(unique(t_single$variation))
+  n_unique_variations_in_multi_spanners <- length(unique(t_multi$variation))
+  testthat::expect_equal(ncbiresults::get_n_unique_variations_tmp_single(), n_unique_variations_in_single_spanners)
+  testthat::expect_equal(ncbiresults::get_n_unique_variations_tmp_multi(), n_unique_variations_in_multi_spanners)
   n_unique_snps_in_single_spanners <- length(unique(t_single$snp_id))
   n_unique_snps_in_multi_spanners <- length(unique(t_multi$snp_id))
-  testthat::expect_equal(2545, n_unique_snps_in_single_spanners)
-  testthat::expect_equal(3716, n_unique_snps_in_multi_spanners)
+  testthat::expect_equal(get_n_unique_snps_in_single_spanners(), n_unique_snps_in_single_spanners)
+  testthat::expect_equal(get_n_unique_snps_in_multi_spanners(), n_unique_snps_in_multi_spanners)
 
   # Some SNPs act on both single- and multi-spanners
   n_unique_snps_in_both_spanners <- length(
@@ -87,7 +93,7 @@ do_snps_stats_per_spanner <- function(
       t_single$snp_id[which(t_single$snp_id %in% t_multi$snp_id)]
     )
   )
-  testthat::expect_equal(235, n_unique_snps_in_both_spanners)
+  testthat::expect_equal(get_n_unique_snps_in_both_spanners(), n_unique_snps_in_both_spanners)
   testthat::expect_equal(
     n_unique_snps_in_tmp + n_unique_snps_in_both_spanners,
     n_unique_snps_in_single_spanners + n_unique_snps_in_multi_spanners

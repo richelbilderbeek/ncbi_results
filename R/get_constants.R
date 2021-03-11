@@ -56,3 +56,12 @@ get_n_unique_gene_ids_tmp_in_sol <- function() 590
 get_n_unique_gene_names_tmp_in_sol <- function() 590
 get_n_unique_protein_names_tmp_in_sol <- function() 2467
 get_f_tmh_tmp_in_sol <- function() 0.1818121
+
+# Spanners
+get_n_variations_tmp_single <- function() 8186
+get_n_variations_tmp_multi <- function() 13022
+get_n_unique_variations_tmp_single <- function() 8184
+get_n_unique_variations_tmp_multi <- function() 12840
+get_n_unique_snps_in_single_spanners <- function() 2545
+get_n_unique_snps_in_multi_spanners <- function() 3716
+get_n_unique_snps_in_both_spanners <- function() 235

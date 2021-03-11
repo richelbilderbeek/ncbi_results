@@ -10,11 +10,12 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   testthat::expect_equal(ncbiresults::get_n_variations_raw(), n_variations)
 
   # Get rid of the non-SNPs
-  t_results_snps <- dplyr::filter(t_results, !is.na(p_in_tmh))
-  testthat::expect_equal(39431, nrow(t_results_snps))
-  t_results_snps <- dplyr::filter(t_results_snps, ncbi::are_snps(variation))
+  t_results_snps <- dplyr::filter(
+    dplyr::filter(t_results, !is.na(p_in_tmh)),
+    ncbi::are_snps(variation)
+  )
   n_snps <- nrow(t_results_snps)
-  testthat::expect_equal(38233, n_snps)
+  testthat::expect_equal(ncbiresults::get_n_variations(), n_snps)
   t_results_snps$name <- stringr::str_match(
     string = t_results_snps$variation,
     pattern = "^(.*):p\\..*$"
@@ -27,7 +28,7 @@ plot_f_snps_found_and_expected_per_spanner <- function(
 
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
   n_snps_in_tmp <- nrow(t_results_tmps)
-  testthat::expect_equal(21576, n_snps_in_tmp)
+  testthat::expect_equal(ncbiresults::get_n_variations_tmp(), n_snps_in_tmp)
   n_tmp <- length(unique(t_results_tmps$name))
   testthat::expect_equal(2553, n_tmp)
 
@@ -88,8 +89,8 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   n_snps_multi_spanners <- sum(t_variation_per_spanner$n_tmh > 1)
   n_snps_cytosolic <- n_snps - n_snps_single_spanners - n_snps_multi_spanners
   testthat::expect_equal(16657, n_snps_cytosolic)
-  testthat::expect_equal(8190, n_snps_single_spanners)
-  testthat::expect_equal(13386, n_snps_multi_spanners)
+  testthat::expect_equal(ncbiresults::get_n_variations_tmp_single(), n_snps_single_spanners)
+  testthat::expect_equal(ncbiresults::get_n_variations_tmp_multi(), n_snps_multi_spanners)
   testthat::expect_equal(
     n_snps_cytosolic + n_snps_single_spanners + n_snps_multi_spanners,
     n_snps
@@ -104,7 +105,7 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   n_snps_in_soluble <- n_snps_in_tmp - n_snps_in_tmhs
 
   testthat::expect_equal(17745, n_snps_in_soluble)
-  testthat::expect_equal(3831, n_snps_in_tmhs)
+  testthat::expect_equal(ncbiresults::get_n_variations_tmp_in_tmh(), n_snps_in_tmhs)
   testthat::expect_equal(454, n_snps_in_tmhs_single)
   testthat::expect_equal(3377, n_snps_in_tmhs_multi)
   testthat::expect_equal(

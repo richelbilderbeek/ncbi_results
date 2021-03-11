@@ -13,21 +13,22 @@ plot_conservation <- function(
   testthat::expect_equal(get_n_variations_raw(), n_variations)
 
   # Get rid of the non-SNPs
-  t_results_snps <- dplyr::filter(t_results, !is.na(p_in_tmh))
-  testthat::expect_equal(39431, nrow(t_results_snps))
-  t_results_snps <- dplyr::filter(t_results_snps, ncbi::are_snps(variation))
+  t_results_snps <- dplyr::filter(
+    dplyr::filter(t_results, !is.na(p_in_tmh)),
+    ncbi::are_snps(variation)
+  )
   n_snps <- nrow(t_results_snps)
-  testthat::expect_equal(38233, n_snps)
+  testthat::expect_equal(ncbiresults::get_n_variations(), n_snps)
   # A SNP can work on multiple isoforms
   n_unique_snps <- length(unique(t_results_snps$snp_id))
   testthat::expect_equal(9621, n_unique_snps)
 
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
   n_snps_in_tmp <- nrow(t_results_tmps)
-  testthat::expect_equal(21576, n_snps_in_tmp)
+  testthat::expect_equal(ncbiresults::get_n_variations_tmp(), n_snps_in_tmp)
   # A SNP can work on multiple isoforms
   n_unique_snps_in_tmp <- length(unique(t_results_tmps$snp_id))
-  testthat::expect_equal(6026, n_unique_snps_in_tmp)
+  testthat::expect_equal(ncbiresults::get_n_unique_snp_ids_tmp(), n_unique_snps_in_tmp)
 
   # Statistics
   n <- n_snps_in_tmp

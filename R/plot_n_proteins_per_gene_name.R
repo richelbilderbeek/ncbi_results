@@ -10,11 +10,12 @@ plot_n_proteins_per_gene_name <- function(folder_name = folder_name) {
   testthat::expect_equal(get_n_variations_raw(), n_variations)
 
   # Get rid of the non-SNPs
-  t_results_snps <- dplyr::filter(t_results, !is.na(p_in_tmh))
-  testthat::expect_equal(39431, nrow(t_results_snps))
-  t_results_snps <- dplyr::filter(t_results_snps, ncbi::are_snps(variation))
+  t_results_snps <- dplyr::filter(
+    dplyr::filter(t_results, !is.na(p_in_tmh)),
+    ncbi::are_snps(variation)
+  )
   n_snps <- nrow(t_results_snps)
-  testthat::expect_equal(38233, n_snps)
+  testthat::expect_equal(ncbiresults::get_n_variations(), n_snps)
   t_results_snps$name <- stringr::str_match(
     string = t_results_snps$variation,
     pattern = "^(.*):p\\..*$"

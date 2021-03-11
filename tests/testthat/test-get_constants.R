@@ -101,8 +101,7 @@ test_that("Results of research", {
   expect_equal(21024, n_unique_variations_tmp)
   expect_equal(21024, get_n_unique_variations_tmp())
   n_unique_snp_ids_tmp <- length(unique(t_snps_tmp$snp_id))
-  expect_equal(6026, n_unique_snp_ids_tmp)
-  expect_equal(6026, get_n_unique_snp_ids_tmp())
+  expect_equal(ncbiresults::get_n_unique_snp_ids_tmp(), n_unique_snp_ids_tmp)
   n_unique_gene_ids_tmp <- length(unique(t_snps_tmp$gene_id))
   expect_equal(605, n_unique_gene_ids_tmp)
   expect_equal(605, get_n_unique_gene_ids_tmp())
@@ -257,4 +256,19 @@ test_that("Results of research", {
     n_unique_protein_names_tmp,
     n_unique_protein_names_tmp_in_tmh + n_unique_protein_names_tmp_in_sol - n_duplicate_protein_names_tmp_in_tmh_sol
   )
+
+  # Spanners
+  n_variations_tmp_single <- 8186
+  n_variations_tmp_multi <- 13022
+  expect_equal(get_n_variations_tmp_single(), n_variations_tmp_single)
+  expect_equal(get_n_variations_tmp_multi(), n_variations_tmp_multi)
+  expect_equal(
+    get_n_variations_tmp(),
+    get_n_variations_tmp_single() + get_n_variations_tmp_multi()
+  )
+  expect_equal(
+    get_n_unique_snp_ids_tmp() + get_n_unique_snps_in_both_spanners(),
+    get_n_unique_snps_in_single_spanners() + get_n_unique_snps_in_multi_spanners()
+  )
+
 })
