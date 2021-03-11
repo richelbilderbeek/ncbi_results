@@ -11,7 +11,7 @@ plot_conservation_per_spanner <- function(
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)
   n_variations <- nrow(t_results)
-  testthat::expect_equal(61705, n_variations)
+  testthat::expect_equal(get_n_variations_raw(), n_variations)
 
   # Get rid of the non-SNPs
   t_results_snps <- dplyr::filter(t_results, !is.na(p_in_tmh))
@@ -100,10 +100,10 @@ plot_conservation_per_spanner <- function(
   )
   names(facet_labels) <- levels(t$spanner)
 
-  ggplot2::ggplot(t, ggplot2::aes(x = conservation, y = n, fill = conservation)) +
+  p <- ggplot2::ggplot(t, ggplot2::aes(x = conservation, y = n, fill = conservation)) +
     ggplot2::geom_col(col = "black") +
     ggplot2::geom_text(ggplot2::aes(label = scales::percent(percentage)), vjust = -0.5) +
-    ggplot2::scale_y_continuous("Number of SNPS") +
+    ggplot2::scale_y_continuous("Number of SNPs in TMHs") +
     ggplot2::scale_x_discrete("") +
     ggplot2::facet_grid(
       cols = ggplot2::vars(spanner),
@@ -120,5 +120,5 @@ plot_conservation_per_spanner <- function(
         "E(n_snps_in_multi_spanner_tmh): ", format(n_success_expected_multi), "\n"
       )
     )
-
+  p
 }

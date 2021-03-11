@@ -12,8 +12,8 @@ do_snps_stats_per_spanner <- function(
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)
-  n_variations <- nrow(t_results)
-  testthat::expect_equal(61705, n_variations)
+  n_variations <- nrow(get_n_variations_raw())
+  testthat::expect_equal(get_n_variations_raw(), n_variations)
 
   # Get rid of the non-SNPs
   t_results_snps <- dplyr::filter(t_results, !is.na(p_in_tmh))

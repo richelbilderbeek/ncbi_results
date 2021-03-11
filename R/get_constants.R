@@ -1,6 +1,6 @@
 # Raw
 get_n_variations_raw <- function() 60931
-get_n_n_unique_variations_raw <- function() 60544
+get_n_unique_variations_raw <- function() 60544
 get_n_unique_gene_ids_raw <- function() 953
 get_n_unique_gene_names_raw <- function() 953
 get_n_unique_protein_names_raw <- function() 5163

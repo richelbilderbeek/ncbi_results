@@ -14,4 +14,13 @@ test_that("use", {
     width = 7,
     height = 7
   )
+  p + ggplot2::theme_gray(base_size = 16) +
+     ggplot2::labs(title = "",
+      caption = ""
+    ) +
+    ggplot2::ggsave(
+      file.path("~/fig_conservation_per_spanner.png"),
+      width = 7,
+      height = 7
+    )
 })
