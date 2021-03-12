@@ -98,38 +98,47 @@ do_snps_stats_per_spanner <- function(
     n_unique_snps_in_tmp + n_unique_snps_in_both_spanners,
     n_unique_snps_in_single_spanners + n_unique_snps_in_multi_spanners
   )
-
-  n_snps_in_single_spanners_in_tmh <- sum(t_single$is_in_tmh)
-  n_snps_in_single_spanners_in_soluble <- sum(!t_single$is_in_tmh)
-  testthat::expect_equal(454, n_snps_in_single_spanners_in_tmh)
-  testthat::expect_equal(7736, n_snps_in_single_spanners_in_soluble)
+  n_unique_snps_in_single_spanners_in_tmh <- length(
+    unique(
+      dplyr::filter(t_single, is_in_tmh == TRUE)$snp_id
+    )
+  )
+  n_unique_snps_in_single_spanners_in_sol <- length(
+    unique(
+      dplyr::filter(t_single, is_in_tmh == FALSE)$snp_id
+    )
+  )
+  testthat::expect_equal(ncbiresults::get_n_unique_snps_in_single_spanners_in_tmh(), n_unique_snps_in_single_spanners_in_tmh)
+  testthat::expect_equal(ncbiresults::get_n_unique_snps_in_single_spanners_in_sol(), n_unique_snps_in_single_spanners_in_sol)
+  # Eight SNP IDs are present in both groups
   testthat::expect_equal(
-    n_snps_in_single_spanners,
-    n_snps_in_single_spanners_in_tmh + n_snps_in_single_spanners_in_soluble
+    n_unique_snps_in_single_spanners + 8,
+    n_unique_snps_in_single_spanners_in_tmh + n_unique_snps_in_single_spanners_in_sol
   )
 
-  n_snps_in_multi_spanners_in_tmh <- sum(t_multi$is_in_tmh)
-  n_snps_in_multi_spanners_in_soluble <- sum(!t_multi$is_in_tmh)
-  testthat::expect_equal(3377, n_snps_in_multi_spanners_in_tmh)
-  testthat::expect_equal(10009, n_snps_in_multi_spanners_in_soluble)
-  testthat::expect_equal(
-    n_snps_in_multi_spanners,
-    n_snps_in_multi_spanners_in_tmh + n_snps_in_multi_spanners_in_soluble
+  n_unique_snps_in_multi_spanners_in_tmh <- length(
+    unique(
+      dplyr::filter(t_multi, is_in_tmh == TRUE)$snp_id
+    )
+  )
+  n_unique_snps_in_multi_spanners_in_sol <- length(
+    unique(
+      dplyr::filter(t_multi, is_in_tmh == FALSE)$snp_id
+    )
   )
 
+  testthat::expect_equal(ncbiresults::get_n_unique_snps_in_multi_spanners_in_tmh(), n_unique_snps_in_multi_spanners_in_tmh)
+  testthat::expect_equal(ncbiresults::get_n_unique_snps_in_multi_spanners_in_sol(), n_unique_snps_in_multi_spanners_in_sol)
+  # There are 40 SNPs in both TMH and soluble regions
   testthat::expect_equal(
-    n_snps_in_tmh,
-    n_snps_in_single_spanners_in_tmh + n_snps_in_multi_spanners_in_tmh
-  )
-  testthat::expect_equal(
-    n_snps_in_soluble_of_tmp,
-    n_snps_in_single_spanners_in_soluble + n_snps_in_multi_spanners_in_soluble
+    n_unique_snps_in_multi_spanners + 40,
+    n_unique_snps_in_multi_spanners_in_tmh + n_unique_snps_in_multi_spanners_in_sol
   )
 
   n_snps_in_single_spanners_expected <- sum(t_single$p_in_tmh)
   testthat::expect_equal(462.6681, n_snps_in_single_spanners_expected, tol = 0.01)
   n_snps_in_multi_spanners_expected <- sum(t_multi$p_in_tmh)
-  testthat::expect_equal(3767.26, n_snps_in_multi_spanners_expected, tol = 0.01)
+  testthat::expect_equal(3678.406, n_snps_in_multi_spanners_expected, tol = 0.01)
 
   # Statistics, single
   statses <- list()
@@ -152,7 +161,7 @@ do_snps_stats_per_spanner <- function(
         q = n_success_expected,
         pp = t$p_in_tmh
       ),
-      tolerance = 0.003
+      tolerance = 0.00944
     )
     p <- poisbinom::ppoisbinom(
       q = n_success,

@@ -72,7 +72,7 @@ plot_conservation_per_spanner <- function(
   testthat::expect_equal(ncbiresults::get_n_variations_tmp_multi(), nrow(t_multi))
 
   n_success_single <- sum(t_single$is_in_tmh)
-  testthat::expect_equal(454, n_success_single)
+  testthat::expect_equal(ncbiresults::get_n_unique_snps_in_single_spanners_in_tmh(), n_success_single)
   n_success_expected_single <- sum(t_single$p_in_tmh)
   testthat::expect_equal(462.6681, n_success_expected_single, tol = 0.00001)
   n_success_multi <- sum(t_multi$is_in_tmh)

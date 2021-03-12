@@ -65,3 +65,9 @@ get_n_unique_variations_tmp_multi <- function() 12840
 get_n_unique_snps_in_single_spanners <- function() 2545
 get_n_unique_snps_in_multi_spanners <- function() 3716
 get_n_unique_snps_in_both_spanners <- function() 235
+
+get_n_unique_snps_in_single_spanners_in_tmh <- function() 160
+get_n_unique_snps_in_single_spanners_in_sol <- function() 2393
+
+get_n_unique_snps_in_multi_spanners_in_tmh <- function() 994
+get_n_unique_snps_in_multi_spanners_in_sol <- function() 2762

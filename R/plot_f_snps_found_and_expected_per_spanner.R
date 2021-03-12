@@ -106,7 +106,7 @@ plot_f_snps_found_and_expected_per_spanner <- function(
 
   testthat::expect_equal(17745, n_snps_in_soluble)
   testthat::expect_equal(ncbiresults::get_n_variations_tmp_in_tmh(), n_snps_in_tmhs)
-  testthat::expect_equal(454, n_snps_in_tmhs_single)
+  testthat::expect_equal(ncbiresults::get_n_unique_snps_in_single_spanners_in_tmh(), n_snps_in_tmhs_single)
   testthat::expect_equal(3377, n_snps_in_tmhs_multi)
   testthat::expect_equal(
     n_snps_in_tmhs,
