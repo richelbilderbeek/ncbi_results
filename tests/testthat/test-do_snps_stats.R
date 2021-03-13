@@ -1,5 +1,4 @@
 test_that("use", {
-  skip("Works")
   # Local only
   folder_name <- "~/GitHubs/ncbi_peregrine/scripts"
   if (!dir.exists(folder_name)) return()

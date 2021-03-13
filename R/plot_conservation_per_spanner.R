@@ -10,26 +10,23 @@ plot_conservation_per_spanner <- function(
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)
-  n_variations <- nrow(t_results)
-  testthat::expect_equal(get_n_variations_raw(), n_variations)
 
   # Get rid of the non-SNPs
   t_results_snps <- dplyr::filter(
     dplyr::filter(t_results, !is.na(p_in_tmh)),
     ncbi::are_snps(variation)
   )
-  n_snps <- nrow(t_results_snps)
-  testthat::expect_equal(ncbiresults::get_n_variations(), n_snps)
+  testthat::expect_equal(ncbiresults::get_n_variations(), nrow(t_results_snps))
   # A SNP can work on multiple isoforms
-  n_unique_snps <- length(unique(t_results_snps$snp_id))
-  testthat::expect_equal(9621, n_unique_snps)
+  testthat::expect_equal(ncbiresults::get_n_unique_snp_ids(), length(unique(t_results_snps$snp_id)))
 
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
-  n_snps_in_tmp <- nrow(t_results_tmps)
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp(), n_snps_in_tmp)
+  testthat::expect_equal(nrow(t_results_tmps), ncbiresults::get_n_variations_tmp())
   # A SNP can work on multiple isoforms
-  n_unique_snps_in_tmp <- length(unique(t_results_tmps$snp_id))
-  testthat::expect_equal(ncbiresults::get_n_unique_snp_ids_tmp(), n_unique_snps_in_tmp)
+  testthat::expect_equal(
+    ncbiresults::get_n_unique_snp_ids_tmp(),
+    length(unique(t_results_tmps$snp_id))
+  )
 
   # Get the number of TMHs
   topo_filenames <- list.files(
@@ -61,10 +58,8 @@ plot_conservation_per_spanner <- function(
   t <- dplyr::left_join(t_results_tmps, t_topo, by = "name")
   testthat::expect_equal(0, sum(is.na(t$n_tmh)))
   testthat::expect_equal(0, sum(t$n_tmh == 0))
-  n_snps_in_single_spanners <- sum(t$n_tmh == 1)
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_single(), n_snps_in_single_spanners)
-  n_snps_in_multi_spanners <- sum(t$n_tmh >= 2)
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_multi(), n_snps_in_multi_spanners)
+  testthat::expect_equal(ncbiresults::get_n_variations_tmp_single(), sum(t$n_tmh == 1))
+  testthat::expect_equal(ncbiresults::get_n_variations_tmp_multi(), sum(t$n_tmh >= 2))
 
   t_single <- dplyr::filter(t, n_tmh == 1)
   t_multi <- dplyr::filter(t, n_tmh >= 2)
@@ -72,17 +67,17 @@ plot_conservation_per_spanner <- function(
   testthat::expect_equal(ncbiresults::get_n_variations_tmp_multi(), nrow(t_multi))
 
   n_success_single <- sum(t_single$is_in_tmh)
-  testthat::expect_equal(ncbiresults::get_n_unique_snps_in_single_spanners_in_tmh(), n_success_single)
+  testthat::expect_equal(452, n_success_single)
   n_success_expected_single <- sum(t_single$p_in_tmh)
-  testthat::expect_equal(462.6681, n_success_expected_single, tol = 0.00001)
+  testthat::expect_equal(462.1535, n_success_expected_single, tol = 0.00001)
   n_success_multi <- sum(t_multi$is_in_tmh)
-  testthat::expect_equal(3377, n_success_multi)
+  testthat::expect_equal(3351, n_success_multi)
   n_success_expected_multi <- sum(t_multi$p_in_tmh)
-  testthat::expect_equal(3767.26, n_success_expected_multi)
+  testthat::expect_equal(3678.406, n_success_expected_multi, tol = 0.001)
   f_single <- n_success_single / n_success_expected_single
-  testthat::expect_equal(0.9812649, f_single)
+  testthat::expect_equal(0.9780301, f_single)
   f_multi <- n_success_multi / n_success_expected_multi
-  testthat::expect_equal(0.8964075, f_multi, tol = 0.00001)
+  testthat::expect_equal(0.9109923, f_multi, tol = 0.00001)
 
   t <- tibble::tribble(
     ~spanner, ~conservation, ~n, ~percentage,
@@ -97,7 +92,10 @@ plot_conservation_per_spanner <- function(
 
   facet_labels <- paste0(
     levels(t$spanner), "-spanners: ",
-    c(n_snps_in_single_spanners, n_snps_in_multi_spanners), " SNPs"
+    c(
+      ncbiresults::get_n_variations_tmp_single(),
+      ncbiresults::get_n_variations_tmp_multi()
+    ), " SNPs"
   )
   names(facet_labels) <- levels(t$spanner)
 
@@ -113,8 +111,7 @@ plot_conservation_per_spanner <- function(
     ggplot2::labs(
       title = "Evolutionary conservation of SNPs in TMHs",
       caption = paste0(
-        "n_variations: ", n_variations, "\n",
-        "n_snps: ", n_snps, "\n",
+        "n_variations: ", ncbiresults::get_n_variations(), "\n",
         "n_snps_in_single_spanner_tmh: ", n_success_single, "\n",
         "n_snps_in_multi_spanner_tmh: ", n_success_multi, "\n",
         "E(n_snps_in_single_spanner_tmh): ", format(n_success_expected_single), "\n",

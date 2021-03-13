@@ -6,26 +6,26 @@ plot_n_snps_per_tmp <- function(
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)
-  n_variations <- nrow(t_results)
-  testthat::expect_equal(get_n_variations_raw(), n_variations)
 
   # Get rid of the non-SNPs
   t_results_snps <- dplyr::filter(
     dplyr::filter(t_results, !is.na(p_in_tmh)),
     ncbi::are_snps(variation)
   )
-  n_snps <- nrow(t_results_snps)
-  testthat::expect_equal(ncbiresults::get_n_variations(), n_snps)
+  testthat::expect_equal(ncbiresults::get_n_variations(), nrow(t_results_snps))
   # A SNP can work on multiple isoforms
-  n_unique_snps <- length(unique(t_results_snps$snp_id))
-  testthat::expect_equal(9621, n_unique_snps)
+  testthat::expect_equal(
+    ncbiresults::get_n_unique_snp_ids(),
+    length(unique(t_results_snps$snp_id))
+  )
 
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
-  n_snps_in_tmp <- nrow(t_results_tmps)
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp(), n_snps_in_tmp)
+  testthat::expect_equal(nrow(t_results_tmps), ncbiresults::get_n_variations_tmp())
   # A SNP can work on multiple isoforms
-  n_unique_snps_in_tmp <- length(unique(t_results_tmps$snp_id))
-  testthat::expect_equal(ncbiresults::get_n_unique_snp_ids_tmp(), n_unique_snps_in_tmp)
+  testthat::expect_equal(
+    ncbiresults::get_n_unique_snp_ids_tmp(),
+    length(unique(t_results_tmps$snp_id))
+  )
 
   t_results_tmps$name <- stringr::str_match(
     string = t_results_tmps$variation,

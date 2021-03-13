@@ -1,5 +1,4 @@
 test_that("Results of research", {
-  skip("local only")
   results_filename <- "~/GitHubs/ncbi_peregrine/scripts/results.csv"
 
   # Raw
@@ -10,7 +9,7 @@ test_that("Results of research", {
   expect_equal(60931, get_n_variations_raw())
   n_unique_variations_raw <- length(unique(t_results$variation))
   expect_equal(60544, n_unique_variations_raw)
-  expect_equal(60544, get_n_n_unique_variations_raw())
+  expect_equal(60544, get_n_unique_variations_raw())
   n_unique_gene_ids_raw <- length(unique(t_results$gene_id))
   expect_equal(953, n_unique_gene_ids_raw)
   expect_equal(953, get_n_unique_gene_ids_raw())

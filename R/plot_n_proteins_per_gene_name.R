@@ -6,16 +6,13 @@ plot_n_proteins_per_gene_name <- function(folder_name = folder_name) {
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)
-  n_variations <- nrow(t_results)
-  testthat::expect_equal(get_n_variations_raw(), n_variations)
 
   # Get rid of the non-SNPs
   t_results_snps <- dplyr::filter(
     dplyr::filter(t_results, !is.na(p_in_tmh)),
     ncbi::are_snps(variation)
   )
-  n_snps <- nrow(t_results_snps)
-  testthat::expect_equal(ncbiresults::get_n_variations(), n_snps)
+  testthat::expect_equal(ncbiresults::get_n_variations(), nrow(t_results_snps))
   t_results_snps$name <- stringr::str_match(
     string = t_results_snps$variation,
     pattern = "^(.*):p\\..*$"

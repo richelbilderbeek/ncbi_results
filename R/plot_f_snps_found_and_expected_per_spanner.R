@@ -6,37 +6,43 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)
-  n_variations <- nrow(t_results)
-  testthat::expect_equal(ncbiresults::get_n_variations_raw(), n_variations)
 
   # Get rid of the non-SNPs
   t_results_snps <- dplyr::filter(
     dplyr::filter(t_results, !is.na(p_in_tmh)),
     ncbi::are_snps(variation)
   )
-  n_snps <- nrow(t_results_snps)
-  testthat::expect_equal(ncbiresults::get_n_variations(), n_snps)
+  testthat::expect_equal(ncbiresults::get_n_variations(), nrow(t_results_snps))
   t_results_snps$name <- stringr::str_match(
     string = t_results_snps$variation,
     pattern = "^(.*):p\\..*$"
   )[,2]
-  n_proteins <- length(unique(t_results_snps$name))
-  testthat::expect_equal(4780, n_proteins)
-
-  n_cytosolic_proteins <- length(unique(t_results_snps$name[t_results_snps$p_in_tmh == 0.0]))
-  testthat::expect_equal(2227, n_cytosolic_proteins)
+  testthat::expect_equal(
+    ncbiresults::get_n_unique_protein_names(),
+    length(unique(t_results_snps$name))
+  )
+  testthat::expect_equal(
+    ncbiresults::get_n_unique_protein_names_map(),
+    length(unique(t_results_snps$name[t_results_snps$p_in_tmh == 0.0]))
+  )
 
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
-  n_snps_in_tmp <- nrow(t_results_tmps)
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp(), n_snps_in_tmp)
-  n_tmp <- length(unique(t_results_tmps$name))
-  testthat::expect_equal(2553, n_tmp)
-
-  n_snps_in_tmh <- sum(t_results_tmps$is_in_tmh)
-  n_snps_in_soluble <- sum(!t_results_tmps$is_in_tmh)
-  testthat::expect_equal(3831, n_snps_in_tmh)
-  testthat::expect_equal(17745, n_snps_in_soluble)
-  testthat::expect_equal(n_snps_in_tmp, n_snps_in_tmh + n_snps_in_soluble)
+  testthat::expect_equal(
+    nrow(t_results_tmps),
+    ncbiresults::get_n_variations_tmp()
+  )
+  testthat::expect_equal(
+    ncbiresults::get_n_unique_protein_names_tmp(),
+    length(unique(t_results_tmps$name))
+  )
+  testthat::expect_equal(
+    ncbiresults::get_n_variations_tmp_in_tmh(),
+    sum(t_results_tmps$is_in_tmh)
+  )
+  testthat::expect_equal(
+    ncbiresults::get_n_variations_tmp_in_sol(),
+    sum(!t_results_tmps$is_in_tmh)
+  )
 
   # Read the topology for the number of TMHs
   topo_filenames <- list.files(
@@ -44,7 +50,6 @@ plot_f_snps_found_and_expected_per_spanner <- function(
     pattern = ".*\\.topo$",
     full.names = TRUE
   )
-  testthat::expect_true(length(topo_filenames) == 1131)
   tibbles <- list()
   for (i in seq_along(topo_filenames)) {
     topo_filename <- topo_filenames[i]
@@ -55,13 +60,15 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   t_topo <- dplyr::bind_rows(tibbles)
 
   # Merge
-  library(dplyr)
   t_variation_per_spanner <- dplyr::left_join(
-    t_results_tmps %>% dplyr::select("variation", "name", "is_in_tmh", "p_in_tmh"),
-    t_topo %>%  dplyr::select("name", "n_tmh") %>% dplyr::distinct(),
+    dplyr::select(t_results_tmps, "variation", "name", "is_in_tmh", "p_in_tmh"),
+    dplyr::distinct(dplyr::select(t_topo, "name", "n_tmh")),
     by = "name"
   )
-  testthat::expect_equal(nrow(t_variation_per_spanner), n_snps_in_tmp)
+  testthat::expect_equal(
+    nrow(t_variation_per_spanner),
+    ncbiresults::get_n_variations_tmp()
+  )
   n_single_spanner_proteins <- nrow(
     t_variation_per_spanner %>%
     dplyr::filter(n_tmh == 1) %>%
@@ -74,12 +81,11 @@ plot_f_snps_found_and_expected_per_spanner <- function(
     dplyr::select(name) %>%
     dplyr::distinct()
   )
-  testthat::expect_equal(2227, n_cytosolic_proteins)
   testthat::expect_equal(1047, n_single_spanner_proteins)
   testthat::expect_equal(1506, n_multi_spanner_proteins)
   testthat::expect_equal(
     n_proteins,
-    n_cytosolic_proteins + n_single_spanner_proteins + n_multi_spanner_proteins
+    n_map + n_single_spanner_proteins + n_multi_spanner_proteins
   )
   testthat::expect_equal(
     n_tmp,
@@ -88,7 +94,7 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   n_snps_single_spanners <- sum(t_variation_per_spanner$n_tmh == 1)
   n_snps_multi_spanners <- sum(t_variation_per_spanner$n_tmh > 1)
   n_snps_cytosolic <- n_snps - n_snps_single_spanners - n_snps_multi_spanners
-  testthat::expect_equal(16657, n_snps_cytosolic)
+  testthat::expect_equal(16623, n_snps_cytosolic)
   testthat::expect_equal(ncbiresults::get_n_variations_tmp_single(), n_snps_single_spanners)
   testthat::expect_equal(ncbiresults::get_n_variations_tmp_multi(), n_snps_multi_spanners)
   testthat::expect_equal(
@@ -104,10 +110,10 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   n_snps_in_tmhs_multi <- sum(t_variation_per_spanner$is_in_tmh == TRUE & t_variation_per_spanner$n_tmh > 1)
   n_snps_in_soluble <- n_snps_in_tmp - n_snps_in_tmhs
 
-  testthat::expect_equal(17745, n_snps_in_soluble)
+  testthat::expect_equal(17405, n_snps_in_soluble)
   testthat::expect_equal(ncbiresults::get_n_variations_tmp_in_tmh(), n_snps_in_tmhs)
-  testthat::expect_equal(ncbiresults::get_n_unique_snps_in_single_spanners_in_tmh(), n_snps_in_tmhs_single)
-  testthat::expect_equal(3377, n_snps_in_tmhs_multi)
+  testthat::expect_equal(452, n_snps_in_tmhs_single)
+  testthat::expect_equal(3351, n_snps_in_tmhs_multi)
   testthat::expect_equal(
     n_snps_in_tmhs,
     n_snps_in_tmhs_single + n_snps_in_tmhs_multi
@@ -176,7 +182,7 @@ plot_f_snps_found_and_expected_per_spanner <- function(
       caption = paste0(
         n_snps, " SNPs in ", n_proteins, " proteins\n",
         n_snps_in_tmp, " SNPs in ", n_tmp, " TMPs\n",
-        n_snps_cytosolic, " SNPs in ", n_cytosolic_proteins, " soluble proteins.\n",
+        n_snps_cytosolic, " SNPs in ", n_map, " soluble proteins.\n",
         n_snps_in_soluble, " SNPs in soluble domains of TMPs\n",
         "Solid red line = linear fit\n",
         "Dashed diagonal line = as expected by chance"

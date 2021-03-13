@@ -66,8 +66,18 @@ get_n_unique_snps_in_single_spanners <- function() 2545
 get_n_unique_snps_in_multi_spanners <- function() 3716
 get_n_unique_snps_in_both_spanners <- function() 235
 
-get_n_unique_snps_in_single_spanners_in_tmh <- function() 160
-get_n_unique_snps_in_single_spanners_in_sol <- function() 2393
+# TMPs in TMH
+get_n_variations_tmp <- function() 21208
+get_n_unique_variations_tmp <- function() 21024
+get_n_unique_snp_ids_tmp <- function() 6026
+get_n_unique_gene_ids_tmp <- function() 605
+get_n_unique_gene_names_tmp <- function() 605
+get_n_unique_protein_names_tmp <- function() 2553
+get_f_tmh_tmp <- function() 0.1868249
 
-get_n_unique_snps_in_multi_spanners_in_tmh <- function() 994
-get_n_unique_snps_in_multi_spanners_in_sol <- function() 2762
+
+get_n_unique_snp_ids_in_single_in_tmh <- function() 160
+get_n_unique_snp_ids_in_single_in_sol <- function() 2393
+
+get_n_unique_snp_ids_in_multi_in_tmh <- function() 994
+get_n_unique_snp_ids_in_multi_in_sol <- function() 2762

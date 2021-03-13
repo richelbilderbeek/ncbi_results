@@ -28,5 +28,5 @@ test_that("use", {
     ),
     label = "ncbi_counts"
   ) %>% cat(., file = "~/ncbi_counts.tex")
-
+  testthat::expect_true(tibble::is_tibble(t))
 })

@@ -25,16 +25,17 @@ do_snps_stats <- function(
   n_unique_snps <- length(unique(t_results_snps$snp_id))
 
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
-  testthat::expect_equal(
-    nrow(t_results_tmps),
-    nrow(dplyr::distinct(t_results_tmps))
-  )
-  n_snps_in_tmp <- nrow(t_results_tmps)
+  testthat::expect_true(ncbiresults::are_all_rows_distinct(t_results_tmps))
+
+  testthat::expect_equal(nrow(t_results_tmps), ncbiresults::get_n_variations_tmp())
   # A SNP can work on multiple isoforms
-  n_unique_snps_in_tmp <- length(unique(t_results_tmps$snp_id))
+  testthat::expect_equal(
+    ncbiresults::get_n_unique_snp_ids_tmp(),
+    length(unique(t_results_tmps$snp_id))
+  )
 
   # Statistics
-  n <- n_snps_in_tmp
+  n <- nrow(t_results_tmps)
   testthat::expect_equal(n, get_n_variations_tmp())
   n_success <- sum(t_results_tmps$is_in_tmh)
   n_success_expected <- sum(t_results_tmps$p_in_tmh)

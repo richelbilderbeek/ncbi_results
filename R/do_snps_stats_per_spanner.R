@@ -9,35 +9,33 @@ do_snps_stats_per_spanner <- function(
   ppoisbinom_single_plot_filename = "~/ppoisbinom_single.png",
   ppoisbinom_multi_plot_filename = "~/ppoisbinom_multi.png"
 ) {
+  # Raw
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)
-  n_variations <- nrow(t_results)
-  testthat::expect_equal(ncbiresults::get_n_variations_raw(), n_variations)
 
   # Get rid of the non-SNPs
   t_results_snps <- dplyr::filter(
     dplyr::filter(t_results, !is.na(p_in_tmh)),
     ncbi::are_snps(variation)
   )
-  n_snps <- nrow(t_results_snps)
-  testthat::expect_equal(ncbiresults::get_n_variations(), n_snps)
+  testthat::expect_equal(ncbiresults::get_n_variations(), nrow(t_results_snps))
   # A SNP can work on multiple isoforms
-  n_unique_snps <- length(unique(t_results_snps$snp_id))
-  testthat::expect_equal(ncbiresults::get_n_unique_snp_ids(), n_unique_snps)
+  testthat::expect_equal(
+    ncbiresults::get_n_unique_snp_ids(),
+    length(unique(t_results_snps$snp_id))
+  )
 
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
-  n_snps_in_tmp <- nrow(t_results_tmps)
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp(), n_snps_in_tmp)
-  n_snps_in_tmh <- sum(t_results_tmps$is_in_tmh)
-  n_snps_in_soluble_of_tmp <- sum(!t_results_tmps$is_in_tmh)
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_in_tmh(), n_snps_in_tmh)
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_in_sol(), n_snps_in_soluble_of_tmp)
+  testthat::expect_equal(nrow(t_results_tmps), ncbiresults::get_n_variations_tmp())
+  testthat::expect_equal(ncbiresults::get_n_variations_tmp_in_tmh(), sum(t_results_tmps$is_in_tmh))
+  testthat::expect_equal(ncbiresults::get_n_variations_tmp_in_sol(), sum(!t_results_tmps$is_in_tmh))
 
   # A SNP can work on multiple isoforms
-  n_unique_snps_in_tmp <- length(unique(t_results_tmps$snp_id))
-  testthat::expect_equal(ncbiresults::get_n_unique_snp_ids_tmp(), n_unique_snps_in_tmp)
-
+  testthat::expect_equal(
+    ncbiresults::get_n_unique_snp_ids_tmp(),
+    length(unique(t_results_tmps$snp_id))
+  )
 
   # Get the number of TMHs
   topo_filenames <- list.files(
@@ -74,67 +72,12 @@ do_snps_stats_per_spanner <- function(
 
   t_single <- dplyr::filter(t, n_tmh == 1)
   t_multi <- dplyr::filter(t, n_tmh >= 2)
-  n_snps_in_single_spanners <- nrow(t_single)
-  n_snps_in_multi_spanners <- nrow(t_multi)
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_single(), n_snps_in_single_spanners)
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_multi(), n_snps_in_multi_spanners)
-  n_unique_variations_in_single_spanners <- length(unique(t_single$variation))
-  n_unique_variations_in_multi_spanners <- length(unique(t_multi$variation))
-  testthat::expect_equal(ncbiresults::get_n_unique_variations_tmp_single(), n_unique_variations_in_single_spanners)
-  testthat::expect_equal(ncbiresults::get_n_unique_variations_tmp_multi(), n_unique_variations_in_multi_spanners)
-  n_unique_snps_in_single_spanners <- length(unique(t_single$snp_id))
-  n_unique_snps_in_multi_spanners <- length(unique(t_multi$snp_id))
-  testthat::expect_equal(get_n_unique_snps_in_single_spanners(), n_unique_snps_in_single_spanners)
-  testthat::expect_equal(get_n_unique_snps_in_multi_spanners(), n_unique_snps_in_multi_spanners)
-
-  # Some SNPs act on both single- and multi-spanners
-  n_unique_snps_in_both_spanners <- length(
-    unique(
-      t_single$snp_id[which(t_single$snp_id %in% t_multi$snp_id)]
-    )
-  )
-  testthat::expect_equal(get_n_unique_snps_in_both_spanners(), n_unique_snps_in_both_spanners)
-  testthat::expect_equal(
-    n_unique_snps_in_tmp + n_unique_snps_in_both_spanners,
-    n_unique_snps_in_single_spanners + n_unique_snps_in_multi_spanners
-  )
-  n_unique_snps_in_single_spanners_in_tmh <- length(
-    unique(
-      dplyr::filter(t_single, is_in_tmh == TRUE)$snp_id
-    )
-  )
-  n_unique_snps_in_single_spanners_in_sol <- length(
-    unique(
-      dplyr::filter(t_single, is_in_tmh == FALSE)$snp_id
-    )
-  )
-  testthat::expect_equal(ncbiresults::get_n_unique_snps_in_single_spanners_in_tmh(), n_unique_snps_in_single_spanners_in_tmh)
-  testthat::expect_equal(ncbiresults::get_n_unique_snps_in_single_spanners_in_sol(), n_unique_snps_in_single_spanners_in_sol)
-  # Eight SNP IDs are present in both groups
-  testthat::expect_equal(
-    n_unique_snps_in_single_spanners + 8,
-    n_unique_snps_in_single_spanners_in_tmh + n_unique_snps_in_single_spanners_in_sol
-  )
-
-  n_unique_snps_in_multi_spanners_in_tmh <- length(
-    unique(
-      dplyr::filter(t_multi, is_in_tmh == TRUE)$snp_id
-    )
-  )
-  n_unique_snps_in_multi_spanners_in_sol <- length(
-    unique(
-      dplyr::filter(t_multi, is_in_tmh == FALSE)$snp_id
-    )
-  )
-
-  testthat::expect_equal(ncbiresults::get_n_unique_snps_in_multi_spanners_in_tmh(), n_unique_snps_in_multi_spanners_in_tmh)
-  testthat::expect_equal(ncbiresults::get_n_unique_snps_in_multi_spanners_in_sol(), n_unique_snps_in_multi_spanners_in_sol)
-  # There are 40 SNPs in both TMH and soluble regions
-  testthat::expect_equal(
-    n_unique_snps_in_multi_spanners + 40,
-    n_unique_snps_in_multi_spanners_in_tmh + n_unique_snps_in_multi_spanners_in_sol
-  )
-
+  testthat::expect_equal(ncbiresults::get_n_variations_tmp_single(), nrow(t_single))
+  testthat::expect_equal(ncbiresults::get_n_variations_tmp_multi(), nrow(t_multi))
+  testthat::expect_equal(ncbiresults::get_n_unique_variations_tmp_single(), length(unique(t_single$variation)))
+  testthat::expect_equal(ncbiresults::get_n_unique_variations_tmp_multi(), length(unique(t_multi$variation)))
+  testthat::expect_equal(get_n_unique_snps_in_single_spanners(), length(unique(t_single$snp_id)))
+  testthat::expect_equal(get_n_unique_snps_in_multi_spanners(), length(unique(t_multi$snp_id)))
   n_snps_in_single_spanners_expected <- sum(t_single$p_in_tmh)
   testthat::expect_equal(462.6681, n_snps_in_single_spanners_expected, tol = 0.01)
   n_snps_in_multi_spanners_expected <- sum(t_multi$p_in_tmh)

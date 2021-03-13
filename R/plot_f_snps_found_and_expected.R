@@ -7,32 +7,36 @@ plot_f_snps_found_and_expected <- function(
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)
-  n_variations <- nrow(t_results)
-  testthat::expect_equal(get_n_variations_raw(), n_variations)
 
   # Get rid of the non-SNPs
   t_results_snps <- dplyr::filter(
     dplyr::filter(t_results, !is.na(p_in_tmh)),
     ncbi::are_snps(variation)
   )
-  n_snps <- nrow(t_results_snps)
-  testthat::expect_equal(ncbiresults::get_n_variations(), n_snps)
+  testthat::expect_equal(ncbiresults::get_n_variations(), nrow(t_results_snps))
   t_results_snps$name <- stringr::str_match(
     string = t_results_snps$variation,
     pattern = "^(.*):p\\..*$"
   )[,2]
-  n_proteins <- length(unique(t_results_snps$name))
-  testthat::expect_equal(4780, n_proteins)
+
+  testthat::expect_equal(
+    ncbiresults::get_n_unique_protein_names(),
+    length(unique(t_results_snps$name))
+  )
 
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
-  n_snps_in_tmp <- nrow(t_results_tmps)
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp(), n_snps_in_tmp)
-
-  n_snps_in_tmh <- sum(t_results_tmps$is_in_tmh)
-  n_snps_in_soluble <- sum(!t_results_tmps$is_in_tmh)
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_in_tmh(), n_snps_in_tmh)
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_in_sol(), n_snps_in_soluble)
-  testthat::expect_equal(n_snps_in_tmp, n_snps_in_tmh + n_snps_in_soluble)
+  testthat::expect_equal(
+    nrow(t_results_tmps),
+    ncbiresults::get_n_variations_tmp()
+  )
+  testthat::expect_equal(
+    ncbiresults::get_n_variations_tmp_in_tmh(),
+    sum(t_results_tmps$is_in_tmh)
+  )
+  testthat::expect_equal(
+    ncbiresults::get_n_variations_tmp_in_sol(),
+    sum(!t_results_tmps$is_in_tmh)
+  )
   t <- dplyr::summarise(
     dplyr::group_by(
       t_results_tmps,
@@ -43,8 +47,10 @@ plot_f_snps_found_and_expected <- function(
     .groups = "keep"
   )
 
-  n_tmp <- nrow(t)
-  testthat::expect_equal(2553, n_tmp)
+  testthat::expect_equal(
+    ncbiresults::get_n_unique_protein_names_tmp(),
+    nrow(t)
+  )
   testthat::expect_true(all(t$f_chance >= 0.0 & t$f_chance <= 1.0))
   testthat::expect_true(all(t$f_measured >= 0.0 & t$f_measured <= 1.0))
   # Do not use n_tmp as a factor
@@ -61,10 +67,6 @@ plot_f_snps_found_and_expected <- function(
     ) +
     ggplot2::labs(
       caption = paste0(
-        n_snps, " SNPs in ", n_proteins, " proteins,\n",
-        "of which ", n_snps_in_tmp, " SNPs are in ", n_tmp, " TMPs,\n",
-        "of which ", n_snps_in_tmh, " SNPs are in TMHs\n",
-        "(thus ", n_snps_in_soluble, " SNPs are found in soluble domains).\n",
         "Solid blue line = linear fit.\n",
         "Dashed diagonal line = as expected by chance"
       )

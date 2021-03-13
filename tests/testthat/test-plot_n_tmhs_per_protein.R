@@ -9,4 +9,9 @@ test_that("use", {
     width = 7,
     height = 7
   )
+  p + ggplot2::ggsave(
+    file.path("~/fig_n_tmhs_per_protein.png"),
+    width = 7,
+    height = 7
+  )
 })
