@@ -37,34 +37,8 @@ do_snps_stats_per_spanner <- function(
     length(unique(t_results_tmps$snp_id))
   )
 
-  # Get the number of TMHs
-  topo_filenames <- list.files(
-    path = folder_name,
-    pattern = ".*\\.topo$",
-    full.names = TRUE
-  )
-  testthat::expect_true(length(topo_filenames) > 0)
-  tibbles <- list()
-  for (i in seq_along(topo_filenames)) {
-    topo_filename <- topo_filenames[i]
-    t <- pureseqtmr::load_fasta_file_as_tibble(topo_filename)
-    t$n_tmh <- pureseqtmr::count_n_tmhs(t$sequence)
-    tibbles[[i]] <- dplyr::select(t, name, n_tmh)
-  }
-  t_topo_all <- dplyr::bind_rows(tibbles)
-  testthat::expect_equal(get_n_unique_protein_names_raw(), length(unique(t_topo_all$name)))
-  t_topo <- dplyr::distinct(t_topo_all)
-  testthat::expect_equal(get_n_unique_protein_names_raw(), nrow(t_topo))
-
-  # Add name to results
-  t_results_tmps$name <- stringr::str_match(
-    string = t_results_tmps$variation,
-    pattern = "^(.*):p\\..*$"
-  )[, 2]
-
   # Merge
-  testthat::expect_true(all(t_results_tmps$name %in% t_topo$name))
-  t <- dplyr::left_join(t_results_tmps, t_topo, by = "name")
+  t <- t_results_tmps
   testthat::expect_equal(0, sum(is.na(t$n_tmh)))
   testthat::expect_equal(0, sum(t$n_tmh == 0))
   testthat::expect_equal(get_n_variations_tmp_single(), sum(t$n_tmh == 1))

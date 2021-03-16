@@ -9,7 +9,6 @@ do_snps_stats <- function(
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)
-  n_variations <- nrow(t_results)
 
   # Get rid of the non-SNPs
   t_results_snps <- dplyr::filter(
@@ -20,10 +19,6 @@ do_snps_stats <- function(
     nrow(t_results_snps),
     nrow(dplyr::distinct(t_results_snps))
   )
-  n_snps <- nrow(t_results_snps)
-  # A SNP can work on multiple isoforms
-  n_unique_snps <- length(unique(t_results_snps$snp_id))
-
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
   testthat::expect_true(ncbiresults::are_all_rows_distinct(t_results_tmps))
 
@@ -36,8 +31,9 @@ do_snps_stats <- function(
 
   # Statistics
   n <- nrow(t_results_tmps)
-  testthat::expect_equal(n, get_n_variations_tmp())
+  testthat::expect_equal(n, ncbiresults::get_n_variations_tmp())
   n_success <- sum(t_results_tmps$is_in_tmh)
+  testthat::expect_equal(n_success, ncbiresults::get_n_variations_tmp_in_tmh())
   n_success_expected <- sum(t_results_tmps$p_in_tmh)
   testthat::expect_equal(
     0.5,

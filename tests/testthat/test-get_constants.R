@@ -257,17 +257,85 @@ test_that("Results of research", {
   )
 
   # Spanners
-  n_variations_tmp_single <- 8186
-  n_variations_tmp_multi <- 13022
-  expect_equal(get_n_variations_tmp_single(), n_variations_tmp_single)
-  expect_equal(get_n_variations_tmp_multi(), n_variations_tmp_multi)
+  ## Raw variations
   expect_equal(
-    get_n_variations_tmp(),
-    get_n_variations_tmp_single() + get_n_variations_tmp_multi()
+    get_n_variations_raw(),
+    nrow(dplyr::filter(t_results, n_tmh == 0)) +
+    nrow(dplyr::filter(t_results, n_tmh == 1)) +
+    nrow(dplyr::filter(t_results, n_tmh > 1))
+  )
+  ## Variations
+  expect_equal(
+    get_n_variations(),
+    nrow(dplyr::filter(t_snps, n_tmh == 0)) +
+    nrow(dplyr::filter(t_snps, n_tmh == 1)) +
+    nrow(dplyr::filter(t_snps, n_tmh > 1))
   )
   expect_equal(
-    get_n_unique_snp_ids_tmp() + get_n_unique_snps_in_both_spanners(),
-    get_n_unique_snps_in_single_spanners() + get_n_unique_snps_in_multi_spanners()
+    get_n_variations(),
+    nrow(dplyr::filter(t_snps, n_tmh == 0)) +
+    nrow(dplyr::filter(t_snps, n_tmh == 1)) +
+    nrow(dplyr::filter(t_snps, n_tmh > 1))
+  )
+  expect_equal(
+    nrow(dplyr::filter(t_snps, n_tmh == 1)),
+    get_n_variations_tmp_single()
+  )
+  expect_equal(
+    nrow(dplyr::filter(t_snps, n_tmh > 1)),
+    get_n_variations_tmp_multi()
+  )
+  t_snp_single <- dplyr::filter(t_snps, n_tmh == 1)
+  t_snp_multi <- dplyr::filter(t_snps, n_tmh > 1)
+  expect_equal(
+    nrow(t_snp_single),
+    get_n_variations_tmp_single()
+  )
+  expect_equal(
+    nrow(t_snp_multi),
+    get_n_variations_tmp_multi()
+  )
+  expect_equal(
+    length(unique(t_snp_single$variation)),
+    get_n_unique_variations_tmp_single()
+  )
+  expect_equal(
+    length(unique(t_snp_multi$variation)),
+    get_n_unique_variations_tmp_multi()
+  )
+  expect_equal(
+    length(unique(t_snp_single$snp_id)),
+    get_n_unique_snps_in_single_spanners()
+  )
+  expect_equal(
+    length(unique(t_snp_multi$snp_id)),
+    get_n_unique_snps_in_multi_spanners()
+  )
+  expect_equal(
+    length(unique(t_snp_single$gene_name)),
+    get_n_unique_gene_names_in_single_spanners()
+  )
+  expect_equal(
+    length(unique(t_snp_multi$gene_name)),
+    get_n_unique_gene_names_in_multi_spanners()
   )
 
+  expect_equal(
+    length(unique(t_snp_single$name)),
+    get_n_unique_protein_names_in_single_spanners()
+  )
+  expect_equal(
+    length(unique(t_snp_multi$name)),
+    get_n_unique_protein_names_in_multi_spanners()
+  )
+  expect_equal(
+    mean(t_snp_single$p_in_tmh),
+    get_f_tmh_in_single_spanners(),
+    tol = 0.00001
+  )
+  expect_equal(
+    mean(t_snp_multi$p_in_tmh),
+    get_f_tmh_in_multi_spanners(),
+    tol = 0.00001
+  )
 })
