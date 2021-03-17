@@ -1,5 +1,4 @@
 test_that("use", {
-  # Local only
   folder_name <- "~/GitHubs/ncbi_peregrine/scripts"
   if (!dir.exists(folder_name)) return()
   statses <- do_snps_stats_per_spanner(

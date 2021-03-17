@@ -1,5 +1,4 @@
 test_that("use", {
-  # Local only
   folder_name <- "~/GitHubs/ncbi_peregrine/scripts"
   if (!dir.exists(folder_name)) return()
   p <- plot_conservation_per_spanner(folder_name = folder_name)
@@ -19,7 +18,7 @@ test_that("use", {
       caption = ""
     ) +
     ggplot2::ggsave(
-      file.path("~/fig_conservation_per_spanner.png"),
+      file.path("~/fig_conservation_per_spanner_presentation.png"),
       width = 7,
       height = 7
     )
