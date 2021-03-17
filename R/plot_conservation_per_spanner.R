@@ -10,68 +10,40 @@ plot_conservation_per_spanner <- function(
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)
-
+  testthat::expect_equal(
+    nrow(t_results),
+    ncbiresults::get_n_variations_raw()
+  )
   # Get rid of the non-SNPs
   t_results_snps <- dplyr::filter(
-    dplyr::filter(t_results, !is.na(p_in_tmh)),
-    ncbi::are_snps(variation)
+    t_results, ncbi::are_snps(variation)
   )
-  testthat::expect_equal(ncbiresults::get_n_variations(), nrow(t_results_snps))
-  # A SNP can work on multiple isoforms
-  testthat::expect_equal(ncbiresults::get_n_unique_snp_ids(), length(unique(t_results_snps$snp_id)))
-
-  t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
-  testthat::expect_equal(nrow(t_results_tmps), ncbiresults::get_n_variations_tmp())
-  # A SNP can work on multiple isoforms
   testthat::expect_equal(
-    ncbiresults::get_n_unique_snp_ids_tmp(),
-    length(unique(t_results_tmps$snp_id))
+    nrow(t_results_snps),
+    ncbiresults::get_n_variations()
   )
 
-  # Get the number of TMHs
-  topo_filenames <- list.files(
-    path = folder_name,
-    pattern = ".*\\.topo$",
-    full.names = TRUE
-  )
-  testthat::expect_true(length(topo_filenames) > 0)
-  tibbles <- list()
-  for (i in seq_along(topo_filenames)) {
-    topo_filename <- topo_filenames[i]
-    t <- pureseqtmr::load_fasta_file_as_tibble(topo_filename)
-    t$n_tmh <- pureseqtmr::count_n_tmhs(t$sequence)
-    tibbles[[i]] <- dplyr::select(t, name, n_tmh)
-  }
-  t_topo_all <- dplyr::bind_rows(tibbles)
-  testthat::expect_equal(ncbiresults::get_n_unique_protein_names_raw(), length(unique(t_topo_all$name)))
-  t_topo <- dplyr::distinct(t_topo_all)
-  testthat::expect_equal(get_n_unique_protein_names_raw(), nrow(t_topo))
-
-  # Add name to results
-  t_results_tmps$name <- stringr::str_match(
-    string = t_results_tmps$variation,
-    pattern = "^(.*):p\\..*$"
-  )[, 2]
-
-  # Merge
-  testthat::expect_true(all(t_results_tmps$name %in% t_topo$name))
-  t <- dplyr::left_join(t_results_tmps, t_topo, by = "name")
-  testthat::expect_equal(0, sum(is.na(t$n_tmh)))
-  testthat::expect_equal(0, sum(t$n_tmh == 0))
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_single(), sum(t$n_tmh == 1))
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_multi(), sum(t$n_tmh >= 2))
-
-  t_single <- dplyr::filter(t, n_tmh == 1)
-  t_multi <- dplyr::filter(t, n_tmh >= 2)
+  t_single <- dplyr::filter(t_results_snps, n_tmh == 1)
+  t_multi <- dplyr::filter(t_results_snps, n_tmh >= 2)
   testthat::expect_equal(ncbiresults::get_n_variations_tmp_single(), nrow(t_single))
   testthat::expect_equal(ncbiresults::get_n_variations_tmp_multi(), nrow(t_multi))
 
   n_success_single <- sum(t_single$is_in_tmh)
   testthat::expect_equal(452, n_success_single)
+  testthat::expect_equal(
+    length(unique(t_single[t_single$is_in_tmh, ]$snp_id)),
+    get_n_unique_snp_ids_single_in_tmh()
+  )
+
   n_success_expected_single <- sum(t_single$p_in_tmh)
   testthat::expect_equal(462.1535, n_success_expected_single, tol = 0.00001)
   n_success_multi <- sum(t_multi$is_in_tmh)
   testthat::expect_equal(3351, n_success_multi)
+  testthat::expect_equal(
+    length(unique(t_multi[t_multi$is_in_tmh, ]$snp_id)),
+    get_n_unique_snp_ids_multi_in_tmh()
+  )
+
   n_success_expected_multi <- sum(t_multi$p_in_tmh)
   testthat::expect_equal(3678.406, n_success_expected_multi, tol = 0.001)
   f_single <- n_success_single / n_success_expected_single
@@ -109,14 +81,7 @@ plot_conservation_per_spanner <- function(
       labeller = ggplot2::as_labeller(facet_labels)
     ) +
     ggplot2::labs(
-      title = "Evolutionary conservation of SNPs in TMHs",
-      caption = paste0(
-        "n_variations: ", ncbiresults::get_n_variations(), "\n",
-        "n_snps_in_single_spanner_tmh: ", n_success_single, "\n",
-        "n_snps_in_multi_spanner_tmh: ", n_success_multi, "\n",
-        "E(n_snps_in_single_spanner_tmh): ", format(n_success_expected_single), "\n",
-        "E(n_snps_in_multi_spanner_tmh): ", format(n_success_expected_multi), "\n"
-      )
+      title = "Evolutionary conservation of SNPs in TMHs"
     )
   p
 }

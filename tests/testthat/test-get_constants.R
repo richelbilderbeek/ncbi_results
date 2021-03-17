@@ -16,10 +16,6 @@ test_that("Results of research", {
   n_unique_gene_names_raw <- length(unique(t_results$gene_name))
   expect_equal(953, n_unique_gene_names_raw)
   expect_equal(953, get_n_unique_gene_names_raw())
-  t_results$name <- stringr::str_match(
-    string = t_results$variation,
-    pattern = "^(.*):p\\..*$"
-  )[, 2]
   n_unique_protein_names_raw <- length(unique(t_results$name))
   expect_equal(5163, n_unique_protein_names_raw)
   expect_equal(5163, get_n_unique_protein_names_raw())
@@ -337,5 +333,202 @@ test_that("Results of research", {
     mean(t_snp_multi$p_in_tmh),
     get_f_tmh_in_multi_spanners(),
     tol = 0.00001
+  )
+
+
+
+
+
+
+
+
+
+  ###############################################################################
+  # Single/multi-spanners in TMH/soluble region
+  ###############################################################################
+  # Single-spanners in TMHs
+  # TMPs in TMH
+
+  t_single_in_tmh_all <- dplyr::filter(
+    dplyr::filter(t_snps, is_in_tmh),
+    n_tmh == 1
+  )
+  expect_true(all(t_single_in_tmh_all$is_in_tmh == TRUE))
+  expect_true(all(t_single_in_tmh_all$n_tmh == 1))
+  expect_equal(
+    nrow(t_single_in_tmh_all),
+    get_n_variations_single_in_tmh()
+  )
+  expect_equal(
+    length(unique(t_single_in_tmh_all$variation)),
+    get_n_unique_variations_single_in_tmh()
+  )
+  t_single_in_tmh <- dplyr::filter(
+    t_single_in_tmh_all, ncbi::are_snps(variation)
+  )
+  expect_equal(
+    length(unique(t_single_in_tmh$snp_id)),
+    get_n_unique_snp_ids_single_in_tmh()
+  )
+  expect_equal(
+    length(unique(t_single_in_tmh$gene_id)),
+    get_n_unique_gene_ids_single_in_tmh()
+  )
+  expect_equal(
+    length(unique(t_single_in_tmh$name)),
+    get_n_unique_protein_names_single_in_tmh()
+  )
+  expect_equal(
+    mean(t_single_in_tmh$p_in_tmh),
+    get_f_tmh_single_in_tmh(),
+    tol = 0.000001
+  )
+  # Single-spanners in soluble regionss
+  # TMPs in soluble regions
+  t_single_in_sol <- dplyr::filter(
+    dplyr::filter(t_snps, !is_in_tmh),
+    n_tmh == 1
+  )
+  expect_equal(
+    nrow(t_single_in_sol),
+    get_n_variations_single_in_sol()
+  )
+  expect_equal(
+    length(unique(t_single_in_sol$variation)),
+    get_n_unique_variations_single_in_sol()
+  )
+  expect_equal(
+    length(unique(t_single_in_sol$snp_id)),
+    get_n_unique_snp_ids_single_in_sol()
+  )
+  expect_equal(
+    length(unique(t_single_in_sol$gene_id)),
+    get_n_unique_gene_ids_single_in_sol()
+  )
+  expect_equal(
+    length(unique(t_single_in_sol$gene_name)),
+    get_n_unique_gene_names_single_in_sol()
+  )
+  expect_equal(
+    length(unique(t_single_in_sol$name)),
+    get_n_unique_protein_names_single_in_sol()
+  )
+  expect_equal(
+    mean(t_single_in_sol$p_in_tmh),
+    get_f_tmh_single_in_sol(),
+    tol = 0.000001
+  )
+
+
+
+
+
+
+
+  # Multi-spanners in TMHs
+  # TMPs in TMH
+  t_multi_in_tmh <- dplyr::filter(
+    dplyr::filter(t_snps, is_in_tmh),
+    n_tmh > 1
+  )
+  expect_equal(
+    nrow(t_multi_in_tmh),
+    get_n_variations_multi_in_tmh()
+  )
+  expect_equal(
+    length(unique(t_multi_in_tmh$variation)),
+    get_n_unique_variations_multi_in_tmh()
+  )
+  expect_equal(
+    length(unique(t_multi_in_tmh$snp_id)),
+    get_n_unique_snp_ids_multi_in_tmh()
+  )
+  expect_equal(
+    length(unique(t_multi_in_tmh$gene_id)),
+    get_n_unique_gene_ids_multi_in_tmh()
+  )
+  expect_equal(
+    length(unique(t_multi_in_tmh$name)),
+    get_n_unique_protein_names_multi_in_tmh()
+  )
+  expect_equal(
+    mean(t_multi_in_tmh$p_in_tmh),
+    get_f_tmh_multi_in_tmh(),
+    tol = 0.000001
+  )
+  # Multi-spanners in soluble regionss
+  # TMPs in soluble regions
+  t_multi_in_sol <- dplyr::filter(
+    dplyr::filter(t_snps, !is_in_tmh),
+    n_tmh > 1
+  )
+  expect_equal(
+    nrow(t_multi_in_sol),
+    get_n_variations_multi_in_sol()
+  )
+  expect_equal(
+    length(unique(t_multi_in_sol$variation)),
+    get_n_unique_variations_multi_in_sol()
+  )
+  expect_equal(
+    length(unique(t_multi_in_sol$snp_id)),
+    get_n_unique_snp_ids_multi_in_sol()
+  )
+  expect_equal(
+    length(unique(t_multi_in_sol$gene_id)),
+    get_n_unique_gene_ids_multi_in_sol()
+  )
+  expect_equal(
+    length(unique(t_multi_in_sol$gene_name)),
+    get_n_unique_gene_names_multi_in_sol()
+  )
+  expect_equal(
+    length(unique(t_multi_in_sol$name)),
+    get_n_unique_protein_names_multi_in_sol()
+  )
+  expect_equal(
+    mean(t_multi_in_sol$p_in_tmh),
+    get_f_tmh_multi_in_sol(),
+    tol = 0.000001
+  )
+
+  #############################################################################
+  # Combine
+  #############################################################################
+  # Variations
+  expect_equal(
+    get_n_variations_tmp(),
+    get_n_variations_single_in_tmh() +
+    get_n_variations_single_in_sol() +
+    get_n_variations_multi_in_tmh() +
+    get_n_variations_multi_in_sol()
+  )
+  expect_equal(
+    get_n_variations_tmp_in_tmh(),
+    get_n_variations_single_in_tmh() +
+    get_n_variations_multi_in_tmh()
+  )
+  expect_equal(
+    get_n_variations_tmp_in_sol(),
+    get_n_variations_single_in_sol() +
+    get_n_variations_multi_in_sol()
+  )
+  # Unique variations
+  expect_equal(
+    get_n_unique_variations_tmp(),
+    get_n_unique_variations_single_in_tmh() +
+    get_n_unique_variations_single_in_sol() +
+    get_n_unique_variations_multi_in_tmh() +
+    get_n_unique_variations_multi_in_sol()
+  )
+  expect_equal(
+    get_n_unique_variations_tmp_in_tmh(),
+    get_n_unique_variations_single_in_tmh() +
+    get_n_unique_variations_multi_in_tmh()
+  )
+  expect_equal(
+    get_n_unique_variations_tmp_in_sol(),
+    get_n_unique_variations_single_in_sol() +
+    get_n_unique_variations_multi_in_sol()
   )
 })

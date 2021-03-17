@@ -84,8 +84,43 @@ get_n_unique_protein_names_tmp <- function() 2553
 get_f_tmh_tmp <- function() 0.1868249
 
 
-get_n_unique_snp_ids_in_single_in_tmh <- function() 160
-get_n_unique_snp_ids_in_single_in_sol <- function() 2393
 
-get_n_unique_snp_ids_in_multi_in_tmh <- function() 994
-get_n_unique_snp_ids_in_multi_in_sol <- function() 2762
+###############################################################################
+# Single/multi-spanners in TMH/soluble region
+###############################################################################
+# Single-spanners in TMHs
+get_n_variations_single_in_tmh <- function() 452
+get_n_unique_variations_single_in_tmh <- function() 451
+get_n_unique_snp_ids_single_in_tmh <- function() 160
+get_n_unique_gene_ids_single_in_tmh <- function() 96
+get_n_unique_gene_names_single_in_tmh <- function() 96
+get_n_unique_protein_names_single_in_tmh <- function() 304
+get_f_tmh_single_in_tmh <- function() 0.1054718
+
+# Single-spanners in soluble regions
+get_n_variations_single_in_sol <- function() 7734
+get_n_unique_variations_single_in_sol <- function() 7733
+get_n_unique_snp_ids_single_in_sol <- function() 2393
+get_n_unique_gene_ids_single_in_sol <- function() 282
+get_n_unique_gene_names_single_in_sol <- function() 282
+get_n_unique_protein_names_single_in_sol <- function() 1032
+get_f_tmh_single_in_sol <- function() 0.05359196
+
+# Multi-spanners in TMHs
+get_n_variations_multi_in_tmh <- function() 3351
+get_n_unique_variations_multi_in_tmh <- function() 3338
+get_n_unique_snp_ids_multi_in_tmh <- function() 994
+get_n_unique_gene_ids_multi_in_tmh <- function() 243
+get_n_unique_gene_names_multi_in_tmh <- function() 243
+get_n_unique_protein_names_multi_in_tmh <- function() 976
+get_f_tmh_multi_in_tmh <- function() 0.3533563
+
+# Multi-spanners in soluble regions
+get_n_variations_multi_in_sol <- function() 9671
+get_n_unique_variations_multi_in_sol <- function() 9502
+get_n_unique_snp_ids_multi_in_sol <- function() 2762
+get_n_unique_gene_ids_multi_in_sol <- function() 344
+get_n_unique_gene_names_multi_in_sol <- function() 344
+get_n_unique_protein_names_multi_in_sol <- function() 1435
+get_f_tmh_multi_in_sol <- function() 0.2579164
+
