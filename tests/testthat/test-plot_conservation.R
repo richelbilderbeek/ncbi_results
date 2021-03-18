@@ -1,5 +1,4 @@
 test_that("use", {
-  # Local only
   folder_name <- "~/GitHubs/ncbi_peregrine/scripts"
   if (!dir.exists(folder_name)) return()
   p <- plot_conservation(folder_name = folder_name)
@@ -9,9 +8,14 @@ test_that("use", {
     width = 7,
     height = 7
   )
+  p + ggplot2::ggsave(
+      file.path("~/fig_conservation.png"),
+      width = 7,
+      height = 7
+    )
   p + ggplot2::theme_gray(base_size = 24) +
     ggplot2::ggsave(
-      file.path("~/fig_conservation.png"),
+      file.path("~/fig_conservation_present.png"),
       width = 7,
       height = 7
     )

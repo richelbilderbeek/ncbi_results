@@ -46,10 +46,6 @@ plot_f_tmh_ncbi <- function(
       "% TMH", labels = scales::percent
     ) +
     ggplot2::labs(
-      title = "Percentage TMH in TMPs",
-      caption = paste0(
-        "Dashed vertical line: mean % TMH in all proteins\n",
-        "Dotted vertical line: mean % TMH in TMPs\n"
-      )
+      title = "Percentage TMH in TMPs"
     )
 }

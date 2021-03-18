@@ -40,10 +40,6 @@ plot_n_snps_per_tmp <- function(
     ggplot2::scale_y_continuous("Occurance") +
     ggplot2::geom_vline(xintercept = mean(t_snps_per_tmp$n), lty = "dashed") +
     ggplot2::labs(
-      title = "Number of SNPs per TMP",
-      caption = paste0(
-        "Number of TMPs: ", nrow(t_snps_per_tmp), "\n",
-        "Dashed vertical line: average number of SNPs per TMP"
-      )
+      title = "Number of SNPs per TMP"
     )
 }

@@ -29,14 +29,9 @@ plot_snps_per_gene_name_ncbi <- function(folder_name = folder_name) {
     t,
     ggplot2::aes(x = n_snps)
   ) +
-  ggplot2::geom_histogram(bins = 50) +
+  ggplot2::geom_histogram(col = "black", fill = "white", bins = 50) +
   ggplot2::scale_x_log10(name = "Number of SNPs") +
   ggplot2::labs(
-    title = "Number of SNPs per gene name at NCBI",
-    caption = paste0(
-      "Total number of gene names: ", nrow(t), "\n",
-      "Total number of SNPs in dbSNP: ", nrow(t_snps), "\n",
-      "Accession date: 2020-12-14"
-    )
+    title = "Number of SNPs per gene name at NCBI"
   )
 }

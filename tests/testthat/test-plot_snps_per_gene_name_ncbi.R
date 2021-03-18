@@ -1,5 +1,4 @@
 test_that("use", {
-  # Local only
   folder_name <- "~/GitHubs/ncbi_peregrine/scripts"
   if (!dir.exists(folder_name)) return()
   p <- plot_snps_per_gene_name_ncbi(folder_name = folder_name)

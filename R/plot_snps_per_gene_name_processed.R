@@ -74,15 +74,10 @@ plot_snps_per_gene_name_processed <- function(folder_name = folder_name) {
     tally,
     ggplot2::aes(x = n)
   ) +
-  ggplot2::geom_histogram(bins = 50) +
+  ggplot2::geom_histogram(col = "black", fill = "white", bins = 50) +
   ggplot2::scale_x_log10(name = "Number of variations") +
   ggplot2::facet_grid(. ~ type) +
   ggplot2::labs(
-    title = "Number of variations per gene name processed",
-    caption = paste0(
-      "Total number of protein variations: ", sum(tally_protein_variations$n), "\n",
-      "Total number of SNPs: ", sum(tally_snps$n), "\n",
-      "Accession date: 2020-12-14"
-    )
+    title = "Number of variations per gene name processed"
   )
 }

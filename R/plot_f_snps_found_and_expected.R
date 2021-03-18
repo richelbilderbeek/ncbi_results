@@ -64,11 +64,5 @@ plot_f_snps_found_and_expected <- function(
     ) +
     ggplot2::scale_y_continuous(
       "% SNPs in TMH", limits = c(0.0, 1.0), labels = scales::percent
-    ) +
-    ggplot2::labs(
-      caption = paste0(
-        "Solid blue line = linear fit.\n",
-        "Dashed diagonal line = as expected by chance"
-      )
     )
 }

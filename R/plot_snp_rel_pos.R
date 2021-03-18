@@ -53,14 +53,10 @@ plot_snp_rel_pos <- function(folder_name = folder_name) {
 
   ggplot2::ggplot() +
     ggplot2::aes(t_rel_pos$rel_pos) +
-  ggplot2::geom_histogram(bins = n_bins) +
+  ggplot2::geom_histogram(col = "black", fill = "white", bins = n_bins) +
   ggplot2::geom_hline(yintercept = nrow(t_rel_pos) / n_bins, lty = "dashed") +
   ggplot2::scale_x_continuous("Relative position of SNPs") +
   ggplot2::labs(
-    title = "Distribution of SNPs",
-    caption = paste0(
-      "Number of SNPs: ", nrow(t_rel_pos), "\n",
-      "Dashed line: counts expected for uniform distribution"
-    )
+    title = "Distribution of SNPs"
   )
 }

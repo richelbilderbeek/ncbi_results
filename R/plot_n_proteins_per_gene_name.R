@@ -62,10 +62,6 @@ plot_n_proteins_per_gene_name <- function(folder_name = folder_name) {
   ) +
   ggplot2::facet_grid(. ~ type, scales = "free") +
   ggplot2::labs(
-    title = "Number of isoforms/SNPs per gene name",
-    caption = paste0(
-      "Number of genes with SNPs: ", n_gene_names, "\n",
-      "Number of proteins with SNPs: ", n_proteins
-    )
+    title = "Number of isoforms/SNPs per gene name"
   )
 }

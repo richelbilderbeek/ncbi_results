@@ -48,13 +48,7 @@ plot_conservation <- function(
     ggplot2::scale_y_continuous("Number of SNPs in TMHs") +
     ggplot2::scale_x_discrete("") +
     ggplot2::labs(
-      title = "Evolutionary conservation of SNPs in TMHs",
-      caption = paste0(
-        "n_snps: ", ncbiresults::get_n_variations(), "\n",
-        "n_snps_in_tmp: ", ncbiresults::get_n_variations_tmp(), "\n",
-        "n_snps_in_tmh: ", n_success, "\n",
-        "E(n_snps_in_tmh): ", format(n_success_expected), "\n"
-      )
+      title = "Evolutionary conservation of SNPs in TMHs"
     )
   p
 }

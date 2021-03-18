@@ -99,13 +99,6 @@ do_snps_stats_per_spanner <- function(
       ggplot2::scale_y_log10("Chance the have this or fewer sucesses") +
       ggplot2::scale_x_continuous(
         "Number of successes"
-      ) + ggplot2::labs(
-        caption = paste0(
-          "p(n_success or less): ", format(p, nsmall = 2), "\n",
-          "n: ", n, "\n",
-          "n_success: ", n_success, "\n",
-          "E(n_success): ", format(n_success_expected, nsmall = 2), "\n"
-        )
       ) +
       ggplot2::ggsave(ppoisbinom_plot_filename, width = 7, height = 7)
 

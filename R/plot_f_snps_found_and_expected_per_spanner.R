@@ -104,11 +104,7 @@ plot_f_snps_found_and_expected_per_spanner <- function(
       "% SNPs in TMH", limits = c(0.0, 1.0), labels = scales::percent
     ) +
     ggplot2::labs(
-      title = "SNPs expected and found per number of membrane spans",
-      caption = paste0(
-        "Solid red line = linear fit\n",
-        "Dashed diagonal line = as expected by chance"
-      )
+      title = "SNPs expected and found per number of membrane spans"
     ) +
     ggplot2::facet_wrap(
       ggplot2::vars(spanner),
