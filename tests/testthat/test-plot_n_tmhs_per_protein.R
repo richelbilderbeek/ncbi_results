@@ -1,5 +1,4 @@
 test_that("use", {
-  # Local only
   folder_name <- "~/GitHubs/ncbi_peregrine/scripts"
   if (!dir.exists(folder_name)) return()
   p <- plot_n_tmhs_per_protein(folder_name = folder_name)

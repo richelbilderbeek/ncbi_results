@@ -26,7 +26,7 @@ plot_n_tmhs_per_protein <- function(folder_name = folder_name) {
 
   ggplot2::ggplot() +
     ggplot2::aes(n_nonzero_tmhs) +
-  ggplot2::geom_histogram(col = "black", fill = "white", ins = 50) +
+  ggplot2::geom_histogram(col = "black", fill = "white", bins = 50) +
   ggplot2::scale_x_continuous(name = "Number of TMHs") +
   ggplot2::labs(
     title = "Number of TMHs per proteins"

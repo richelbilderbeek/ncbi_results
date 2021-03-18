@@ -12,7 +12,7 @@ test_that("use", {
   knitr::kable(
     t, "latex",
     caption = paste0(
-      "Statistics for the multi-spanners. ",
+      "Statistics for all TMPs. ",
       "p = p value. ",
       "n = number of SNPs. ",
       "n\\_success = number of SNPs found in TMHs ",
