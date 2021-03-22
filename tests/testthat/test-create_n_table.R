@@ -33,7 +33,7 @@ test_that("use", {
       "in\\_tmh = in transmembrane helix of TMP. ",
       "in\\_sol = in soluble region of TMP. "
     ),
-    label = "ncbi_counts"
+    label = "ncbi_counts_1"
   ) %>% cat(., file = "~/ncbi_counts_1.tex")
 
   knitr::kable(
@@ -50,7 +50,7 @@ test_that("use", {
       "multi\\_in\\_tmh = in transmembrane helix of multi-spanner. ",
       "multi\\_in\\_sol = in soluble region of multi-spanner. "
     ),
-    label = "ncbi_counts"
+    label = "ncbi_counts_2"
   ) %>% cat(., file = "~/ncbi_counts_2.tex")
 
 })
