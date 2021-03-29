@@ -57,12 +57,20 @@ plot_f_snps_found_and_expected <- function(
   ggplot2::ggplot(
     t, ggplot2::aes(x = f_chance, y = f_measured)
   ) + ggplot2::geom_point(alpha = 0.25) +
-    ggplot2::geom_smooth(method = "lm", fullrange = TRUE, color = "blue") +
+    ggplot2::geom_smooth(method = "lm", fullrange = TRUE, color = "red") +
     ggplot2::geom_abline(slope = 1.0, lty = "dashed") +
     ggplot2::scale_x_continuous(
       "% TMH", limits = c(0.0, 1.0), labels = scales::percent
     ) +
     ggplot2::scale_y_continuous(
       "% SNPs in TMH", limits = c(0.0, 1.0), labels = scales::percent
-    )
+    ) + ggplot2::theme_bw() +
+  ggplot2::theme(axis.line = ggplot2::element_line(colour = "black"),
+    panel.grid.major = ggplot2::element_blank(),
+    panel.grid.minor = ggplot2::element_blank(),
+    panel.border = ggplot2::element_blank(),
+    panel.background = ggplot2::element_blank(),
+    legend.key = ggplot2::element_blank(),
+    strip.background = ggplot2::element_rect(colour = "white", fill = "#FFFFFF")
+  )
 }

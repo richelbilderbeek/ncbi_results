@@ -69,11 +69,12 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   testthat::expect_equal(2, length(n_spanner_levels))
 
   facet_labels <- paste0(
-    n_spanner_levels, "-spanner\n",
-    c(
-      nrow(t_single),
-      nrow(t_multi)
-    ), " variations\n"
+    n_spanner_levels, "-spanners" #,
+    # "\n",
+    # c(
+    #   nrow(t_single),
+    #   nrow(t_multi)
+    # ), " variations\n"
   )
   names(facet_labels) <- levels(sub_t$spanner)
 
@@ -109,5 +110,14 @@ plot_f_snps_found_and_expected_per_spanner <- function(
     ggplot2::facet_wrap(
       ggplot2::vars(spanner),
       labeller = ggplot2::as_labeller(facet_labels)
-    )
+    ) + ggplot2::theme_bw() +
+  ggplot2::theme(axis.line = ggplot2::element_line(colour = "black"),
+    panel.grid.major = ggplot2::element_blank(),
+    panel.grid.minor = ggplot2::element_blank(),
+    panel.border = ggplot2::element_blank(),
+    panel.background = ggplot2::element_blank(),
+    legend.key = ggplot2::element_blank(),
+    strip.background = ggplot2::element_rect(colour = "white", fill = "#FFFFFF")
+  )
+
 }

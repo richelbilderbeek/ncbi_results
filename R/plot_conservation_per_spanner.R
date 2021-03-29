@@ -63,16 +63,17 @@ plot_conservation_per_spanner <- function(
   t$conservation <- as.factor(t$conservation)
 
   facet_labels <- paste0(
-    levels(t$spanner), "-spanners: ",
-    c(
-      ncbiresults::get_n_variations_tmp_single(),
-      ncbiresults::get_n_variations_tmp_multi()
-    ), " SNPs"
+    levels(t$spanner), "-spanners" #,
+    # ": ",
+    # c(
+    #   ncbiresults::get_n_variations_tmp_single(),
+    #   ncbiresults::get_n_variations_tmp_multi()
+    # ), " SNPs"
   )
   names(facet_labels) <- levels(t$spanner)
 
-  p <- ggplot2::ggplot(t, ggplot2::aes(x = conservation, y = n, fill = conservation)) +
-    ggplot2::geom_col(col = "black") +
+  p <- ggplot2::ggplot(t, ggplot2::aes(x = conservation, y = n)) +
+    ggplot2::geom_col(fill = "#BBBBBB") +
     ggplot2::geom_text(ggplot2::aes(label = scales::percent(percentage)), vjust = -0.5) +
     ggplot2::scale_y_continuous("Number of SNPs in TMHs") +
     ggplot2::scale_x_discrete("") +
@@ -82,6 +83,15 @@ plot_conservation_per_spanner <- function(
     ) +
     ggplot2::labs(
       title = "Evolutionary conservation of SNPs in TMHs"
-    )
+    ) +
+  ggplot2::theme_bw() +
+  ggplot2::theme(axis.line = ggplot2::element_line(colour = "black"),
+    panel.grid.major = ggplot2::element_blank(),
+    panel.grid.minor = ggplot2::element_blank(),
+    panel.border = ggplot2::element_blank(),
+    panel.background = ggplot2::element_blank(),
+    legend.key = ggplot2::element_blank(),
+    strip.background = ggplot2::element_rect(colour="white", fill="#FFFFFF")
+  )
   p
 }
