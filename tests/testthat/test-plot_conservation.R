@@ -10,7 +10,7 @@ test_that("use", {
   )
   p + ggplot2::ggsave(
       file.path("~/fig_conservation.png"),
-      width = 7,
+      width = 6,
       height = 7
     )
   p + ggplot2::theme_gray(base_size = 24) +

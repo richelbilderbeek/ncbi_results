@@ -44,19 +44,9 @@ plot_conservation <- function(
   t$conservation <- as.factor(t$conservation)
   p <- ggplot2::ggplot(t, ggplot2::aes(x = conservation, y = n)) +
     ggplot2::geom_col(fill = "#BBBBBB") +
-    ggplot2::geom_text(ggplot2::aes(label = scales::percent(percentage)), vjust = -0.5) +
-    ggplot2::scale_y_continuous("Number of SNPs in TMHs") +
+    ggplot2::geom_text(ggplot2::aes(label = scales::percent(percentage)), vjust = -0.5, size = 8) +
+    ggplot2::scale_y_continuous("Number of SNPs in TMHs", limits = c(0, 5000)) +
     ggplot2::scale_x_discrete("") +
-    ggplot2::labs(
-      title = "Evolutionary conservation of SNPs in TMHs"
-    )  + ggplot2::theme_bw() +
-  ggplot2::theme(axis.line = ggplot2::element_line(colour = "black"),
-    panel.grid.major = ggplot2::element_blank(),
-    panel.grid.minor = ggplot2::element_blank(),
-    panel.border = ggplot2::element_blank(),
-    panel.background = ggplot2::element_blank(),
-    legend.key = ggplot2::element_blank(),
-    strip.background = ggplot2::element_rect(colour="white", fill="#FFFFFF")
-  )
+    bbbq::get_bbbq_theme() + ggplot2::theme(text = ggplot2::element_text(size = 24))
   p
 }
