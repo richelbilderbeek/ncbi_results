@@ -64,13 +64,5 @@ plot_f_snps_found_and_expected <- function(
     ) +
     ggplot2::scale_y_continuous(
       "% SNPs in TMH", limits = c(0.0, 1.0), labels = scales::percent
-    ) + ggplot2::theme_bw() +
-  ggplot2::theme(axis.line = ggplot2::element_line(colour = "black"),
-    panel.grid.major = ggplot2::element_blank(),
-    panel.grid.minor = ggplot2::element_blank(),
-    panel.border = ggplot2::element_blank(),
-    panel.background = ggplot2::element_blank(),
-    legend.key = ggplot2::element_blank(),
-    strip.background = ggplot2::element_rect(colour = "white", fill = "#FFFFFF")
-  )
+    ) + bbbq::get_bbbq_theme()
 }

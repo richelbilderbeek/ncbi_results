@@ -13,7 +13,7 @@ test_that("use", {
       width = 6,
       height = 7
     )
-  p + ggplot2::theme_gray(base_size = 24) +
+  p + ggplot2::theme(text = ggplot2::element_text(size = 24)) +
     ggplot2::ggsave(
       file.path("~/fig_conservation_present.png"),
       width = 7,
