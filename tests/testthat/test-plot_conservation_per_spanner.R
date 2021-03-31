@@ -13,12 +13,9 @@ test_that("use", {
     width = 7,
     height = 7
   )
-  p + ggplot2::theme_gray(base_size = 16) +
-     ggplot2::labs(title = "",
-      caption = ""
-    ) +
+  p + ggplot2::theme(text = ggplot2::element_text(size = 24)) +
     ggplot2::ggsave(
-      file.path("~/fig_conservation_per_spanner_presentation.png"),
+      file.path("~/fig_conservation_per_spanner.png"),
       width = 7,
       height = 7
     )

@@ -53,12 +53,12 @@ plot_conservation_per_spanner <- function(
 
   t <- tibble::tribble(
     ~spanner, ~conservation, ~n, ~percentage,
-    "single", "chance", n_success_expected_single, 1.0,
-    "single", "observed", n_success_single, f_single,
-    "multi", "chance", n_success_expected_multi, 1.0,
-    "multi", "observed", n_success_multi, f_multi
+    "Single", "Chance", n_success_expected_single, 1.0,
+    "Single", "Observed", n_success_single, f_single,
+    "Multi", "Chance", n_success_expected_multi, 1.0,
+    "Multi", "Observed", n_success_multi, f_multi
   )
-  t$spanner <- factor(t$spanner, levels = c("single", "multi"))
+  t$spanner <- factor(t$spanner, levels = c("Single", "Multi"))
 
   t$conservation <- as.factor(t$conservation)
 
@@ -81,17 +81,6 @@ plot_conservation_per_spanner <- function(
       cols = ggplot2::vars(spanner),
       labeller = ggplot2::as_labeller(facet_labels)
     ) +
-    ggplot2::labs(
-      title = "Evolutionary conservation of SNPs in TMHs"
-    ) +
-  ggplot2::theme_bw() +
-  ggplot2::theme(axis.line = ggplot2::element_line(colour = "black"),
-    panel.grid.major = ggplot2::element_blank(),
-    panel.grid.minor = ggplot2::element_blank(),
-    panel.border = ggplot2::element_blank(),
-    panel.background = ggplot2::element_blank(),
-    legend.key = ggplot2::element_blank(),
-    strip.background = ggplot2::element_rect(colour="white", fill="#FFFFFF")
-  )
+  bbbq::get_bbbq_theme()
   p
 }
