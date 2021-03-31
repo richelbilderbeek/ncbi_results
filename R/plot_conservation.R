@@ -47,6 +47,7 @@ plot_conservation <- function(
     ggplot2::geom_text(ggplot2::aes(label = scales::percent(percentage)), vjust = -0.5, size = 8) +
     ggplot2::scale_y_continuous("Number of SNPs in TMHs", limits = c(0, 5000)) +
     ggplot2::scale_x_discrete("") +
-    bbbq::get_bbbq_theme() + ggplot2::theme(text = ggplot2::element_text(size = 24))
+    bbbq::get_bbbq_theme() +
+    ggplot2::theme(text = ggplot2::element_text(size = 24))
   p
 }
