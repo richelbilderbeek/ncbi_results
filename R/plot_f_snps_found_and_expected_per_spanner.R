@@ -59,10 +59,10 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   testthat::expect_true(all(t$f_measured >= 0.0 & t$f_measured <= 1.0))
   sub_t <- dplyr::filter(t, n_tmh > 0)
   sub_t$spanner <- ""
-  sub_t$spanner[ sub_t$n_tmh == 1 ] <- "single"
-  sub_t$spanner[ sub_t$n_tmh > 1 ] <- "multi"
+  sub_t$spanner[ sub_t$n_tmh == 1 ] <- "Single"
+  sub_t$spanner[ sub_t$n_tmh > 1 ] <- "Multi"
   testthat::expect_true(all(nchar(sub_t$spanner) > 3))
-  sub_t$spanner <- factor(sub_t$spanner, levels = c("single", "multi"))
+  sub_t$spanner <- factor(sub_t$spanner, levels = c("Single", "Multi"))
 
   # Facet labels
   n_spanner_levels <- levels(sub_t$spanner)
@@ -104,20 +104,9 @@ plot_f_snps_found_and_expected_per_spanner <- function(
     ggplot2::scale_y_continuous(
       "% SNPs in TMH", limits = c(0.0, 1.0), labels = scales::percent
     ) +
-    ggplot2::labs(
-      title = "SNPs expected and found per number of membrane spans"
-    ) +
     ggplot2::facet_wrap(
       ggplot2::vars(spanner),
       labeller = ggplot2::as_labeller(facet_labels)
-    ) + ggplot2::theme_bw() +
-  ggplot2::theme(axis.line = ggplot2::element_line(colour = "black"),
-    panel.grid.major = ggplot2::element_blank(),
-    panel.grid.minor = ggplot2::element_blank(),
-    panel.border = ggplot2::element_blank(),
-    panel.background = ggplot2::element_blank(),
-    legend.key = ggplot2::element_blank(),
-    strip.background = ggplot2::element_rect(colour = "white", fill = "#FFFFFF")
-  )
+    ) + bbbq::get_bbbq_theme()
 
 }

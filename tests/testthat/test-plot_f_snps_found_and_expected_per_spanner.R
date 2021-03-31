@@ -9,7 +9,9 @@ test_that("use", {
     width = 14,
     height = 7
   )
-  p + ggplot2::ggsave(
+  p +
+  ggplot2::theme(text = ggplot2::element_text(size = 24)) +
+  ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_per_spanner.png"),
     width = 14,
     height = 7
