@@ -74,13 +74,19 @@ plot_conservation_per_spanner <- function(
 
   p <- ggplot2::ggplot(t, ggplot2::aes(x = conservation, y = n)) +
     ggplot2::geom_col(fill = "#BBBBBB") +
-    ggplot2::geom_text(ggplot2::aes(label = scales::percent(percentage)), vjust = -0.5) +
-    ggplot2::scale_y_continuous("Number of SNPs in TMHs") +
+    ggplot2::geom_text(
+      ggplot2::aes(label = scales::percent(percentage)),
+      vjust = -0.5,
+      size = 8
+    ) +
+    ggplot2::scale_y_continuous(
+      "Number of SNPs in TMHs",
+      limits = c(0, 5000)
+    ) +
     ggplot2::scale_x_discrete("") +
     ggplot2::facet_grid(
       cols = ggplot2::vars(spanner),
       labeller = ggplot2::as_labeller(facet_labels)
-    ) +
-  bbbq::get_bbbq_theme()
+    ) + bbbq::get_bbbq_theme()
   p
 }

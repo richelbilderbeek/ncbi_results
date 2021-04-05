@@ -13,9 +13,4 @@ test_that("use", {
     width = 7,
     height = 7
   )
-  p + ggplot2::ggsave(
-    file.path("~/fig_conservation_per_spanner.png"),
-    width = 7,
-    height = 7
-  )
 })
