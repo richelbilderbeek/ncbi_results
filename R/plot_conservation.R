@@ -38,8 +38,8 @@ plot_conservation <- function(
 
   t <- tibble::tribble(
     ~conservation, ~n, ~percentage,
-    "chance", n_success_expected, 1,
-    "observed", n_success, n_success / n_success_expected
+    "Chance", n_success_expected, 1,
+    "Observed", n_success, n_success / n_success_expected
   )
   t$conservation <- as.factor(t$conservation)
   p <- ggplot2::ggplot(t, ggplot2::aes(x = conservation, y = n)) +

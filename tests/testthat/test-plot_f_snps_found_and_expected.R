@@ -9,9 +9,20 @@ test_that("use", {
     width = 7,
     height = 7
   )
+  p + ggplot2::ggsave(
+    file.path(folder_name, "fig_f_snps_found_and_expected.tiff"),
+    width = 7,
+    height = 7
+  )
   p +
     ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected.png"),
+    width = 7,
+    height = 7
+  )
+  p +
+    ggplot2::ggsave(
+    file.path("~/fig_f_snps_found_and_expected.tiff"),
     width = 7,
     height = 7
   )

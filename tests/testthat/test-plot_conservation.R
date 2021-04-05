@@ -9,13 +9,18 @@ test_that("use", {
     height = 7
   )
   p + ggplot2::ggsave(
+    file.path(folder_name, "fig_conservation.tiff"),
+    width = 7,
+    height = 7
+  )
+  p + ggplot2::ggsave(
       file.path("~/fig_conservation.png"),
       width = 6,
       height = 7
     )
   p + ggplot2::ggsave(
-    file.path("~/fig_conservation_present.png"),
-    width = 7,
-    height = 7
-  )
+      file.path("~/fig_conservation.tiff"),
+      width = 6,
+      height = 7
+    )
 })
