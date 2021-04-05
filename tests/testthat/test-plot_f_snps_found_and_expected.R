@@ -9,7 +9,7 @@ test_that("use", {
     width = 7,
     height = 7
   )
-  p + ggplot2::theme(text = ggplot2::element_text(size = 24)) +
+  p +
     ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected.png"),
     width = 7,
