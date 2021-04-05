@@ -74,10 +74,8 @@ plot_snps_per_gene_name_processed <- function(folder_name = folder_name) {
     tally,
     ggplot2::aes(x = n)
   ) +
-  ggplot2::geom_histogram(col = "black", fill = "white", bins = 50) +
-  ggplot2::scale_x_log10(name = "Number of variations") +
-  ggplot2::facet_grid(. ~ type) +
-  ggplot2::labs(
-    title = "Number of variations per gene name processed"
-  )
+  ggplot2::geom_histogram(fill = "#BBBBBB", bins = 50) +
+  ggplot2::scale_x_log10(name = "Number of variations/SNPs") +
+  ggplot2::scale_y_continuous(name = "Number of gene names") +
+  ggplot2::facet_grid(. ~ type) + bbbq::get_bbbq_theme()
 }

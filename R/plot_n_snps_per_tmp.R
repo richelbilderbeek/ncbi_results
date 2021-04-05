@@ -35,11 +35,8 @@ plot_n_snps_per_tmp <- function(
 
 
   ggplot2::ggplot(t_snps_per_tmp, ggplot2::aes(x = n)) +
-    ggplot2::geom_histogram(col = "black", fill = "white", binwidth = 1) +
+    ggplot2::geom_histogram(fill = "#BBBBBB", binwidth = 1) +
     ggplot2::scale_x_continuous("Number of SNPs in TMP") +
     ggplot2::scale_y_continuous("Occurance") +
-    ggplot2::geom_vline(xintercept = mean(t_snps_per_tmp$n), lty = "dashed") +
-    ggplot2::labs(
-      title = "Number of SNPs per TMP"
-    )
+    bbbq::get_bbbq_theme()
 }

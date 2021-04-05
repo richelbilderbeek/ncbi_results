@@ -53,10 +53,9 @@ plot_snp_rel_pos <- function(folder_name = folder_name) {
 
   ggplot2::ggplot() +
     ggplot2::aes(t_rel_pos$rel_pos) +
-  ggplot2::geom_histogram(col = "black", fill = "white", bins = n_bins) +
-  ggplot2::geom_hline(yintercept = nrow(t_rel_pos) / n_bins, lty = "dashed") +
-  ggplot2::scale_x_continuous("Relative position of SNPs") +
-  ggplot2::labs(
-    title = "Distribution of SNPs"
-  )
+    ggplot2::geom_histogram(fill = "#BBBBBB", bins = n_bins) +
+    ggplot2::geom_hline(yintercept = nrow(t_rel_pos) / n_bins, lty = "dashed") +
+    ggplot2::scale_x_continuous("Relative position of SNPs") +
+    ggplot2::scale_y_continuous("Number of SNPs") +
+    bbbq::get_bbbq_theme()
 }

@@ -56,12 +56,15 @@ plot_n_proteins_per_gene_name <- function(folder_name = folder_name) {
   tally$type <- as.factor(tally$type)
 
   ggplot2::ggplot(tally, ggplot2::aes(n)) +
-  ggplot2::geom_histogram(col = "black", fill = "white", binwidth = 1) +
+  ggplot2::geom_histogram(fill = "#BBBBBB", binwidth = 1) +
   ggplot2::scale_x_continuous(
-    "Number of proteins with variations/SNPs per gene name"
+    "Number isoforms/SNPs"
   ) +
-  ggplot2::facet_grid(. ~ type, scales = "free") +
-  ggplot2::labs(
-    title = "Number of isoforms/SNPs per gene name"
-  )
+  ggplot2::scale_y_continuous(
+    "Number of gene names"
+  ) +
+  ggplot2::facet_grid(
+    . ~ type,
+    scales = "free"
+  ) + bbbq::get_bbbq_theme()
 }

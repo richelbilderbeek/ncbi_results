@@ -29,9 +29,8 @@ plot_snps_per_gene_name_ncbi <- function(folder_name = folder_name) {
     t,
     ggplot2::aes(x = n_snps)
   ) +
-  ggplot2::geom_histogram(col = "black", fill = "white", bins = 50) +
+  ggplot2::geom_histogram(fill = "#BBBBBB", bins = 50) +
   ggplot2::scale_x_log10(name = "Number of SNPs") +
-  ggplot2::labs(
-    title = "Number of SNPs per gene name at NCBI"
-  )
+  ggplot2::scale_y_continuous(name = "Number of gene names") +
+    bbbq::get_bbbq_theme()
 }
