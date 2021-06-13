@@ -4,10 +4,13 @@
 \alias{plot_f_snps_found_and_expected}
 \title{Plot}
 \usage{
-plot_f_snps_found_and_expected(folder_name)
+plot_f_snps_found_and_expected(folder_name, use_color = TRUE)
 }
 \arguments{
 \item{folder_name}{name of the folder}
+
+\item{use_color}{set to TRUE to use color,
+set to FALSE for black-and-white}
 }
 \description{
 Plot

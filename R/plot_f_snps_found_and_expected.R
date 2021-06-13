@@ -2,7 +2,8 @@
 #' @inheritParams default_params_doc
 #' @export
 plot_f_snps_found_and_expected <- function(
-  folder_name
+  folder_name,
+  use_color = TRUE
 ) {
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
@@ -53,11 +54,26 @@ plot_f_snps_found_and_expected <- function(
   )
   testthat::expect_true(all(t$f_chance >= 0.0 & t$f_chance <= 1.0))
   testthat::expect_true(all(t$f_measured >= 0.0 & t$f_measured <= 1.0))
+
+  trendline_color <- NA
+  if (use_color) {
+    trendline_color <- "red"
+    trendline_lty <- "solid"
+  } else {
+    trendline_color <- "black"
+    trendline_lty <- "solid"
+  }
+
   # Do not use n_tmp as a factor
   ggplot2::ggplot(
     t, ggplot2::aes(x = f_chance, y = f_measured)
   ) + ggplot2::geom_point(alpha = 0.25) +
-    ggplot2::geom_smooth(method = "lm", fullrange = TRUE, color = "red") +
+    ggplot2::geom_smooth(
+      method = "lm",
+      fullrange = TRUE,
+      color = trendline_color,
+      lty = trendline_lty
+    ) +
     ggplot2::geom_abline(slope = 1.0, lty = "dashed") +
     ggplot2::scale_x_continuous(
       "% TMH", limits = c(0.0, 1.0), labels = scales::percent

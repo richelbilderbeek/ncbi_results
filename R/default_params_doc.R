@@ -44,6 +44,8 @@
 #' @param topo_filename name of a \code{.topo} file with a protein topology
 #' @param topo_filenames name of one or more \code{.topo} files
 #'   with protein topologies
+#' @param use_color set to TRUE to use color,
+#'   set to FALSE for black-and-white
 #' @param variations_csv_filename name of a \code{[gene_name]_variations.csv}
 #'   file
 #' @param variations_csv_filenames names of one or more
@@ -76,6 +78,7 @@ default_params_doc <- function(
   snps_id_filenames,
   topo_filename,
   topo_filenames,
+  use_color,
   variations_csv_filename,
   variations_csv_filenames,
   variations_rds_filename,

@@ -22,6 +22,7 @@ default_params_doc(
   snps_id_filenames,
   topo_filename,
   topo_filenames,
+  use_color,
   variations_csv_filename,
   variations_csv_filenames,
   variations_rds_filename,
@@ -89,6 +90,9 @@ These files can be read by \link[ncbiperegrine]{read_snps_file}}
 
 \item{topo_filenames}{name of one or more \code{.topo} files
 with protein topologies}
+
+\item{use_color}{set to TRUE to use color,
+set to FALSE for black-and-white}
 
 \item{variations_csv_filename}{name of a \code{[gene_name]_variations.csv}
 file}

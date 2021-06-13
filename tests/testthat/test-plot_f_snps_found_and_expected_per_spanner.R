@@ -24,4 +24,32 @@ test_that("use", {
     width = 14,
     height = 7
   )
+
+
+  p <- plot_f_snps_found_and_expected_per_spanner(
+    folder_name = folder_name,
+    use_color = FALSE
+  )
+  p
+  p + ggplot2::ggsave(
+    file.path(folder_name, "fig_f_snps_found_and_expected_per_spanner_bw.png"),
+    width = 14,
+    height = 7
+  )
+  p + ggplot2::ggsave(
+    file.path(folder_name, "fig_f_snps_found_and_expected_per_spanner_bw.tiff"),
+    width = 14,
+    height = 7
+  )
+  p + ggplot2::ggsave(
+    file.path("~/fig_f_snps_found_and_expected_per_spanner_bw.png"),
+    width = 14,
+    height = 7
+  )
+  p + ggplot2::ggsave(
+    file.path("~/fig_f_snps_found_and_expected_per_spanner_bw.tiff"),
+    width = 14,
+    height = 7
+  )
+
 })

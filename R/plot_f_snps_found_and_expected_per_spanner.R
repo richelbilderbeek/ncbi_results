@@ -1,7 +1,9 @@
 #' Plot
+#' @inheritParams default_params_doc
 #' @export
 plot_f_snps_found_and_expected_per_spanner <- function(
-  folder_name
+  folder_name,
+  use_color = TRUE
 ) {
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
@@ -86,6 +88,14 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   testthat::expect_equal(0, sum(sub_t$f_measured < 0.0))
   testthat::expect_equal(0, sum(sub_t$f_chance > 1.0))
   testthat::expect_equal(0, sum(sub_t$f_measured > 1.0))
+
+  geom_smooth_line_color <- NA
+  if (use_color) {
+    geom_smooth_line_color <- "red"
+  } else {
+    geom_smooth_line_color <- "black"
+  }
+
   ggplot2::ggplot(
     sub_t,
     ggplot2::aes(x = f_chance, y = f_measured)
@@ -94,7 +104,7 @@ plot_f_snps_found_and_expected_per_spanner <- function(
       method = "lm",
       formula = y ~ x,
       fullrange = TRUE,
-      color = "red",
+      color = geom_smooth_line_color,
       na.rm = TRUE # 1 value is missing
     ) +
     ggplot2::geom_abline(slope = 1.0, lty = "dashed") +
