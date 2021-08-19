@@ -4,12 +4,12 @@ test_that("use", {
   if (!dir.exists(folder_name)) return()
   p <- plot_n_proteins_per_gene_name(folder_name = folder_name)
   p
-  p + ggplot2::ggsave(
+  p ; ggplot2::ggsave(
     file.path("~/fig_n_proteins_per_gene_name.png"),
     width = 7,
     height = 7
   )
-  p + ggplot2::ggsave(
+  p ; ggplot2::ggsave(
     file.path("~/fig_n_proteins_per_gene_name.tiff"),
     width = 7,
     height = 7

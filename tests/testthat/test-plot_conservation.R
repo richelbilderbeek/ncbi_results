@@ -3,22 +3,22 @@ test_that("use", {
   if (!dir.exists(folder_name)) return()
   p <- plot_conservation(folder_name = folder_name)
   p
-  p + ggplot2::ggsave(
+  p ; ggplot2::ggsave(
     file.path(folder_name, "fig_conservation.png"),
     width = 7,
     height = 7
   )
-  p + ggplot2::ggsave(
+  p ; ggplot2::ggsave(
     file.path(folder_name, "fig_conservation.tiff"),
     width = 7,
     height = 7
   )
-  p + ggplot2::ggsave(
+  p ; ggplot2::ggsave(
       file.path("~/fig_conservation.png"),
       width = 6,
       height = 7
     )
-  p + ggplot2::ggsave(
+  p ; ggplot2::ggsave(
       file.path("~/fig_conservation.tiff"),
       width = 6,
       height = 7

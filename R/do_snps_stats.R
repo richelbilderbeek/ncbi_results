@@ -59,7 +59,7 @@ do_snps_stats <- function(
       n.breaks = 13
     ); ggplot2::scale_x_continuous(
       "Number of successes"
-    ) + ggplot2::ggsave(ppoisbinom_plot_filename, width = 7, height = 7)
+    ) ; ggplot2::ggsave(ppoisbinom_plot_filename, width = 7, height = 7)
 
   t_stats <- tibble::tribble(
     ~parameter, ~value,

@@ -4,22 +4,22 @@ test_that("use", {
   if (!dir.exists(folder_name)) return()
   p <- plot_f_snps_found_and_expected_per_spanner(folder_name = folder_name)
   p
-  p + ggplot2::ggsave(
+  p ; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_per_spanner.png"),
     width = 14,
     height = 7
   )
-  p + ggplot2::ggsave(
+  p ; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_per_spanner.tiff"),
     width = 14,
     height = 7
   )
-  p + ggplot2::ggsave(
+  p ; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_per_spanner.png"),
     width = 14,
     height = 7
   )
-  p + ggplot2::ggsave(
+  p ; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_per_spanner.tiff"),
     width = 14,
     height = 7
@@ -31,22 +31,22 @@ test_that("use", {
     use_color = FALSE
   )
   p
-  p + ggplot2::ggsave(
+  p ; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_per_spanner_bw.png"),
     width = 14,
     height = 7
   )
-  p + ggplot2::ggsave(
+  p ; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_per_spanner_bw.tiff"),
     width = 14,
     height = 7
   )
-  p + ggplot2::ggsave(
+  p ; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_per_spanner_bw.png"),
     width = 14,
     height = 7
   )
-  p + ggplot2::ggsave(
+  p ; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_per_spanner_bw.tiff"),
     width = 14,
     height = 7
