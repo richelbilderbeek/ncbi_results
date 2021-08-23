@@ -3,7 +3,8 @@
 #' @export
 plot_f_snps_found_and_expected <- function(
   folder_name,
-  use_color = TRUE
+  use_color = TRUE,
+  use_transparancy = TRUE
 ) {
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
@@ -65,20 +66,25 @@ plot_f_snps_found_and_expected <- function(
   }
 
   # Do not use n_tmp as a factor
-  ggplot2::ggplot(
+  p <- ggplot2::ggplot(
     t, ggplot2::aes(x = f_chance, y = f_measured)
-  ) + ggplot2::geom_point(alpha = 0.25) +
-    ggplot2::geom_smooth(
-      method = "lm",
-      fullrange = TRUE,
-      color = trendline_color,
-      lty = trendline_lty
-    ) +
-    ggplot2::geom_abline(slope = 1.0, lty = "dashed") +
-    ggplot2::scale_x_continuous(
-      "% TMH", limits = c(0.0, 1.0), labels = scales::percent
-    ) +
-    ggplot2::scale_y_continuous(
-      "% SNPs in TMH", limits = c(0.0, 1.0), labels = scales::percent
-    ) + bbbq::get_bbbq_theme()
+  )
+  if (use_transparancy) {
+    p <- p + ggplot2::geom_point(alpha = 0.25)
+  } else {
+    p <- p + ggplot2::geom_point()
+  }
+  p + ggplot2::geom_smooth(
+    method = "lm",
+    fullrange = TRUE,
+    color = trendline_color,
+    lty = trendline_lty
+  ) +
+  ggplot2::geom_abline(slope = 1.0, lty = "dashed") +
+  ggplot2::scale_x_continuous(
+    "% TMH", limits = c(0.0, 1.0), labels = scales::percent
+  ) +
+  ggplot2::scale_y_continuous(
+    "% SNPs in TMH", limits = c(0.0, 1.0), labels = scales::percent
+  ) + bbbq::get_bbbq_theme()
 }

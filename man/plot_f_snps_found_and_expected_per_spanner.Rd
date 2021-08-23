@@ -4,7 +4,11 @@
 \alias{plot_f_snps_found_and_expected_per_spanner}
 \title{Plot}
 \usage{
-plot_f_snps_found_and_expected_per_spanner(folder_name, use_color = TRUE)
+plot_f_snps_found_and_expected_per_spanner(
+  folder_name,
+  use_color = TRUE,
+  use_transparency = TRUE
+)
 }
 \arguments{
 \item{folder_name}{name of the folder}

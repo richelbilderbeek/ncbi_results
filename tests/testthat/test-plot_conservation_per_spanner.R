@@ -14,12 +14,22 @@ test_that("use", {
     height = 7
   )
   p ; ggplot2::ggsave(
+    file.path(folder_name, "fig_conservation_per_spanner.eps"),
+    width = 7,
+    height = 7
+  )
+  p ; ggplot2::ggsave(
     file.path("~/fig_conservation_per_spanner.png"),
     width = 7,
     height = 7
   )
   p ; ggplot2::ggsave(
     file.path("~/fig_conservation_per_spanner.tiff"),
+    width = 7,
+    height = 7
+  )
+  p ; ggplot2::ggsave(
+    file.path("~/fig_conservation_per_spanner.eps"),
     width = 7,
     height = 7
   )

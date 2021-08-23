@@ -46,6 +46,8 @@
 #'   with protein topologies
 #' @param use_color set to TRUE to use color,
 #'   set to FALSE for black-and-white
+#' @param use_transparancy set to TRUE to use transparency.
+#' Useful when creating EPS, as these do not support transparency
 #' @param variations_csv_filename name of a \code{[gene_name]_variations.csv}
 #'   file
 #' @param variations_csv_filenames names of one or more
@@ -79,6 +81,7 @@ default_params_doc <- function(
   topo_filename,
   topo_filenames,
   use_color,
+  use_transparancy,
   variations_csv_filename,
   variations_csv_filenames,
   variations_rds_filename,

@@ -3,7 +3,8 @@
 #' @export
 plot_f_snps_found_and_expected_per_spanner <- function(
   folder_name,
-  use_color = TRUE
+  use_color = TRUE,
+  use_transparency = TRUE
 ) {
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
@@ -96,27 +97,32 @@ plot_f_snps_found_and_expected_per_spanner <- function(
     geom_smooth_line_color <- "black"
   }
 
-  ggplot2::ggplot(
+  p <-  ggplot2::ggplot(
     sub_t,
     ggplot2::aes(x = f_chance, y = f_measured)
-  ) + ggplot2::geom_point(alpha = 0.25) +
-    ggplot2::geom_smooth(
-      method = "lm",
-      formula = y ~ x,
-      fullrange = TRUE,
-      color = geom_smooth_line_color,
-      na.rm = TRUE # 1 value is missing
-    ) +
-    ggplot2::geom_abline(slope = 1.0, lty = "dashed") +
-    ggplot2::scale_x_continuous(
-      "% TMH", limits = c(0.0, 1.0), labels = scales::percent
-    ) +
-    ggplot2::scale_y_continuous(
-      "% SNPs in TMH", limits = c(0.0, 1.0), labels = scales::percent
-    ) +
-    ggplot2::facet_wrap(
-      ggplot2::vars(spanner),
-      labeller = ggplot2::as_labeller(facet_labels)
-    ) + bbbq::get_bbbq_theme()
+  )
+  if (use_transparency) {
+    p <- p + ggplot2::geom_point(alpha = 0.25)
+  } else {
+    p <- p + ggplot2::geom_point()
+  }
+  p + ggplot2::geom_smooth(
+    method = "lm",
+    formula = y ~ x,
+    fullrange = TRUE,
+    color = geom_smooth_line_color,
+    na.rm = TRUE # 1 value is missing
+  ) +
+  ggplot2::geom_abline(slope = 1.0, lty = "dashed") +
+  ggplot2::scale_x_continuous(
+    "% TMH", limits = c(0.0, 1.0), labels = scales::percent
+  ) +
+  ggplot2::scale_y_continuous(
+    "% SNPs in TMH", limits = c(0.0, 1.0), labels = scales::percent
+  ) +
+  ggplot2::facet_wrap(
+    ggplot2::vars(spanner),
+    labeller = ggplot2::as_labeller(facet_labels)
+  ) + bbbq::get_bbbq_theme()
 
 }
