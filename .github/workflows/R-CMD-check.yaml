@@ -1,0 +1,53 @@
+on:
+  push:
+  pull_request:
+  schedule:
+  - cron: "0 0 * * 1"
+
+name: R-CMD-check
+
+jobs:
+  R-CMD-check:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@v1
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - name: Install libcurl4-openssl-dev
+        run: sudo apt install -qq libcurl4-openssl-dev
+        if: matrix.os == 'ubuntu-latest'
+
+      - name: Install dependencies
+        run: |
+          install.packages(c("remotes", "rcmdcheck"))
+          remotes::install_deps(dependencies = TRUE)
+          remotes::install_cran("rcmdcheck")
+          remotes::install_cran("covr")
+          remotes::install_cran("lintr")
+        shell: Rscript {0}
+
+      - name: Check
+        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
+        shell: Rscript {0}
+
+      - name: Make sure that no files are created in the .cache folder
+        run: testthat::expect_equal(0, length(list.files(rappdirs::user_cache_dir(appname = "beautier"))))
+        shell: Rscript {0}
+
+      - name: Test coverage
+        run: Rscript -e 'covr::codecov()'
+
+      - name: Lint
+        run: Rscript -e 'lintr::lint_package()'
+
+
