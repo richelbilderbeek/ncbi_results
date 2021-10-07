@@ -30,8 +30,9 @@ jobs:
       - name: Install dependencies
         run: |
           install.packages(c("remotes", "rcmdcheck"))
-          remotes::install_github("richelbilderbeek/ncbi")
+          remotes::install_github("richelbilderbeek/cobaltr")
           remotes::install_github("richelbilderbeek/sprentrez")
+          remotes::install_github("richelbilderbeek/ncbi")
           remotes::install_github("richelbilderbeek/ncbi_peregrine")
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
