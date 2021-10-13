@@ -174,7 +174,7 @@ test_that("Results of research", {
   n_unique_gene_names_tmp_in_tmh <- length(unique(t_snps_tmp_in_tmh$gene_name))
   expect_equal(325, n_unique_gene_names_tmp_in_tmh)
   expect_equal(325, get_n_unique_gene_names_tmp_in_tmh())
-  n_unique_protein_names_tmp_in_tmh <- length(unique(t_snps_tmp_in_tmh$name))
+  n_unique_protein_names_tmp_in_tmh <- length(unique(t_snps_tmp_in_tmh$name)) # nolint indeed a long variable name
   expect_equal(1280, n_unique_protein_names_tmp_in_tmh)
   expect_equal(1280, get_n_unique_protein_names_tmp_in_tmh())
   f_tmh_tmp_in_tmh <- mean(
@@ -191,7 +191,10 @@ test_that("Results of research", {
 
   # TMPs in soluble regions
   t_snps_tmp_in_sol <- dplyr::filter(t_snps_tmp, !is_in_tmh)
-  expect_equal(nrow(t_snps_tmp_in_sol), nrow(dplyr::distinct(t_snps_tmp_in_sol)))
+  expect_equal(
+    nrow(t_snps_tmp_in_sol),
+    nrow(dplyr::distinct(t_snps_tmp_in_sol))
+  )
   n_variations_tmp_in_sol <- length(t_snps_tmp_in_sol$variation)
   expect_equal(17405, n_variations_tmp_in_sol)
   expect_equal(17405, get_n_variations_tmp_in_sol())
@@ -234,22 +237,30 @@ test_that("Results of research", {
   n_duplicate_snp_ids_tmp_in_tmh_sol <- 50 # nolint indeed a long variable name
   expect_equal(
     n_unique_snp_ids_tmp,
-    n_unique_snp_ids_tmp_in_tmh + n_unique_snp_ids_tmp_in_sol - n_duplicate_snp_ids_tmp_in_tmh_sol
+    n_unique_snp_ids_tmp_in_tmh +
+      n_unique_snp_ids_tmp_in_sol -
+      n_duplicate_snp_ids_tmp_in_tmh_sol
   )
   n_duplicate_gene_ids_tmp_in_tmh_sol <- 310 # nolint indeed a long variable name
   expect_equal(
     n_unique_gene_ids_tmp,
-    n_unique_gene_ids_tmp_in_tmh + n_unique_gene_ids_tmp_in_sol - n_duplicate_gene_ids_tmp_in_tmh_sol
+    n_unique_gene_ids_tmp_in_tmh +
+      n_unique_gene_ids_tmp_in_sol -
+      n_duplicate_gene_ids_tmp_in_tmh_sol
   )
   n_duplicate_gene_names_tmp_in_tmh_sol <- 310 # nolint indeed a long variable name
   expect_equal(
     n_unique_gene_names_tmp,
-    n_unique_gene_names_tmp_in_tmh + n_unique_gene_names_tmp_in_sol - n_duplicate_gene_names_tmp_in_tmh_sol
+    n_unique_gene_names_tmp_in_tmh +
+      n_unique_gene_names_tmp_in_sol -
+      n_duplicate_gene_names_tmp_in_tmh_sol
   )
   n_duplicate_protein_names_tmp_in_tmh_sol <- 1194 # nolint indeed a long variable name
   expect_equal(
     n_unique_protein_names_tmp,
-    n_unique_protein_names_tmp_in_tmh + n_unique_protein_names_tmp_in_sol - n_duplicate_protein_names_tmp_in_tmh_sol
+    n_unique_protein_names_tmp_in_tmh +
+      n_unique_protein_names_tmp_in_sol -
+      n_duplicate_protein_names_tmp_in_tmh_sol
   )
 
   # Spanners
