@@ -207,7 +207,7 @@ test_that("Results of research", {
   n_unique_gene_names_tmp_in_sol <- length(unique(t_snps_tmp_in_sol$gene_name))
   expect_equal(590, n_unique_gene_names_tmp_in_sol)
   expect_equal(590, get_n_unique_gene_names_tmp_in_sol())
-  n_unique_protein_names_tmp_in_sol <- length(unique(t_snps_tmp_in_sol$name))
+  n_unique_protein_names_tmp_in_sol <- length(unique(t_snps_tmp_in_sol$name)) # nolint indeed a long variable name
   expect_equal(2467, n_unique_protein_names_tmp_in_sol)
   expect_equal(2467, get_n_unique_protein_names_tmp_in_sol())
   f_tmh_tmp_in_sol <- mean(
@@ -231,22 +231,22 @@ test_that("Results of research", {
     n_unique_variations_tmp,
     n_unique_variations_tmp_in_tmh + n_unique_variations_tmp_in_sol
   )
-  n_duplicate_snp_ids_tmp_in_tmh_sol <- 50
+  n_duplicate_snp_ids_tmp_in_tmh_sol <- 50 # nolint indeed a long variable name
   expect_equal(
     n_unique_snp_ids_tmp,
     n_unique_snp_ids_tmp_in_tmh + n_unique_snp_ids_tmp_in_sol - n_duplicate_snp_ids_tmp_in_tmh_sol
   )
-  n_duplicate_gene_ids_tmp_in_tmh_sol <- 310
+  n_duplicate_gene_ids_tmp_in_tmh_sol <- 310 # nolint indeed a long variable name
   expect_equal(
     n_unique_gene_ids_tmp,
     n_unique_gene_ids_tmp_in_tmh + n_unique_gene_ids_tmp_in_sol - n_duplicate_gene_ids_tmp_in_tmh_sol
   )
-  n_duplicate_gene_names_tmp_in_tmh_sol <- 310
+  n_duplicate_gene_names_tmp_in_tmh_sol <- 310 # nolint indeed a long variable name
   expect_equal(
     n_unique_gene_names_tmp,
     n_unique_gene_names_tmp_in_tmh + n_unique_gene_names_tmp_in_sol - n_duplicate_gene_names_tmp_in_tmh_sol
   )
-  n_duplicate_protein_names_tmp_in_tmh_sol <- 1194
+  n_duplicate_protein_names_tmp_in_tmh_sol <- 1194 # nolint indeed a long variable name
   expect_equal(
     n_unique_protein_names_tmp,
     n_unique_protein_names_tmp_in_tmh + n_unique_protein_names_tmp_in_sol - n_duplicate_protein_names_tmp_in_tmh_sol
@@ -343,9 +343,9 @@ test_that("Results of research", {
 
 
 
-  ###############################################################################
+  ##############################################################################
   # Single/multi-spanners in TMH/soluble region
-  ###############################################################################
+  ##############################################################################
   # Single-spanners in TMHs
   # TMPs in TMH
 

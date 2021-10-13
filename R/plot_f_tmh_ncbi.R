@@ -19,7 +19,10 @@ plot_f_tmh_ncbi <- function(
   )
 
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
-  testthat::expect_equal(nrow(t_results_tmps), ncbiresults::get_n_variations_tmp())
+  testthat::expect_equal(
+    nrow(t_results_tmps),
+    ncbiresults::get_n_variations_tmp()
+  )
 
   t_tmh_per_protein <- dplyr::group_by(t_results_snps, name) %>%
     dplyr::summarise(f_tmh = mean(p_in_tmh))

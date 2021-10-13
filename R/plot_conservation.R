@@ -23,7 +23,10 @@ plot_conservation <- function(
   )
 
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
-  testthat::expect_equal(nrow(t_results_tmps), ncbiresults::get_n_variations_tmp())
+  testthat::expect_equal(
+    nrow(t_results_tmps),
+    ncbiresults::get_n_variations_tmp()
+  )
   # A SNP can work on multiple isoforms
   testthat::expect_equal(
     ncbiresults::get_n_unique_snp_ids_tmp(),
@@ -32,7 +35,7 @@ plot_conservation <- function(
 
   # Statistics
 
-  n <- nrow(t_results_tmps) # get_n_variations_tmp()
+  n <- nrow(t_results_tmps)
   n_success <- sum(t_results_tmps$is_in_tmh)
   n_success_expected <- sum(t_results_tmps$p_in_tmh)
 

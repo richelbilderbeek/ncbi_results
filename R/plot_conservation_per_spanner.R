@@ -63,12 +63,7 @@ plot_conservation_per_spanner <- function(
   t$conservation <- as.factor(t$conservation)
 
   facet_labels <- paste0(
-    levels(t$spanner), "-spanners" #,
-    # ": ",
-    # c(
-    #   ncbiresults::get_n_variations_tmp_single(),
-    #   ncbiresults::get_n_variations_tmp_multi()
-    # ), " SNPs"
+    levels(t$spanner), "-spanners"
   )
   names(facet_labels) <- levels(t$spanner)
 

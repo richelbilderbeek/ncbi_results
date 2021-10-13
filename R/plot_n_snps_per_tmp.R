@@ -19,7 +19,10 @@ plot_n_snps_per_tmp <- function(
   )
 
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
-  testthat::expect_equal(nrow(t_results_tmps), ncbiresults::get_n_variations_tmp())
+  testthat::expect_equal(
+    nrow(t_results_tmps),
+    ncbiresults::get_n_variations_tmp()
+  )
   testthat::expect_equal(
     ncbiresults::get_n_unique_snp_ids_tmp(),
     length(unique(t_results_tmps$snp_id))

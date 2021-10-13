@@ -1,7 +1,7 @@
 #' Plot
 #' @inheritParams default_params_doc
 #' @export
-plot_f_snps_found_and_expected_per_spanner <- function(
+plot_f_snps_found_and_expected_per_spanner <- function( # nolint indeed a long function name
   folder_name,
   use_color = TRUE,
   use_transparency = TRUE
@@ -44,8 +44,14 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   # Merge
   t_single <- dplyr::filter(t_results_tmps, n_tmh == 1)
   t_multi <- dplyr::filter(t_results_tmps, n_tmh >= 2)
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_single(), nrow(t_single))
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_multi(), nrow(t_multi))
+  testthat::expect_equal(
+    ncbiresults::get_n_variations_tmp_single(),
+    nrow(t_single)
+  )
+  testthat::expect_equal(
+    ncbiresults::get_n_variations_tmp_multi(),
+    nrow(t_multi)
+  )
 
   t <- dplyr::summarise(
     dplyr::group_by(
@@ -62,8 +68,8 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   testthat::expect_true(all(t$f_measured >= 0.0 & t$f_measured <= 1.0))
   sub_t <- dplyr::filter(t, n_tmh > 0)
   sub_t$spanner <- ""
-  sub_t$spanner[ sub_t$n_tmh == 1 ] <- "Single"
-  sub_t$spanner[ sub_t$n_tmh > 1 ] <- "Multi"
+  sub_t$spanner[sub_t$n_tmh == 1] <- "Single"
+  sub_t$spanner[sub_t$n_tmh > 1] <- "Multi"
   testthat::expect_true(all(nchar(sub_t$spanner) > 3))
   sub_t$spanner <- factor(sub_t$spanner, levels = c("Single", "Multi"))
 
@@ -71,14 +77,7 @@ plot_f_snps_found_and_expected_per_spanner <- function(
   n_spanner_levels <- levels(sub_t$spanner)
   testthat::expect_equal(2, length(n_spanner_levels))
 
-  facet_labels <- paste0(
-    n_spanner_levels, "-spanners" #,
-    # "\n",
-    # c(
-    #   nrow(t_single),
-    #   nrow(t_multi)
-    # ), " variations\n"
-  )
+  facet_labels <- n_spanner_levels
   names(facet_labels) <- levels(sub_t$spanner)
 
   testthat::expect_equal(0, sum(is.na(sub_t$f_chance)))

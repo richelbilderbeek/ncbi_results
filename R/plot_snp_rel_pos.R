@@ -15,7 +15,10 @@ plot_snp_rel_pos <- function(folder_name = folder_name) {
     replacement = ".topo"
   )
   testthat::expect_true(length(topo_filenames) > 0)
-  testthat::expect_equal(length(variations_csv_filenames), length(topo_filenames))
+  testthat::expect_equal(
+    length(variations_csv_filenames),
+    length(topo_filenames)
+  )
 
   # Protein sizes
   tibbles <- list()
@@ -35,13 +38,13 @@ plot_snp_rel_pos <- function(folder_name = folder_name) {
   t_variations$name <- stringr::str_match(
     string = t_variations$variation,
     pattern = "^(.*):p\\..*$"
-  )[,2]
+  )[, 2]
 
   t_pos <- dplyr::select(t_variations, variation, name)
   t_pos$pos <- as.numeric(
     stringr::str_match(
       string = t_pos$variation,
-      pattern = "^.*:p\\.[[:upper:]][[:lower:]]{2}([[:digit:]]{1,4})[[:upper:]][[:lower:]]{2}$"
+      pattern = "^.*:p\\.[[:upper:]][[:lower:]]{2}([[:digit:]]{1,4})[[:upper:]][[:lower:]]{2}$" # nolint indeed a long pattern
     )[, 2]
   )
   t_pos <- dplyr::filter(dplyr::select(t_pos, name, pos), !is.na(pos))

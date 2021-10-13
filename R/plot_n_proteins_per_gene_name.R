@@ -16,7 +16,7 @@ plot_n_proteins_per_gene_name <- function(folder_name = folder_name) {
   t_results_snps$name <- stringr::str_match(
     string = t_results_snps$variation,
     pattern = "^(.*):p\\..*$"
-  )[,2]
+  )[, 2]
   n_gene_names <- length(unique(t_results_snps$gene_name))
   testthat::expect_equal(911, n_gene_names)
   n_proteins <- length(unique(t_results_snps$name))

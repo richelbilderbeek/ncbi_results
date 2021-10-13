@@ -19,13 +19,19 @@ plot_f_tmh_ncbi_per_spanner <- function(
   )
 
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
-  testthat::expect_equal(nrow(t_results_tmps), ncbiresults::get_n_variations_tmp())
+  testthat::expect_equal(
+    nrow(t_results_tmps),
+    ncbiresults::get_n_variations_tmp()
+  )
 
   t_results_tmps$spanner <- NA
-  t_results_tmps$spanner[ t_results_tmps$n_tmh == 1 ] <- "single"
-  t_results_tmps$spanner[ t_results_tmps$n_tmh > 1 ] <- "multi"
+  t_results_tmps$spanner[t_results_tmps$n_tmh == 1] <- "single"
+  t_results_tmps$spanner[t_results_tmps$n_tmh > 1] <- "multi"
   testthat::expect_equal(0, sum(is.na(t_results_tmps$spanner)))
-  t_results_tmps$spanner <- factor(t_results_tmps$spanner, levels = c("single", "multi"))
+  t_results_tmps$spanner <- factor(
+    t_results_tmps$spanner,
+    levels = c("single", "multi")
+  )
 
   t_tmh_per_protein <- dplyr::group_by(t_results_tmps, name, spanner) %>%
     dplyr::summarise(f_tmh = mean(p_in_tmh))
@@ -36,7 +42,7 @@ plot_f_tmh_ncbi_per_spanner <- function(
   ) +
   ggplot2::geom_histogram(binwidth = 0.01, fill = "#BBBBBB") +
   ggplot2::facet_grid(
-    spanner ~ . ,
+    spanner ~ .,
     space = "free",
     scales = "free_x",
     labeller = ggplot2::as_labeller(

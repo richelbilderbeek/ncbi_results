@@ -1,7 +1,7 @@
 #' The number of SNPs processed
 #' @inheritParams default_params_doc
 #' @export
-plot_snps_per_gene_name_processed <- function(folder_name = folder_name) {
+plot_snps_per_gene_name_processed <- function(folder_name = folder_name) { # nolint indeed a long function name
 
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
@@ -28,7 +28,7 @@ plot_snps_per_gene_name_processed <- function(folder_name = folder_name) {
     testthat::expect_equal(60683, nrow(t_variations))
     unique_gene_ids <- unique(t_variations$gene_id)
     testthat::expect_equal(951, length(unique_gene_ids))
-    n_gene_names_with_protein_variations <- length(unique_gene_ids)
+    n_gene_names_with_protein_variations <- length(unique_gene_ids) # nolint indeed a long variable name
     testthat::expect_equal(951, n_gene_names_with_protein_variations)
 
     # The missing genes have no SNPs that change the protein

@@ -9,22 +9,22 @@ test_that("use", {
   p; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected.png"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
   p; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected.tiff"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
   p; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected.png"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
   p; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected.tiff"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
 
     # Transparency and color
@@ -35,12 +35,12 @@ test_that("use", {
   p; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected.eps"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
   p; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected.eps"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
 
 
@@ -53,22 +53,22 @@ test_that("use", {
   p;  ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_bw.png"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
   p; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_bw.tiff"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
   p; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_bw.png"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
   p; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_bw.tiff"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
   # No color, no transparancy
   p <- plot_f_snps_found_and_expected(
@@ -79,12 +79,12 @@ test_that("use", {
   p; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_bw.eps"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
   p; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_bw.eps"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
 
 })

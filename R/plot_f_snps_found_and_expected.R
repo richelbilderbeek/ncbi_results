@@ -19,7 +19,7 @@ plot_f_snps_found_and_expected <- function(
   t_results_snps$name <- stringr::str_match(
     string = t_results_snps$variation,
     pattern = "^(.*):p\\..*$"
-  )[,2]
+  )[, 2]
 
   testthat::expect_equal(
     ncbiresults::get_n_unique_protein_names(),

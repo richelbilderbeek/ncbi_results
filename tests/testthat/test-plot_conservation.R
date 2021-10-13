@@ -6,31 +6,31 @@ test_that("use", {
   p ; ggplot2::ggsave(
     file.path(folder_name, "fig_conservation.png"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
   p ; ggplot2::ggsave(
     file.path(folder_name, "fig_conservation.tiff"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
   p ; ggplot2::ggsave(
     file.path(folder_name, "fig_conservation.eps"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
   p ; ggplot2::ggsave(
       file.path("~/fig_conservation.png"),
       width = 6,
-      height = 7
+      height = 180
     )
   p ; ggplot2::ggsave(
       file.path("~/fig_conservation.tiff"),
       width = 6,
-      height = 7
+      height = 180
     )
   p ; ggplot2::ggsave(
       file.path("~/fig_conservation.eps"),
       width = 6,
-      height = 7
+      height = 180
     )
 })

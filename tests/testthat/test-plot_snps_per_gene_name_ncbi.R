@@ -6,21 +6,21 @@ test_that("use", {
   p ; ggplot2::ggsave(
     file.path(folder_name, "fig_snps_per_gene_name_ncbi.png"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
   p ; ggplot2::ggsave(
     file.path(folder_name, "fig_snps_per_gene_name_ncbi.tiff"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
   p ; ggplot2::ggsave(
     file.path("~/fig_snps_per_gene_name_ncbi.png"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
   p ; ggplot2::ggsave(
     file.path("~/fig_snps_per_gene_name_ncbi.tiff"),
     width = 180, units = "mm",
-    height = 7
+    height = 180
   )
 })

@@ -34,42 +34,42 @@ get_n_unique_protein_names_tmp <- function() 2553
 get_f_tmh_tmp <- function() 0.1868249
 
 # Duplicates in MAPs and TMPs
-get_n_duplicate_snp_ids_map_tmp <- function() 624
-get_n_duplicate_gene_names_map_tmp <- function() 151
+get_n_duplicate_snp_ids_map_tmp <- function() 624 # nolint indeed a long variable name
+get_n_duplicate_gene_names_map_tmp <- function() 151 # nolint indeed a long variable name
 
 
 
 # TMPs in TMHs
 get_n_variations_tmp_in_tmh <- function() 3803
-get_n_unique_variations_tmp_in_tmh <- function() 3789
-get_n_unique_snp_ids_tmp_in_tmh <- function() 1140
-get_n_unique_gene_ids_tmp_in_tmh <- function() 325
-get_n_unique_gene_names_tmp_in_tmh <- function() 325
-get_n_unique_protein_names_tmp_in_tmh <- function() 1280
+get_n_unique_variations_tmp_in_tmh <- function() 3789 # nolint indeed a long variable name
+get_n_unique_snp_ids_tmp_in_tmh <- function() 1140 # nolint indeed a long variable name
+get_n_unique_gene_ids_tmp_in_tmh <- function() 325 # nolint indeed a long variable name
+get_n_unique_gene_names_tmp_in_tmh <- function() 325 # nolint indeed a long variable name
+get_n_unique_protein_names_tmp_in_tmh <- function() 1280 # nolint indeed a long variable name
 get_f_tmh_tmp_in_tmh <- function() 0.2568375
 
 # TMPs in soluble regions
 get_n_variations_tmp_in_sol <- function() 17405
-get_n_unique_variations_tmp_in_sol <- function() 17235
-get_n_unique_snp_ids_tmp_in_sol <- function() 4936
-get_n_unique_gene_ids_tmp_in_sol <- function() 590
-get_n_unique_gene_names_tmp_in_sol <- function() 590
-get_n_unique_protein_names_tmp_in_sol <- function() 2467
+get_n_unique_variations_tmp_in_sol <- function() 17235 # nolint indeed a long variable name
+get_n_unique_snp_ids_tmp_in_sol <- function() 4936 # nolint indeed a long variable name
+get_n_unique_gene_ids_tmp_in_sol <- function() 590 # nolint indeed a long variable name
+get_n_unique_gene_names_tmp_in_sol <- function() 590 # nolint indeed a long variable name
+get_n_unique_protein_names_tmp_in_sol <- function() 2467 # nolint indeed a long variable name
 get_f_tmh_tmp_in_sol <- function() 0.1818121
 
 # Spanners
 get_n_variations_tmp_single <- function() 8186
 get_n_variations_tmp_multi <- function() 13022
-get_n_unique_variations_tmp_single <- function() 8184
-get_n_unique_variations_tmp_multi <- function() 12840
-get_n_unique_snps_in_single_spanners <- function() 2545
-get_n_unique_snps_in_multi_spanners <- function() 3716
-get_n_unique_snps_in_both_spanners <- function() 235
+get_n_unique_variations_tmp_single <- function() 8184 # nolint indeed a long variable name
+get_n_unique_variations_tmp_multi <- function() 12840 # nolint indeed a long variable name
+get_n_unique_snps_in_single_spanners <- function() 2545 # nolint indeed a long variable name
+get_n_unique_snps_in_multi_spanners <- function() 3716 # nolint indeed a long variable name
+get_n_unique_snps_in_both_spanners <- function() 235 # nolint indeed a long variable name
 
-get_n_unique_gene_names_in_single_spanners <- function() 284
-get_n_unique_gene_names_in_multi_spanners <- function() 359
-get_n_unique_protein_names_in_single_spanners <- function() 1047
-get_n_unique_protein_names_in_multi_spanners <- function() 1506
+get_n_unique_gene_names_in_single_spanners <- function() 284 # nolint indeed a long variable name
+get_n_unique_gene_names_in_multi_spanners <- function() 359 # nolint indeed a long variable name
+get_n_unique_protein_names_in_single_spanners <- function() 1047 # nolint indeed a long variable name
+get_n_unique_protein_names_in_multi_spanners <- function() 1506 # nolint indeed a long variable name
 
 get_f_tmh_in_single_spanners <- function() 0.05645657
 get_f_tmh_in_multi_spanners <- function() 0.2824763
@@ -90,37 +90,36 @@ get_f_tmh_tmp <- function() 0.1868249
 ###############################################################################
 # Single-spanners in TMHs
 get_n_variations_single_in_tmh <- function() 452
-get_n_unique_variations_single_in_tmh <- function() 451
-get_n_unique_snp_ids_single_in_tmh <- function() 160
-get_n_unique_gene_ids_single_in_tmh <- function() 96
-get_n_unique_gene_names_single_in_tmh <- function() 96
-get_n_unique_protein_names_single_in_tmh <- function() 304
+get_n_unique_variations_single_in_tmh <- function() 451 # nolint indeed a long variable name
+get_n_unique_snp_ids_single_in_tmh <- function() 160 # nolint indeed a long variable name
+get_n_unique_gene_ids_single_in_tmh <- function() 96 # nolint indeed a long variable name
+get_n_unique_gene_names_single_in_tmh <- function() 96 # nolint indeed a long variable name
+get_n_unique_protein_names_single_in_tmh <- function() 304 # nolint indeed a long variable name
 get_f_tmh_single_in_tmh <- function() 0.1054718
 
 # Single-spanners in soluble regions
 get_n_variations_single_in_sol <- function() 7734
-get_n_unique_variations_single_in_sol <- function() 7733
-get_n_unique_snp_ids_single_in_sol <- function() 2393
-get_n_unique_gene_ids_single_in_sol <- function() 282
-get_n_unique_gene_names_single_in_sol <- function() 282
-get_n_unique_protein_names_single_in_sol <- function() 1032
+get_n_unique_variations_single_in_sol <- function() 7733 # nolint indeed a long variable name
+get_n_unique_snp_ids_single_in_sol <- function() 2393 # nolint indeed a long variable name
+get_n_unique_gene_ids_single_in_sol <- function() 282 # nolint indeed a long variable name
+get_n_unique_gene_names_single_in_sol <- function() 282 # nolint indeed a long variable name
+get_n_unique_protein_names_single_in_sol <- function() 1032 # nolint indeed a long variable name
 get_f_tmh_single_in_sol <- function() 0.05359196
 
 # Multi-spanners in TMHs
 get_n_variations_multi_in_tmh <- function() 3351
-get_n_unique_variations_multi_in_tmh <- function() 3338
-get_n_unique_snp_ids_multi_in_tmh <- function() 994
-get_n_unique_gene_ids_multi_in_tmh <- function() 243
-get_n_unique_gene_names_multi_in_tmh <- function() 243
-get_n_unique_protein_names_multi_in_tmh <- function() 976
+get_n_unique_variations_multi_in_tmh <- function() 3338 # nolint indeed a long variable name
+get_n_unique_snp_ids_multi_in_tmh <- function() 994 # nolint indeed a long variable name
+get_n_unique_gene_ids_multi_in_tmh <- function() 243 # nolint indeed a long variable name
+get_n_unique_gene_names_multi_in_tmh <- function() 243 # nolint indeed a long variable name
+get_n_unique_protein_names_multi_in_tmh <- function() 976 # nolint indeed a long variable name
 get_f_tmh_multi_in_tmh <- function() 0.3533563
 
 # Multi-spanners in soluble regions
 get_n_variations_multi_in_sol <- function() 9671
-get_n_unique_variations_multi_in_sol <- function() 9502
-get_n_unique_snp_ids_multi_in_sol <- function() 2762
-get_n_unique_gene_ids_multi_in_sol <- function() 344
-get_n_unique_gene_names_multi_in_sol <- function() 344
-get_n_unique_protein_names_multi_in_sol <- function() 1435
+get_n_unique_variations_multi_in_sol <- function() 9502 # nolint indeed a long variable name
+get_n_unique_snp_ids_multi_in_sol <- function() 2762 # nolint indeed a long variable name
+get_n_unique_gene_ids_multi_in_sol <- function() 344 # nolint indeed a long variable name
+get_n_unique_gene_names_multi_in_sol <- function() 344 # nolint indeed a long variable name
+get_n_unique_protein_names_multi_in_sol <- function() 1435 # nolint indeed a long variable name
 get_f_tmh_multi_in_sol <- function() 0.2579164
-
