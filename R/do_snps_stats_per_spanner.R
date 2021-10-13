@@ -93,7 +93,7 @@ do_snps_stats_per_spanner <- function(
     points <- tibble::tibble(x = xs, y = ys)
     ggplot2::ggplot(points, ggplot2::aes(x, y));   ggplot2::geom_point();   ggplot2::geom_hline(yintercept = 1.0, lty = "dotted");   ggplot2::geom_vline(xintercept = n_success, lty = "dashed", col = "blue");   ggplot2::geom_vline(xintercept = n_success_expected, lty = "dashed", col = "red");   ggplot2::scale_y_log10("Chance the have this or fewer sucesses");   ggplot2::scale_x_continuous(
         "Number of successes"
-      );   ggplot2::ggsave(ppoisbinom_plot_filename, width = 7, height = 7)
+      );   ggplot2::ggsave(ppoisbinom_plot_filename, width = 180, units = "mm", height = 7)
 
 
     t_stats <- tibble::tribble(

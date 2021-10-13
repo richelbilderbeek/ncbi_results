@@ -8,22 +8,22 @@ test_that("use", {
   p
   p; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected.png"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
   p; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected.tiff"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
   p; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected.png"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
   p; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected.tiff"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
 
@@ -34,12 +34,12 @@ test_that("use", {
   )
   p; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected.eps"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
   p; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected.eps"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
 
@@ -52,22 +52,22 @@ test_that("use", {
   p
   p;  ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_bw.png"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
   p; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_bw.tiff"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
   p; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_bw.png"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
   p; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_bw.tiff"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
   # No color, no transparancy
@@ -78,12 +78,12 @@ test_that("use", {
   )
   p; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_bw.eps"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
   p; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_bw.eps"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
 

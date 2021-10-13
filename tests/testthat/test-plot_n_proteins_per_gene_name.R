@@ -6,12 +6,12 @@ test_that("use", {
   p
   p ; ggplot2::ggsave(
     file.path("~/fig_n_proteins_per_gene_name.png"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
   p ; ggplot2::ggsave(
     file.path("~/fig_n_proteins_per_gene_name.tiff"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
 })

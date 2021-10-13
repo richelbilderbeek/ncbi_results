@@ -5,32 +5,32 @@ test_that("use", {
   p
   p ; ggplot2::ggsave(
     file.path(folder_name, "fig_conservation_per_spanner.png"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
   p ; ggplot2::ggsave(
     file.path(folder_name, "fig_conservation_per_spanner.tiff"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
   p ; ggplot2::ggsave(
     file.path(folder_name, "fig_conservation_per_spanner.eps"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
   p ; ggplot2::ggsave(
     file.path("~/fig_conservation_per_spanner.png"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
   p ; ggplot2::ggsave(
     file.path("~/fig_conservation_per_spanner.tiff"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
   p ; ggplot2::ggsave(
     file.path("~/fig_conservation_per_spanner.eps"),
-    width = 7,
+    width = 180, units = "mm",
     height = 7
   )
 })
