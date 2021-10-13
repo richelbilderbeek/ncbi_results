@@ -3,6 +3,8 @@
 #' @export
 plot_snps_per_gene_name_processed <- function(folder_name = folder_name) { # nolint indeed a long function name
   variation <- NULL; rm(variation) # nolint, fixes warning: no visible binding for global variable
+  gene_id <- NULL; rm(gene_id) # nolint, fixes warning: no visible binding for global variable
+  n <- NULL; rm(n) # nolint, fixes warning: no visible binding for global variable
 
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
@@ -39,8 +41,10 @@ plot_snps_per_gene_name_processed <- function(folder_name = folder_name) { # nol
     testthat::expect_equal(178, length(missing_genes))
   }
 
-  tally_protein_variations <- dplyr::group_by(t_results, gene_id) %>%
-    dplyr::summarize(n = dplyr::n())
+  tally_protein_variations <- dplyr::summarize(
+    dplyr::group_by(t_results, gene_id),
+    n = dplyr::n()
+  )
   n_protein_variations <- sum(tally_protein_variations$n)
   testthat::expect_equal(
     n_protein_variations,

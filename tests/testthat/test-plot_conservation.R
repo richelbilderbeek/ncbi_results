@@ -20,17 +20,17 @@ test_that("use", {
   )
   p ; ggplot2::ggsave(
       file.path("~/fig_conservation.png"),
-      width = 6,
+      width = (6 / 7) * 180, units = "mm",
       height = 180
     )
   p ; ggplot2::ggsave(
       file.path("~/fig_conservation.tiff"),
-      width = 6,
+      width = (6 / 7) * 180, units = "mm",
       height = 180
     )
   p ; ggplot2::ggsave(
       file.path("~/fig_conservation.eps"),
-      width = 6,
+      width = (6 / 7) * 180, units = "mm",
       height = 180
     )
 })

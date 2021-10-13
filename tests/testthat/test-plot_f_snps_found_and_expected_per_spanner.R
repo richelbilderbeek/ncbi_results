@@ -7,23 +7,23 @@ test_that("use", {
   p
   p ; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_per_spanner.png"),
-    width = 14,
-    height = 180
+    width = 180, unit = "mm",
+    height = 90
   )
   p ; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_per_spanner.tiff"),
-    width = 14,
-    height = 180
+    width = 180, unit = "mm",
+    height = 90
   )
   p ; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_per_spanner.png"),
-    width = 14,
-    height = 180
+    width = 180, unit = "mm",
+    height = 90
   )
   p ; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_per_spanner.tiff"),
-    width = 14,
-    height = 180
+    width = 180, unit = "mm",
+    height = 90
   )
   # Color, no transparency
   p <- plot_f_snps_found_and_expected_per_spanner(
@@ -32,13 +32,13 @@ test_that("use", {
   )
   p ; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_per_spanner.eps"),
-    width = 14,
-    height = 180
+    width = 180, unit = "mm",
+    height = 90
   )
   p ; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_per_spanner.eps"),
-    width = 14,
-    height = 180
+    width = 180, unit = "mm",
+    height = 90
   )
 
 
@@ -50,23 +50,23 @@ test_that("use", {
   p
   p ; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_per_spanner_bw.png"),
-    width = 14,
-    height = 180
+    width = 180, unit = "mm",
+    height = 90
   )
   p ; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_per_spanner_bw.tiff"),
-    width = 14,
-    height = 180
+    width = 180, unit = "mm",
+    height = 90
   )
   p ; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_per_spanner_bw.png"),
-    width = 14,
-    height = 180
+    width = 180, unit = "mm",
+    height = 90
   )
   p ; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_per_spanner_bw.tiff"),
-    width = 14,
-    height = 180
+    width = 180, unit = "mm",
+    height = 90
   )
 
   # Black and white, no transparency
@@ -77,13 +77,13 @@ test_that("use", {
   )
   p ; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_per_spanner_bw.eps"),
-    width = 14,
-    height = 180
+    width = 180, unit = "mm",
+    height = 90
   )
   p ; ggplot2::ggsave(
     file.path("~/fig_f_snps_found_and_expected_per_spanner_bw.eps"),
-    width = 14,
-    height = 180
+    width = 180, unit = "mm",
+    height = 90
   )
 
 })
