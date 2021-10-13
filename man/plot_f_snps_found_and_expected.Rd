@@ -7,7 +7,7 @@
 plot_f_snps_found_and_expected(
   folder_name,
   use_color = TRUE,
-  use_transparancy = TRUE
+  use_transparency = TRUE
 )
 }
 \arguments{
@@ -16,7 +16,7 @@ plot_f_snps_found_and_expected(
 \item{use_color}{set to TRUE to use color,
 set to FALSE for black-and-white}
 
-\item{use_transparancy}{set to TRUE to use transparency.
+\item{use_transparency}{set to TRUE to use transparency.
 Useful when creating EPS, as these do not support transparency}
 }
 \description{

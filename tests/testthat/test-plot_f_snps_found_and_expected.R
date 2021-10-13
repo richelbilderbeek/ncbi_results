@@ -30,7 +30,7 @@ test_that("use", {
     # Transparency and color
   p <- plot_f_snps_found_and_expected(
     folder_name = folder_name,
-    use_transparancy = FALSE
+    use_transparency = FALSE
   )
   p; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected.eps"),
@@ -44,7 +44,7 @@ test_that("use", {
   )
 
 
-  # No color, transparancy
+  # No color, transparency
   p <- plot_f_snps_found_and_expected(
     folder_name = folder_name,
     use_color = FALSE
@@ -70,11 +70,11 @@ test_that("use", {
     width = 180, units = "mm",
     height = 180
   )
-  # No color, no transparancy
+  # No color, no transparency
   p <- plot_f_snps_found_and_expected(
     folder_name = folder_name,
     use_color = FALSE,
-    use_transparancy = FALSE
+    use_transparency = FALSE
   )
   p; ggplot2::ggsave(
     file.path(folder_name, "fig_f_snps_found_and_expected_bw.eps"),

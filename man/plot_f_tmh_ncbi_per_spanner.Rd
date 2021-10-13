@@ -6,6 +6,9 @@
 \usage{
 plot_f_tmh_ncbi_per_spanner(folder_name)
 }
+\arguments{
+\item{folder_name}{name of the folder}
+}
 \description{
 Plot the distribution of the percentage TMH that the NCBI proteins are
 }

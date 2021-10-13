@@ -2,7 +2,7 @@ test_that("use", {
   # Local only
   folder_name <- "~/GitHubs/ncbi_peregrine/scripts"
   if (!dir.exists(folder_name)) return()
-  # Color, transparancy
+  # Color, transparency
   p <- plot_f_snps_found_and_expected_per_spanner(folder_name = folder_name)
   p
   p ; ggplot2::ggsave(
@@ -25,7 +25,7 @@ test_that("use", {
     width = 14,
     height = 180
   )
-  # Color, no transparancy
+  # Color, no transparency
   p <- plot_f_snps_found_and_expected_per_spanner(
     folder_name = folder_name,
     use_transparency = FALSE
@@ -42,7 +42,7 @@ test_that("use", {
   )
 
 
-  # Black and white, transparancy
+  # Black and white, transparency
   p <- plot_f_snps_found_and_expected_per_spanner(
     folder_name = folder_name,
     use_color = FALSE
@@ -69,7 +69,7 @@ test_that("use", {
     height = 180
   )
 
-  # Black and white, no transparancy
+  # Black and white, no transparency
   p <- plot_f_snps_found_and_expected_per_spanner(
     folder_name = folder_name,
     use_color = FALSE,

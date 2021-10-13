@@ -25,7 +25,10 @@ do_snps_stats <- function(
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
   testthat::expect_true(ncbiresults::are_all_rows_distinct(t_results_tmps))
 
-  testthat::expect_equal(nrow(t_results_tmps), ncbiresults::get_n_variations_tmp())
+  testthat::expect_equal(
+    nrow(t_results_tmps),
+    ncbiresults::get_n_variations_tmp()
+  )
   # A SNP can work on multiple isoforms
   testthat::expect_equal(
     ncbiresults::get_n_unique_snp_ids_tmp(),

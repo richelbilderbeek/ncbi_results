@@ -4,7 +4,7 @@
 plot_f_snps_found_and_expected <- function(
   folder_name,
   use_color = TRUE,
-  use_transparancy = TRUE
+  use_transparency = TRUE
 ) {
   p_in_tmh <- NULL; rm(p_in_tmh) # nolint, fixes warning: no visible binding for global variable
 
@@ -71,7 +71,7 @@ plot_f_snps_found_and_expected <- function(
   p <- ggplot2::ggplot(
     t, ggplot2::aes(x = f_chance, y = f_measured)
   )
-  if (use_transparancy) {
+  if (use_transparency) {
     p <- p + ggplot2::geom_point(alpha = 0.25)
   } else {
     p <- p + ggplot2::geom_point()

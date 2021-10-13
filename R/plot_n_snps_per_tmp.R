@@ -1,4 +1,5 @@
 #' Plot the number of SNPs per protein
+#' @inheritParams default_params_doc
 #' @export
 plot_n_snps_per_tmp <- function(
   folder_name

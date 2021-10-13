@@ -8,12 +8,6 @@ plot_conservation_per_spanner(folder_name)
 }
 \arguments{
 \item{folder_name}{name of the folder}
-
-\item{ppoisbinom_single_plot_filename}{file to save the poisbinom
-for the single-spanners to plot to}
-
-\item{ppoisbinom_multi_plot_filename}{file to save the poisbinom
-for the single-spanners to plot to}
 }
 \description{
 Do the SNPs stats per spanner

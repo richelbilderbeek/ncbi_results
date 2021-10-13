@@ -33,9 +33,18 @@ do_snps_stats_per_spanner <- function(
   )
 
   t_results_tmps <- dplyr::filter(t_results_snps, p_in_tmh > 0.0)
-  testthat::expect_equal(nrow(t_results_tmps), ncbiresults::get_n_variations_tmp())
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_in_tmh(), sum(t_results_tmps$is_in_tmh))
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_in_sol(), sum(!t_results_tmps$is_in_tmh))
+  testthat::expect_equal(
+    nrow(t_results_tmps),
+    ncbiresults::get_n_variations_tmp()
+  )
+  testthat::expect_equal(
+    ncbiresults::get_n_variations_tmp_in_tmh(),
+    sum(t_results_tmps$is_in_tmh)
+  )
+  testthat::expect_equal(
+    ncbiresults::get_n_variations_tmp_in_sol(),
+    sum(!t_results_tmps$is_in_tmh)
+  )
 
   # A SNP can work on multiple isoforms
   testthat::expect_equal(
@@ -52,16 +61,41 @@ do_snps_stats_per_spanner <- function(
 
   t_single <- dplyr::filter(t, n_tmh == 1)
   t_multi <- dplyr::filter(t, n_tmh >= 2)
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_single(), nrow(t_single))
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_multi(), nrow(t_multi))
-  testthat::expect_equal(ncbiresults::get_n_unique_variations_tmp_single(), length(unique(t_single$variation)))
-  testthat::expect_equal(ncbiresults::get_n_unique_variations_tmp_multi(), length(unique(t_multi$variation)))
-  testthat::expect_equal(get_n_unique_snps_in_single_spanners(), length(unique(t_single$snp_id)))
-  testthat::expect_equal(get_n_unique_snps_in_multi_spanners(), length(unique(t_multi$snp_id)))
-  n_snps_in_single_spanners_expected <- sum(t_single$p_in_tmh)
-  testthat::expect_equal(462.6681, n_snps_in_single_spanners_expected, tol = 0.01)
-  n_snps_in_multi_spanners_expected <- sum(t_multi$p_in_tmh)
-  testthat::expect_equal(3678.406, n_snps_in_multi_spanners_expected, tol = 0.01)
+  testthat::expect_equal(
+    ncbiresults::get_n_variations_tmp_single(),
+    nrow(t_single)
+  )
+  testthat::expect_equal(
+    ncbiresults::get_n_variations_tmp_multi(),
+    nrow(t_multi)
+  )
+  testthat::expect_equal(
+    ncbiresults::get_n_unique_variations_tmp_single(),
+    length(unique(t_single$variation))
+  )
+  testthat::expect_equal(
+    ncbiresults::get_n_unique_variations_tmp_multi(),
+    length(unique(t_multi$variation))
+  )
+  testthat::expect_equal(
+    get_n_unique_snps_in_single_spanners(),
+    length(unique(t_single$snp_id))
+  )
+  testthat::expect_equal(
+    get_n_unique_snps_in_multi_spanners(),
+    length(unique(t_multi$snp_id))
+  )
+  n_snps_in_single_spanners_expected <- sum(t_single$p_in_tmh) # nolint indeed a long variable name
+  testthat::expect_equal(
+    462.6681,
+    n_snps_in_single_spanners_expected,
+    tol = 0.01
+  )
+  n_snps_in_multi_spanners_expected <- sum(t_multi$p_in_tmh) # nolint indeed a long variable name
+  testthat::expect_equal(
+    3678.406,
+    n_snps_in_multi_spanners_expected, tol = 0.01
+  )
 
   # Statistics, single
   statses <- list()
@@ -100,7 +134,9 @@ do_snps_stats_per_spanner <- function(
     ggplot2::ggplot(points, ggplot2::aes(x, y)) +
       ggplot2::geom_point() +
       ggplot2::geom_hline(yintercept = 1.0, lty = "dotted") +
-      ggplot2::geom_vline(xintercept = n_success, lty = "dashed", col = "blue") +
+      ggplot2::geom_vline(
+        xintercept = n_success, lty = "dashed", col = "blue"
+      ) +
       ggplot2::geom_vline(
         xintercept = n_success_expected, lty = "dashed", col = "red"
       ) +

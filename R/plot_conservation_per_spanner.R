@@ -1,9 +1,5 @@
 #' Do the SNPs stats per spanner
 #' @inheritParams default_params_doc
-#' @param ppoisbinom_single_plot_filename file to save the poisbinom
-#'   for the single-spanners to plot to
-#' @param ppoisbinom_multi_plot_filename file to save the poisbinom
-#'   for the single-spanners to plot to
 #' @export
 plot_conservation_per_spanner <- function(
   folder_name

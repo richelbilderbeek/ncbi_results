@@ -1,4 +1,5 @@
 #' Plot the distribution of the percentage TMH that the NCBI proteins are
+#' @inheritParams default_params_doc
 #' @export
 plot_f_tmh_ncbi_per_spanner <- function(
   folder_name

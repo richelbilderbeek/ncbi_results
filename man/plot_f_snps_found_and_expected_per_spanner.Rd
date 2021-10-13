@@ -15,6 +15,9 @@ plot_f_snps_found_and_expected_per_spanner(
 
 \item{use_color}{set to TRUE to use color,
 set to FALSE for black-and-white}
+
+\item{use_transparency}{set to TRUE to use transparency.
+Useful when creating EPS, as these do not support transparency}
 }
 \description{
 Plot

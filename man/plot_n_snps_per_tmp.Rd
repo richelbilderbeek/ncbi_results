@@ -6,6 +6,9 @@
 \usage{
 plot_n_snps_per_tmp(folder_name)
 }
+\arguments{
+\item{folder_name}{name of the folder}
+}
 \description{
 Plot the number of SNPs per protein
 }

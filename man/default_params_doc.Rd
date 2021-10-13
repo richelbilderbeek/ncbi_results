@@ -24,7 +24,7 @@ default_params_doc(
   topo_filename,
   topo_filenames,
   use_color,
-  use_transparancy,
+  use_transparency,
   variations_csv_filename,
   variations_csv_filenames,
   variations_rds_filename,
@@ -99,7 +99,7 @@ with protein topologies}
 \item{use_color}{set to TRUE to use color,
 set to FALSE for black-and-white}
 
-\item{use_transparancy}{set to TRUE to use transparency.
+\item{use_transparency}{set to TRUE to use transparency.
 Useful when creating EPS, as these do not support transparency}
 
 \item{variations_csv_filename}{name of a \code{[gene_name]_variations.csv}
