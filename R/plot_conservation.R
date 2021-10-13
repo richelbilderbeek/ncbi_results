@@ -1,11 +1,12 @@
 #' Do the expected and observed number of SNPs
 #' as a bar chart
-#' @param ppoisbinom_plot_filename file to save the poisbinom
-#'   plot to
+#' @inheritParams default_params_doc
 #' @export
 plot_conservation <- function(
   folder_name
 ) {
+  p_in_tmh <- NULL; rm(p_in_tmh) # nolint, fixes warning: no visible binding for global variable
+
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)

@@ -3,6 +3,8 @@
 plot_n_snps_per_tmp <- function(
   folder_name
 ) {
+  p_in_tmh <- NULL; rm(p_in_tmh) # nolint, fixes warning: no visible binding for global variable
+
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)

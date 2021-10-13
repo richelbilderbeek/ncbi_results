@@ -7,6 +7,8 @@
 do_snps_stats(folder_name, ppoisbinom_plot_filename = "~/ppoisbinom.png")
 }
 \arguments{
+\item{folder_name}{name of the folder}
+
 \item{ppoisbinom_plot_filename}{file to save the poisbinom
 plot to}
 }

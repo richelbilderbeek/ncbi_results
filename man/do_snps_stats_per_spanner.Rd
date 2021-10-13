@@ -11,6 +11,8 @@ do_snps_stats_per_spanner(
 )
 }
 \arguments{
+\item{folder_name}{name of the folder}
+
 \item{ppoisbinom_single_plot_filename}{file to save the poisbinom
 for the single-spanners to plot to}
 

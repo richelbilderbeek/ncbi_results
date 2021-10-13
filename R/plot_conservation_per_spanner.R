@@ -1,4 +1,5 @@
 #' Do the SNPs stats per spanner
+#' @inheritParams default_params_doc
 #' @param ppoisbinom_single_plot_filename file to save the poisbinom
 #'   for the single-spanners to plot to
 #' @param ppoisbinom_multi_plot_filename file to save the poisbinom
@@ -7,6 +8,8 @@
 plot_conservation_per_spanner <- function(
   folder_name
 ) {
+  n_tmh <- NULL; rm(n_tmh) # nolint, fixes warning: no visible binding for global variable
+
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)
@@ -25,8 +28,14 @@ plot_conservation_per_spanner <- function(
 
   t_single <- dplyr::filter(t_results_snps, n_tmh == 1)
   t_multi <- dplyr::filter(t_results_snps, n_tmh >= 2)
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_single(), nrow(t_single))
-  testthat::expect_equal(ncbiresults::get_n_variations_tmp_multi(), nrow(t_multi))
+  testthat::expect_equal(
+    ncbiresults::get_n_variations_tmp_single(),
+    nrow(t_single)
+  )
+  testthat::expect_equal(
+    ncbiresults::get_n_variations_tmp_multi(),
+    nrow(t_multi)
+  )
 
   n_success_single <- sum(t_single$is_in_tmh)
   testthat::expect_equal(452, n_success_single)

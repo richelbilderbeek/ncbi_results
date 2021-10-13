@@ -2,6 +2,9 @@
 #' @inheritParams default_params_doc
 #' @export
 plot_snp_rel_pos <- function(folder_name = folder_name) {
+  name <- NULL; rm(name) # nolint, fixes warning: no visible binding for global variable
+  variation <- NULL; rm(variation) # nolint, fixes warning: no visible binding for global variable
+  pos <- NULL; rm(pos) # nolint, fixes warning: no visible binding for global variable
 
   variations_csv_filenames <- list.files(
     path = folder_name,

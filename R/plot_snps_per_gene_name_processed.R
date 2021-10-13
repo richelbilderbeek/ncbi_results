@@ -2,6 +2,7 @@
 #' @inheritParams default_params_doc
 #' @export
 plot_snps_per_gene_name_processed <- function(folder_name = folder_name) { # nolint indeed a long function name
+  variation <- NULL; rm(variation) # nolint, fixes warning: no visible binding for global variable
 
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
@@ -24,7 +25,9 @@ plot_snps_per_gene_name_processed <- function(folder_name = folder_name) { # nol
     n_gene_names <- length(gene_names)
     testthat::expect_equal(1131, n_gene_names)
 
-    t_variations <- ncbiperegrine::read_variations_csv_files(variations_csv_filenames)
+    t_variations <- ncbiperegrine::read_variations_csv_files(
+      variations_csv_filenames
+    )
     testthat::expect_equal(60683, nrow(t_variations))
     unique_gene_ids <- unique(t_variations$gene_id)
     testthat::expect_equal(951, length(unique_gene_ids))

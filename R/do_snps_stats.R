@@ -1,11 +1,14 @@
 #' Do the SNPs stats
-#' @param ppoisbinom_plot_filename file to save the poisbinom
-#'   plot to
+#' @inheritParams default_params_doc
 #' @export
 do_snps_stats <- function(
   folder_name,
   ppoisbinom_plot_filename = "~/ppoisbinom.png"
 ) {
+  p_in_tmh <- NULL; rm(p_in_tmh) # nolint, fixes warning: no visible binding for global variable
+  x <- NULL; rm(x) # nolint, fixes warning: no visible binding for global variable
+  y <- NULL; rm(y) # nolint, fixes warning: no visible binding for global variable
+
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
   t_results <- ncbiperegrine::read_results_file(results_filename)
@@ -54,7 +57,14 @@ do_snps_stats <- function(
     pp = t_results_tmps$p_in_tmh
   )
   points <- tibble::tibble(x = xs, y = ys)
-  ggplot2::ggplot(points, ggplot2::aes(x, y)); ggplot2::geom_point(); ggplot2::geom_hline(yintercept = 1.0, lty = "dotted"); ggplot2::geom_vline(xintercept = n_success, lty = "dashed", col = "blue"); ggplot2::geom_vline(xintercept = n_success_expected, lty = "dashed", col = "red"); ggplot2::scale_y_log10("Chance the have this or fewer sucesses",
+  ggplot2::ggplot(points, ggplot2::aes(x, y))
+  ggplot2::geom_point()
+  ggplot2::geom_hline(yintercept = 1.0, lty = "dotted")
+  ggplot2::geom_vline(xintercept = n_success, lty = "dashed", col = "blue")
+  ggplot2::geom_vline(
+    xintercept = n_success_expected, lty = "dashed", col = "red"
+  )
+  ggplot2::scale_y_log10("Chance the have this or fewer sucesses",
       limits = c(10^-13, 1.0),
       n.breaks = 13
     ); ggplot2::scale_x_continuous(

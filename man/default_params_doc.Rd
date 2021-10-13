@@ -15,6 +15,7 @@ default_params_doc(
   is_in_tmh_filenames,
   n_gene_ids,
   n_snps,
+  ppoisbinom_plot_filename,
   results_filename,
   snps_filename,
   snps_filenames,
@@ -63,6 +64,9 @@ Use \link{Inf} to use all gene IDs}
 
 \item{n_snps}{the number of SNPs.
 Use \link{Inf} to use all SNS IDs}
+
+\item{ppoisbinom_plot_filename}{file to save the poisbinom
+plot to}
 
 \item{results_filename}{name of the results file.
 For the experiment, use \code{results.csv}}

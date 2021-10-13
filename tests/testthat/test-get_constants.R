@@ -158,7 +158,10 @@ test_that("Results of research", {
 
   # TMPs in TMH
   t_snps_tmp_in_tmh <- dplyr::filter(t_snps_tmp, is_in_tmh)
-  expect_equal(nrow(t_snps_tmp_in_tmh), nrow(dplyr::distinct(t_snps_tmp_in_tmh)))
+  expect_equal(
+    nrow(t_snps_tmp_in_tmh),
+    nrow(dplyr::distinct(t_snps_tmp_in_tmh))
+  )
   n_variations_tmp_in_tmh <- length(t_snps_tmp_in_tmh$variation)
   expect_equal(3803, n_variations_tmp_in_tmh)
   expect_equal(3803, get_n_variations_tmp_in_tmh())

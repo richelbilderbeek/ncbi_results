@@ -1,4 +1,5 @@
 #' Do the SNPs stats per spanner
+#' @inheritParams default_params_doc
 #' @param ppoisbinom_single_plot_filename file to save the poisbinom
 #'   for the single-spanners to plot to
 #' @param ppoisbinom_multi_plot_filename file to save the poisbinom
@@ -9,6 +10,11 @@ do_snps_stats_per_spanner <- function(
   ppoisbinom_single_plot_filename = "~/ppoisbinom_single.png", # nolint indeed a long variable name
   ppoisbinom_multi_plot_filename = "~/ppoisbinom_multi.png"
 ) {
+  p_in_tmh <- NULL; rm(p_in_tmh) # nolint, fixes warning: no visible binding for global variable
+  n_tmh <- NULL; rm(n_tmh) # nolint, fixes warning: no visible binding for global variable
+  x <- NULL; rm(x) # nolint, fixes warning: no visible binding for global variable
+  y <- NULL; rm(y) # nolint, fixes warning: no visible binding for global variable
+
   # Raw
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
@@ -91,9 +97,21 @@ do_snps_stats_per_spanner <- function(
       pp = t$p_in_tmh
     )
     points <- tibble::tibble(x = xs, y = ys)
-    ggplot2::ggplot(points, ggplot2::aes(x, y));   ggplot2::geom_point();   ggplot2::geom_hline(yintercept = 1.0, lty = "dotted");   ggplot2::geom_vline(xintercept = n_success, lty = "dashed", col = "blue");   ggplot2::geom_vline(xintercept = n_success_expected, lty = "dashed", col = "red");   ggplot2::scale_y_log10("Chance the have this or fewer sucesses");   ggplot2::scale_x_continuous(
+    ggplot2::ggplot(points, ggplot2::aes(x, y)) +
+      ggplot2::geom_point() +
+      ggplot2::geom_hline(yintercept = 1.0, lty = "dotted") +
+      ggplot2::geom_vline(xintercept = n_success, lty = "dashed", col = "blue") +
+      ggplot2::geom_vline(
+        xintercept = n_success_expected, lty = "dashed", col = "red"
+      ) +
+      ggplot2::scale_y_log10("Chance the have this or fewer sucesses") +
+      ggplot2::scale_x_continuous(
         "Number of successes"
-      );   ggplot2::ggsave(ppoisbinom_plot_filename, width = 180, units = "mm", height = 7)
+      ); ggplot2::ggsave(
+        ppoisbinom_plot_filename,
+        width = 180, units = "mm",
+        height = 180
+      )
 
 
     t_stats <- tibble::tribble(

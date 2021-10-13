@@ -23,6 +23,8 @@
 #'   Use \link{Inf} to use all gene IDs
 #' @param n_snps the number of SNPs.
 #'   Use \link{Inf} to use all SNS IDs
+#' @param ppoisbinom_plot_filename file to save the poisbinom
+#'   plot to
 #' @param results_filename name of the results file.
 #'   For the experiment, use \code{results.csv}
 #' @param snps_filename one filenames of a file
@@ -73,6 +75,7 @@ default_params_doc <- function(
   is_in_tmh_filenames,
   n_gene_ids,
   n_snps,
+  ppoisbinom_plot_filename,
   results_filename,
   snps_filename,
   snps_filenames,

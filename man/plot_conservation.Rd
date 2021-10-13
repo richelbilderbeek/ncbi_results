@@ -8,8 +8,7 @@ as a bar chart}
 plot_conservation(folder_name)
 }
 \arguments{
-\item{ppoisbinom_plot_filename}{file to save the poisbinom
-plot to}
+\item{folder_name}{name of the folder}
 }
 \description{
 Do the expected and observed number of SNPs

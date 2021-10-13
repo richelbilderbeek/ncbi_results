@@ -6,6 +6,9 @@
 \usage{
 are_all_rows_distinct(t)
 }
+\arguments{
+\item{t}{a tibble}
+}
 \description{
 Are all rows distinct
 }
