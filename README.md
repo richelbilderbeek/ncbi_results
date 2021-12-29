@@ -5,6 +5,8 @@ Branch   |[![GitHub Actions logo](man/figures/GitHubActions.png)](https://github
 `master` |![R-CMD-check](https://github.com/richelbilderbeek/ncbi_results/workflows/R-CMD-check/badge.svg?branch=master)   |[![codecov.io](https://codecov.io/github/richelbilderbeek/ncbi_results/coverage.svg?branch=master)](https://codecov.io/github/richelbilderbeek/ncbi_results/branch/master)
 `develop`|![R-CMD-check](https://github.com/richelbilderbeek/ncbi_results/workflows/R-CMD-check/badge.svg?branch=develop)  |[![codecov.io](https://codecov.io/github/richelbilderbeek/ncbi_results/coverage.svg?branch=develop)](https://codecov.io/github/richelbilderbeek/ncbi_results/branch/develop)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5809134.svg)](https://doi.org/10.5281/zenodo.5809134)
+
 NCBI results, part of this manuscript:
 
 ```
