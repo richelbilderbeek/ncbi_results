@@ -30,14 +30,18 @@ jobs:
       - name: Install libharfbuzz-dev libfribidi-dev
         run: sudo apt install -qq libharfbuzz-dev libfribidi-dev
 
+      - name: Install libfftw3-dev for poisbinom
+        run: sudo apt install libfftw3-dev
+
       - name: Install dependencies
         run: |
           install.packages(c("remotes", "rcmdcheck"))
+          remotes::install_cran("poisbinom")
+          remotes::install_cran("ggthemes")
           remotes::install_github("richelbilderbeek/cobaltr")
           remotes::install_github("richelbilderbeek/sprentrez")
           remotes::install_github("richelbilderbeek/ncbi")
           remotes::install_github("richelbilderbeek/ncbi_peregrine")
-          remotes::install_cran("poisbinom")
           remotes::install_github("richelbilderbeek/epiprepreds")
           remotes::install_github("richelbilderbeek/mhcnpreds")
           remotes::install_github("richelbilderbeek/nmhc2ppreds")
