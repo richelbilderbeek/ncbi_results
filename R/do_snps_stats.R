@@ -8,6 +8,8 @@ do_snps_stats <- function(
   p_in_tmh <- NULL; rm(p_in_tmh) # nolint, fixes warning: no visible binding for global variable
   x <- NULL; rm(x) # nolint, fixes warning: no visible binding for global variable
   y <- NULL; rm(y) # nolint, fixes warning: no visible binding for global variable
+  variation <- NULL; rm(variation) # nolint, fixes warning: no visible binding for global variable
+
 
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))

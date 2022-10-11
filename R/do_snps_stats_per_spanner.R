@@ -14,6 +14,7 @@ do_snps_stats_per_spanner <- function(
   n_tmh <- NULL; rm(n_tmh) # nolint, fixes warning: no visible binding for global variable
   x <- NULL; rm(x) # nolint, fixes warning: no visible binding for global variable
   y <- NULL; rm(y) # nolint, fixes warning: no visible binding for global variable
+  variation <- NULL; rm(variation) # nolint, fixes warning: no visible binding for global variable
 
   # Raw
   results_filename <- file.path(folder_name, "results.csv")

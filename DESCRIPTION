@@ -15,15 +15,14 @@ Imports:
     bbbq,
     dplyr,
     ggplot2,
-    ggthemes,
-    knitr,
     ncbi,
     ncbiperegrine,
     pureseqtmr,
-    readr,
     scales,
     stringr,
     testthat,
     tibble
 Suggests:
-    poisbinom
+    knitr,
+    poisbinom,
+    readr
