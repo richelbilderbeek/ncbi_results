@@ -4,7 +4,12 @@
 plot_conservation_per_spanner <- function(
   folder_name
 ) {
+  n <- NULL; rm(n) # nolint, fixes warning: no visible binding for global variable
   n_tmh <- NULL; rm(n_tmh) # nolint, fixes warning: no visible binding for global variable
+  percentage <- NULL; rm(percentage) # nolint, fixes warning: no visible binding for global variable
+  spanner <- NULL; rm(spanner) # nolint, fixes warning: no visible binding for global variable
+  variation <- NULL; rm(variation) # nolint, fixes warning: no visible binding for global variable
+
 
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))

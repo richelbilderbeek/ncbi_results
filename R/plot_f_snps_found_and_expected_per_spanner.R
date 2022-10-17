@@ -8,6 +8,12 @@ plot_f_snps_found_and_expected_per_spanner <- function( # nolint indeed a long f
 ) {
   p_in_tmh <- NULL; rm(p_in_tmh) # nolint, fixes warning: no visible binding for global variable
   n_tmh <- NULL; rm(n_tmh) # nolint, fixes warning: no visible binding for global variable
+  variation <- NULL; rm(variation) # nolint, fixes warning: no visible binding for global variable
+  name <- NULL; rm(name) # nolint, fixes warning: no visible binding for global variable
+  is_in_tmh <- NULL; rm(is_in_tmh) # nolint, fixes warning: no visible binding for global variable
+  f_chance <- NULL; rm(f_chance) # nolint, fixes warning: no visible binding for global variable
+  f_measured <- NULL; rm(f_measured) # nolint, fixes warning: no visible binding for global variable
+  spanner <- NULL; rm(spanner) # nolint, fixes warning: no visible binding for global variable
 
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))

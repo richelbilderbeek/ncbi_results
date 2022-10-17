@@ -5,6 +5,9 @@ plot_f_tmh_ncbi <- function(
   folder_name
 ) {
   p_in_tmh <- NULL; rm(p_in_tmh) # nolint, fixes warning: no visible binding for global variable
+  variation <- NULL; rm(variation) # nolint, fixes warning: no visible binding for global variable
+  name <- NULL; rm(name) # nolint, fixes warning: no visible binding for global variable
+  f_tmh <- NULL; rm(f_tmh) # nolint, fixes warning: no visible binding for global variable
 
   results_filename <- file.path(folder_name, "results.csv")
   testthat::expect_true(file.exists(results_filename))
@@ -27,8 +30,10 @@ plot_f_tmh_ncbi <- function(
     ncbiresults::get_n_variations_tmp()
   )
 
-  t_tmh_per_protein <- dplyr::group_by(t_results_snps, name) %>%
-    dplyr::summarise(f_tmh = mean(p_in_tmh))
+  t_tmh_per_protein <- dplyr::summarise(
+    dplyr::group_by(t_results_snps, name),
+    f_tmh = mean(p_in_tmh)
+  )
 
   ggplot2::ggplot(
     dplyr::filter(t_tmh_per_protein, f_tmh > 0.0),

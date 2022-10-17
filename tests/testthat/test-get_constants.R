@@ -1,6 +1,7 @@
 test_that("Results of research", {
+  # Only test locally
+  return()
   results_filename <- "~/GitHubs/ncbi_peregrine/scripts/results.csv"
-
   # Raw
   t_results <- ncbiperegrine::read_results_file(results_filename)
   expect_equal(nrow(t_results), nrow(dplyr::distinct(t_results)))
