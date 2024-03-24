@@ -2,7 +2,7 @@ Package: ncbiresults
 Title: Creates Results
 Version: 0.1
 Authors@R: c(
-    person("Richèl J.C.", "Bilderbeek", email = "richel@richelbilderbeek.nl", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1107-7049")))
+    person("Richèl J.C.", "Bilderbeek", email = "rjcbilderbeek@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-1107-7049")))
 Description: 
   The NCBI database is an important database.
   Doing experiments is an important part of science.
